@@ -2,10 +2,13 @@
 name = "rusty-hook"
 version = "0.1.0"
 authors = ["Swellaby <opensource@swellaby.com>"]
+description = "git hook utility"
+license = "MIT"
+repository = "https://github.com/swellaby/rusty-hook"
 edition = "2018"
 exclude = [
-  ".vscode/",
-  ".github/",
+  ".vscode/**",
+  ".github/**",
   ".editorconfig",
   ".gitattributes",
 ]
