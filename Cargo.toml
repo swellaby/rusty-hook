@@ -1,6 +1,6 @@
 [package]
 name = "rusty-hook"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Swellaby <opensource@swellaby.com>"]
 description = "work in progress, git hook utility"
 license = "MIT"
