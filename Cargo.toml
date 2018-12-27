@@ -1,0 +1,13 @@
+[package]
+name = "rusty-hook"
+version = "0.1.0"
+authors = ["Swellaby <opensource@swellaby.com>"]
+edition = "2018"
+exclude = [
+  ".vscode/",
+  ".github/",
+  ".editorconfig",
+  ".gitattributes",
+]
+
+[dependencies]

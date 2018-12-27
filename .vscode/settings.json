@@ -1,0 +1,31 @@
+{
+  "files.exclude": {
+    "**/target/": true,
+    "**/*.rs.bk": true,
+    ".coverage": true,
+    ".testresults": true
+  },
+  "cSpell.enabled": true,
+  "cSpell.enabledLanguageIds": [
+    "asciidoc",
+    "html",
+    "json",
+    "markdown",
+    "plaintext",
+    "restructuredtext",
+    "rust",
+    "text",
+    "toml",
+    "yaml",
+    "yml"
+  ],
+  "cSpell.dictionaries": [
+    "companies",
+    "cpp",
+    "en_us",
+    "filetypes",
+    "misc",
+    "rust",
+    "softwareTerms"
+  ]
+}
