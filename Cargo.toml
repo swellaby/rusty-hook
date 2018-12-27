@@ -2,7 +2,7 @@
 name = "rusty-hook"
 version = "0.1.0"
 authors = ["Swellaby <opensource@swellaby.com>"]
-description = "git hook utility"
+description = "work in progress, git hook utility"
 license = "MIT"
 repository = "https://github.com/swellaby/rusty-hook"
 edition = "2018"
