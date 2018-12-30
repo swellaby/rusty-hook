@@ -6,6 +6,11 @@
     ".testresults": true
   },
   "cSpell.enabled": true,
+  "cSpell.ignorePaths": [
+    "Cargo.lock",
+    "**/.git/**",
+    ".vscode",
+],
   "cSpell.enabledLanguageIds": [
     "asciidoc",
     "html",

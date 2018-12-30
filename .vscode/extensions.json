@@ -1,8 +1,6 @@
 {
   "recommendations": [
-    "rust-lang.rust",
-    "editorconfig.editorconfig",
-    "streetsidesoftware.code-spell-checker",
-    "eamodio.gitlens"
+    "swellaby.rust-pack",
+    "swellaby.common-pack"
   ]
 }

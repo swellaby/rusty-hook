@@ -2,7 +2,10 @@
   "version": "0.1",
   "language": "en",
   "words": [
-    "codebases"
+    "codebases",
+    "editorconfig",
+    "gitattributes",
+    "swellaby"
   ],
   "flagWords": [
 
