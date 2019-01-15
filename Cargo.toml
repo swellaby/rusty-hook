@@ -12,6 +12,7 @@ exclude = [
   ".github/**",
   ".editorconfig",
   ".gitattributes",
+  ".rustfmt.toml"
 ]
 
 [dependencies]

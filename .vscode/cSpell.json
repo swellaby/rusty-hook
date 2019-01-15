@@ -2,10 +2,15 @@
   "version": "0.1",
   "language": "en",
   "words": [
+    "applypatch",
     "codebases",
     "editorconfig",
     "gitattributes",
-    "swellaby"
+    "repo",
+    "rustfmt",
+    "sendemail",
+    "swellaby",
+    "toml"
   ],
   "flagWords": [
 

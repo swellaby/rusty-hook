@@ -1,13 +1,13 @@
-pub fn get_root_directory_path<F>(run_command: F) -> String
+pub fn get_root_directory_path<F>(run_command: F) -> Result<String, String>
 where
-    F: Fn(&str) -> String,
+    F: Fn(&str) -> Result<String, String>,
 {
     run_command("git rev-parse --show-toplevel")
 }
 
-fn get_hooks_directory<F>(run_command: F) -> String
+fn get_hooks_directory<F>(run_command: F) -> Result<String, String>
 where
-    F: Fn(&str) -> String,
+    F: Fn(&str) -> Result<String, String>,
 {
     run_command("git rev-parse --git-path hooks")
 }
@@ -48,13 +48,19 @@ const HOOK_NAMES: [&str; 19] = [
     "sendemail-validate",
 ];
 
-pub fn create_hook_files<F, G>(run_command: F, write_file: G)
+pub fn create_hook_files<F, G>(run_command: F, write_file: G) -> Result<(), String>
 where
-    F: Fn(&str) -> String,
+    F: Fn(&str) -> Result<String, String>,
     G: Fn(&str, &str),
 {
-    let root_directory_path = get_root_directory_path(&run_command);
-    let hooks_directory = get_hooks_directory(&run_command);
+    let root_directory_path = match get_root_directory_path(&run_command) {
+        Ok(path) => path,
+        Err(_) => return Err(String::from("Failure determining git repo root directory")),
+    };
+    let hooks_directory = match get_hooks_directory(&run_command) {
+        Ok(path) => path,
+        Err(_) => return Err(String::from("Failure determining git hooks directory")),
+    };
     let version = env!("CARGO_PKG_VERSION");
     let hook_file_contents = String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", version);
     for hook in HOOK_NAMES.iter() {
@@ -63,6 +69,7 @@ where
             &hook_file_contents,
         );
     }
+    Ok(())
 }
 
 #[cfg(test)]
