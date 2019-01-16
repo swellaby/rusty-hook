@@ -12,8 +12,10 @@ pool:
 steps:
 - script: |
     curl https://sh.rustup.rs -sSf | sh -s -- -y
-    source $HOME/.cargo/env
+    
   displayName: 'Install Rust'
 
-- script: cargo test
+- script: |
+    source $HOME/.cargo/env
+    cargo test
   displayName: 'Run tests'
