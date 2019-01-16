@@ -11,7 +11,7 @@ pool:
 
 steps:
 - script: |
-    curl https://sh.rustup.rs -sSf | sh -y
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
     rustc -V
     cargo -V
   displayName: 'Install Rust'
