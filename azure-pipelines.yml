@@ -13,6 +13,7 @@ steps:
 - script: |
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     source ~/.bashrc
-    rustc -V
+    source $HOME/.cargo/env
     cargo -V
+    rustc -V
   displayName: 'Install Rust'
