@@ -12,8 +12,9 @@ pool:
 steps:
 - script: |
     curl https://sh.rustup.rs -sSf | sh -s -- -y
-    source ~/.bashrc
+    # source ~/.bashrc
     source $HOME/.cargo/env
     cargo -V
     rustc -V
+    ls -R
   displayName: 'Install Rust'
