@@ -30,3 +30,4 @@ steps:
     #reportDirectory: # Optional
     #additionalCodeCoverageFiles: # Optional
     #failIfCoverageEmpty: false # Optional
+  displayName: 'Publish coverage results'
