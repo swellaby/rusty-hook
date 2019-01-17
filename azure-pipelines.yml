@@ -20,6 +20,10 @@ steps:
 - script: |
     # source $HOME/.cargo/env
     cargo kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
+    echo hello
+    sudo chmod +rw .coverage -R
+    ls .coverage/unit/kcov-merged
+    cat .coverage/unit/kcov-merged/cobertura.xml
   displayName: 'Run tests'
 
 # Publish Cobertura code coverage results
