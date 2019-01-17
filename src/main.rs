@@ -3,7 +3,7 @@ mod rusty_hook;
 use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::process::Command;
 
 fn get_command_runner() -> fn(cmd: &str) -> Result<String, String> {
@@ -30,7 +30,7 @@ fn get_command_runner() -> fn(cmd: &str) -> Result<String, String> {
     }
 }
 
-fn get_file_writer() -> fn(file_path: &str, contents: &str) {
+fn get_file_writer() -> fn(file_path: &str, contents: &str) -> Result<(), String> {
     |file_path: &str, contents: &str| {
         let path = PathBuf::from(file_path);
         let display = path.display();
@@ -39,13 +39,26 @@ fn get_file_writer() -> fn(file_path: &str, contents: &str) {
             Ok(file) => file,
         };
 
-        if let Err(why) = file.write_all(contents.as_bytes()) {
-            panic!("couldn't write to {}: {}", display, why.description())
+        match file.write_all(contents.as_bytes()) {
+            Ok(_) => Ok(()),
+            Err(why) => Err(format!(
+                "couldn't write to {}: {}",
+                display,
+                why.description()
+            )),
         }
     }
 }
 
+fn get_file_existence_checker() -> fn(file_path: &str) -> Result<bool, ()> {
+    |file_path: &str| Ok(Path::new(file_path).exists())
+}
+
 fn main() {
     println!("Work in progress!");
-    rusty_hook::init(&get_command_runner(), &get_file_writer());
+    rusty_hook::init(
+        &get_command_runner(),
+        &get_file_writer(),
+        &get_file_existence_checker(),
+    );
 }

@@ -48,15 +48,15 @@ const HOOK_NAMES: [&str; 19] = [
     "sendemail-validate",
 ];
 
-pub fn create_hook_files<F, G>(run_command: F, write_file: G) -> Result<(), String>
+pub fn create_hook_files<F, G>(
+    run_command: F,
+    write_file: G,
+    root_directory_path: &str,
+) -> Result<(), String>
 where
     F: Fn(&str) -> Result<String, String>,
-    G: Fn(&str, &str),
+    G: Fn(&str, &str) -> Result<(), String>,
 {
-    let root_directory_path = match get_root_directory_path(&run_command) {
-        Ok(path) => path,
-        Err(_) => return Err(String::from("Failure determining git repo root directory")),
-    };
     let hooks_directory = match get_hooks_directory(&run_command) {
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git hooks directory")),
@@ -64,10 +64,14 @@ where
     let version = env!("CARGO_PKG_VERSION");
     let hook_file_contents = String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", version);
     for hook in HOOK_NAMES.iter() {
-        write_file(
+        if let Err(_) = write_file(
             &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),
             &hook_file_contents,
-        );
+        ) {
+            return Err(String::from(
+                "Fatal error encountered while trying to create git hook files",
+            ));
+        };
     }
     Ok(())
 }

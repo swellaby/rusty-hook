@@ -1,2 +1,7 @@
 **/target
 **/*.rs.bk
+**/*.gcda
+**/*.gcno
+**/*kcov*/
+.coverage/
+.testresults/

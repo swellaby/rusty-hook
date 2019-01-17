@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - master
 
@@ -12,10 +7,26 @@ pool:
 steps:
 - script: |
     curl https://sh.rustup.rs -sSf | sh -s -- -y
-    
+    echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
   displayName: 'Install Rust'
 
 - script: |
-    source $HOME/.cargo/env
-    cargo test
+    sudo apt install -y cmake g++ pkg-config jq
+    sudo apt install -y libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev
+    cargo install cargo-kcov
+    cargo kcov --print-install-kcov-sh | sh
+  displayName: 'Install cargo-kcov'
+
+- script: |
+    # source $HOME/.cargo/env
+    cargo kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
   displayName: 'Run tests'
+
+# Publish Cobertura code coverage results
+- task: PublishCodeCoverageResults@1
+  inputs:
+    codeCoverageTool: 'cobertura'
+    summaryFileLocation: .coverage/unit/kcov-merged/cobertura.xml
+    #reportDirectory: # Optional
+    #additionalCodeCoverageFiles: # Optional
+    #failIfCoverageEmpty: false # Optional
