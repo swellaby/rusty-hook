@@ -29,9 +29,9 @@ steps:
 # Publish Cobertura code coverage results
 - task: PublishCodeCoverageResults@1
   inputs:
-    codeCoverageTool: 'cobertura'
-    summaryFileLocation: $(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura.xml
-    reportDirectory: $(Build.SourcesDirectory)/.coverage/unit
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
     #additionalCodeCoverageFiles: # Optional
     #failIfCoverageEmpty: false # Optional
   displayName: 'Publish coverage results'
