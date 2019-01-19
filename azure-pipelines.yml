@@ -26,11 +26,18 @@ steps:
     cat .coverage/unit/kcov-merged/cobertura.xml
   displayName: 'Run tests'
 
+- task: cobertura-transform@0
+  displayName: 'Transform Cobertura Format From 3 to 4'
+  inputs:
+    cobertura3FilePath: .coverage/unit/kcov-merged/cobertura.xml
+    cobertura4FilePath: .coverage/unit/kcov-merged/cobertura4.xml
+
+
 # Publish Cobertura code coverage results
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura.xml'
+    summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura4.xml'
     reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
     #additionalCodeCoverageFiles: # Optional
     #failIfCoverageEmpty: false # Optional
