@@ -51,15 +51,6 @@ where
         };
     }
 
-    // let config_file = if CONFIG_FILE_NAMES
-    //     .iter()
-    //     .any(|v| v == &desired_config_file_name)
-    // {
-    //     desired_config_file_name
-    // } else {
-    //     DEFAULT_CONFIG_FILE_NAME
-    // };
-
     if let Err(_) = write_file(
         &format!("{}/{}", root_directory_path, config_file),
         CONFIG_FILE_TEMPLATE,

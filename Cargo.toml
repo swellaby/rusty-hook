@@ -12,7 +12,12 @@ exclude = [
   ".github/**",
   ".editorconfig",
   ".gitattributes",
-  ".rustfmt.toml"
+  ".rustfmt.toml",
+  "azure-pipelines.yml",
+  ".azure-pipelines/**",
+  "kcov*/**",
+  "**/*.gcda",
+  "**/*.gcno",
 ]
 
 [dependencies]
