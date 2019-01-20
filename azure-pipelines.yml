@@ -10,11 +10,15 @@ steps:
     echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
   displayName: 'Install Rust'
 
+- task: DownloadPipelineArtifact@0
+  displayName: 'Download kcov executable'
+  inputs:
+    pipelineId: 51
+    artifactName: 'kcov'
+    targetPath: '$HOME/.cargo/bin'
+
 - script: |
-    sudo apt install -y cmake g++ pkg-config jq
-    sudo apt install -y libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev
     cargo install cargo-kcov
-    cargo kcov --print-install-kcov-sh | sh
   displayName: 'Install cargo-kcov'
 
 - script: |
