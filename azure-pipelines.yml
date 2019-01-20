@@ -15,7 +15,7 @@ steps:
   inputs:
     pipelineId: 1359
     artifactName: 'kcov'
-    targetPath: '$HOME/.cargo/bin'
+    targetPath: '~/.cargo/bin'
 
 - script: |
     cargo install cargo-kcov
@@ -23,7 +23,7 @@ steps:
 
 - script: |
     # source $HOME/.cargo/env
-    cargo kcov --kcov $HOME/.cargo/bin/kcov  -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
+    cargo kcov --kcov ~/.cargo/bin/kcov  -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
     echo hello
     sudo chmod +rw .coverage -R
     ls .coverage/unit/kcov-merged
