@@ -14,13 +14,14 @@ steps:
 - task: DownloadPipelineArtifact@0
   displayName: 'Download kcov executable'
   inputs:
-    pipelineId: 1359
+    pipelineId: 1366
     artifactName: 'kcov'
     targetPath: '$(cargoBinPath)'
 
 - script: |
     sudo chmod +rwx $(cargoBinPath)/kcov
-    cargo install cargo-kcov
+    sudo chmod +rwx $(cargoBinPath)/cargo-kcov
+    # cargo install cargo-kcov
   displayName: 'Install cargo-kcov'
 
 - script: |
