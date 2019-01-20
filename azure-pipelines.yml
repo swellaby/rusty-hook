@@ -29,12 +29,12 @@ steps:
     sudo chmod +rwx $(cargoBinPath)/kcov
     sudo chmod +rwx $(cargoBinPath)/cargo-kcov
     sudo chmod +rwx $(cargoBinPath)/cargo-junit
-    mkdir -p .testresults/unit
+    mkdir -p $(Build.SourcesDirectory)/.testresults/unit
   displayName: 'Prep test tools'
 
 - script: |
     cargo kcov --kcov $(cargoBinPath)/kcov  -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
-    cargo junit --name .testresults/unit/junit.xml
+    cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
@@ -60,5 +60,5 @@ steps:
   inputs:
     testResultsFormat: JUnit
     testResultsFiles: 'junit.xml'
-    searchFolder: '.testresults/unit/'
+    searchFolder: $(Build.SourcesDirectory)/.testresults/unit
     testRunTitle: 'rust-hook::Unit Tests::Linux PR - Build $(Build.BuildId)'
