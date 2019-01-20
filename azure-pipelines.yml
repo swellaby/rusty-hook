@@ -19,6 +19,7 @@ steps:
     targetPath: '$(cargoBinPath)'
 
 - script: |
+    sudo chmod +rwx $(cargoBinPath)/kcov
     cargo install cargo-kcov
   displayName: 'Install cargo-kcov'
 
