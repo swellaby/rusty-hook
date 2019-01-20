@@ -43,3 +43,21 @@ fn get_hooks_directory_returns_err() {
     let act = get_hooks_directory(run_command);
     assert_eq!(act, Err(String::from(exp_err)));
 }
+
+#[test]
+fn create_hook_files_fails_when_hooks_directory_unknown() {
+    let exp_err = "Failure determining git hooks directory";
+    let run_command = |_cmd: &str| Err(String::from(""));
+    let write_file = |_path: &str, _contents: &str| Ok(());
+    let result = create_hook_files(run_command, write_file, "");
+    assert_eq!(result, Err(String::from(exp_err)));
+}
+
+#[test]
+fn create_hook_files_fails_when_hook_write_fails() {
+    let exp_err = "Fatal error encountered while trying to create git hook files";
+    let run_command = |_cmd: &str| Ok(String::from("/usr/repos/foo/.git/hooks"));
+    let write_file = |_path: &str, _contents: &str| Err(String::from(""));
+    let result = create_hook_files(run_command, write_file, "");
+    assert_eq!(result, Err(String::from(exp_err)));
+}
