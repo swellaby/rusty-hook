@@ -29,6 +29,7 @@ steps:
     sudo chmod +rwx $(cargoBinPath)/kcov
     sudo chmod +rwx $(cargoBinPath)/cargo-kcov
     sudo chmod +rwx $(cargoBinPath)/cargo-junit
+    mkdir -p .testresults/unit
   displayName: 'Prep test tools'
 
 - script: |
