@@ -8,6 +8,7 @@ steps:
 - script: |
     curl https://sh.rustup.rs -sSf | sh -s -- -y
     echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
+    echo "##vso[task.setvariable variable=cargoBinPath;]$HOME/.cargo/bin"
   displayName: 'Install Rust'
 
 - task: DownloadPipelineArtifact@0
@@ -15,7 +16,7 @@ steps:
   inputs:
     pipelineId: 1359
     artifactName: 'kcov'
-    targetPath: '~/.cargo/bin'
+    targetPath: '$(cargoBinPath)'
 
 - script: |
     cargo install cargo-kcov
@@ -23,7 +24,7 @@ steps:
 
 - script: |
     # source $HOME/.cargo/env
-    cargo kcov --kcov ~/.cargo/bin/kcov  -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
+    cargo kcov --kcov $(cargoBinPath)/kcov  -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
     echo hello
     sudo chmod +rw .coverage -R
     ls .coverage/unit/kcov-merged
