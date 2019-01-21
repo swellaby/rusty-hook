@@ -13,11 +13,13 @@
     "kcov",
     "repo",
     "rustfmt",
+    "rustup",
     "sendemail",
     "setvariable",
     "swellaby",
     "testresults",
-    "toml"
+    "toml",
+    "userprofile"
   ],
   "flagWords": [
 

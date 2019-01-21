@@ -23,6 +23,7 @@ steps:
     targetPath: '$(cargoBinPath)'
 
 - script: |
+    cargo -V
     mkdir -p $(Build.SourcesDirectory)/.testresults/unit
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
   displayName: 'Run tests'
