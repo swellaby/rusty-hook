@@ -3,7 +3,10 @@
     "**/target/": true,
     "**/*.rs.bk": true,
     ".coverage": true,
-    ".testresults": true
+    ".testresults": true,
+    "**/kcov*/": true,
+    "**/*.gcda": true,
+    "**/*.gcno": true
   },
   "cSpell.enabled": true,
   "cSpell.ignorePaths": [
@@ -13,6 +16,7 @@
 ],
   "cSpell.enabledLanguageIds": [
     "asciidoc",
+    "azure-pipelines",
     "html",
     "json",
     "markdown",
@@ -33,5 +37,21 @@
     "misc",
     "rust",
     "softwareTerms"
-  ]
+  ],
+  "vsicons.associations.files": [
+    {
+      "icon": "azurepipelines",
+      "extensions": [
+        "azure-pipelines.linux-pr.yml",
+        "azure-pipelines.mac-pr.yml",
+        "azure-pipelines.windows-pr.yml",
+        "azure-pipelines.ci.yml",
+      ],
+      "filename": true,
+      "format": "svg"
+    }
+  ],
+  "files.associations": {
+    "*azure-pipelines*": "azure-pipelines"
+  }
 }

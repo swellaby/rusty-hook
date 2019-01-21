@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "swellaby.rust-pack",
-    "swellaby.common-pack"
+    "swellaby.common-pack",
+    "ms-azure-devops.azure-pipelines"
   ]
 }

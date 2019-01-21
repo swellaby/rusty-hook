@@ -1,6 +1,9 @@
 trigger:
 - master
 
+pr:
+- master
+
 pool:
   vmImage: 'Ubuntu-16.04'
 
@@ -51,8 +54,6 @@ steps:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura4.xml'
     reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
-    #additionalCodeCoverageFiles: # Optional
-    #failIfCoverageEmpty: false # Optional
   displayName: 'Publish coverage results'
 
 - task: PublishTestResults@2
