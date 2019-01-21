@@ -24,7 +24,8 @@ steps:
 
 - script: |
     cargo -V
-    mkdir $(Build.SourcesDirectory)/.testresults/unit
+    mkdir $(Build.SourcesDirectory)\.testresults\unit
+    echo foo
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
   displayName: 'Run tests'
 
