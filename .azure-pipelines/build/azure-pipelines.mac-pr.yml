@@ -28,7 +28,7 @@ steps:
 
 - script: |
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
-    sudo chmod +rw .testresults -R
+    # sudo chmod +rw $(Build.SourcesDirectory)/.testresults -R
   displayName: 'Run tests'
 
 - task: PublishTestResults@2
