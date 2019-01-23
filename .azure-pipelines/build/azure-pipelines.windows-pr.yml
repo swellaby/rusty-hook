@@ -7,14 +7,6 @@ pr:
 pool:
   vmImage: vs2017-win2016
 
-# steps:
-# - script: |
-#     curl -sSf -o rustup-init.exe https://win.rustup.rs
-#     rustup-init.exe -y
-#     echo "##vso[task.setvariable variable=PATH;]%PATH%;%USERPROFILE%\.cargo\bin"
-#     echo "##vso[task.setvariable variable=cargoBinPath;]%USERPROFILE%\.cargo\bin"
-#   displayName: 'Install Rust'
-
 steps:
 - powershell: |
    Invoke-WebRequest -Uri 'https://win.rustup.rs' -Method 'GET' -OutFile .\rustup-init.exe
@@ -41,4 +33,4 @@ steps:
     testResultsFormat: JUnit
     testResultsFiles: 'junit.xml'
     searchFolder: $(Build.SourcesDirectory)/.testresults/unit
-    testRunTitle: 'rust-hook::Unit Tests::Windows PR - Build $(Build.BuildId)'
+    testRunTitle: 'rusty-hook::Unit Tests::Windows PR - Build $(Build.BuildId)'

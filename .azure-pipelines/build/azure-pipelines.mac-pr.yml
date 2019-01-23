@@ -36,4 +36,4 @@ steps:
     testResultsFormat: JUnit
     testResultsFiles: 'junit.xml'
     searchFolder: $(Build.SourcesDirectory)/.testresults/unit
-    testRunTitle: 'rust-hook::Unit Tests::Mac PR - Build $(Build.BuildId)'
+    testRunTitle: 'rusty-hook::Unit Tests::Mac PR - Build $(Build.BuildId)'
