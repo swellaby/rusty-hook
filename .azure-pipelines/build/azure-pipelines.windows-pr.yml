@@ -7,12 +7,20 @@ pr:
 pool:
   vmImage: win1803
 
+# steps:
+# - script: |
+#     curl -sSf -o rustup-init.exe https://win.rustup.rs
+#     rustup-init.exe -y
+#     echo "##vso[task.setvariable variable=PATH;]%PATH%;%USERPROFILE%\.cargo\bin"
+#     echo "##vso[task.setvariable variable=cargoBinPath;]%USERPROFILE%\.cargo\bin"
+#   displayName: 'Install Rust'
+
 steps:
-- script: |
-    curl -sSf -o rustup-init.exe https://win.rustup.rs
-    rustup-init.exe -y
-    echo "##vso[task.setvariable variable=PATH;]%PATH%;%USERPROFILE%\.cargo\bin"
-    echo "##vso[task.setvariable variable=cargoBinPath;]%USERPROFILE%\.cargo\bin"
+- powershell: |
+   Invoke-WebRequest -Uri 'https://win.rustup.rs' -Method 'GET' -OutFile .\rustup-init.exe
+   .\rustup-init.exe -y
+   echo "##vso[task.setvariable variable=PATH;]$env:PATH;$env:USERPROFILE\.cargo\bin"
+   echo "##vso[task.setvariable variable=cargoBinPath;]$env:USERPROFILE\.cargo\bin"
   displayName: 'Install Rust'
 
 - task: DownloadPipelineArtifact@0
