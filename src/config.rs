@@ -14,7 +14,7 @@ where
         match file_exists(&path) {
             Ok(found) => {
                 if found {
-                    return Ok(String::from(path));
+                    return Ok(path);
                 }
             }
             Err(_) => {
@@ -77,10 +77,12 @@ where
         DEFAULT_CONFIG_FILE_NAME
     };
 
-    if let Err(_) = write_file(
+    if write_file(
         &format!("{}/{}", root_directory_path, config_file),
         CONFIG_FILE_TEMPLATE,
-    ) {
+    )
+    .is_err()
+    {
         return Err(String::from(""));
     };
     Ok(())
@@ -88,4 +90,4 @@ where
 
 #[cfg(test)]
 #[path = "config_test.rs"]
-mod config_test;
+mod config_tests;

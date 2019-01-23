@@ -64,10 +64,12 @@ where
     let version = env!("CARGO_PKG_VERSION");
     let hook_file_contents = String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", version);
     for hook in HOOK_NAMES.iter() {
-        if let Err(_) = write_file(
+        if write_file(
             &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),
             &hook_file_contents,
-        ) {
+        )
+        .is_err()
+        {
             return Err(String::from(
                 "Fatal error encountered while trying to create git hook files",
             ));
@@ -78,4 +80,4 @@ where
 
 #[cfg(test)]
 #[path = "git_test.rs"]
-mod git_test;
+mod git_tests;
