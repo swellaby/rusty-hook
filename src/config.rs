@@ -2,8 +2,8 @@ const CONFIG_FILE_TEMPLATE: &str = "[hooks]
 pre-commit = \"cargo test\"";
 
 const DEFAULT_CONFIG_FILE_NAME: &str = ".rusty-hook.toml";
-
 const CONFIG_FILE_NAMES: [&str; 2] = [DEFAULT_CONFIG_FILE_NAME, "rusty-hook.toml"];
+const NO_CONFIG_FILE_FOUND: &str = "No config file found";
 
 fn find_config_file<F>(root_directory_path: &str, file_exists: F) -> Result<String, String>
 where
@@ -25,7 +25,7 @@ where
         };
     }
 
-    Ok(String::from("No config file found"))
+    Ok(String::from(NO_CONFIG_FILE_FOUND))
 }
 
 pub fn create_default_config_file<F, G>(
@@ -57,7 +57,7 @@ where
 {
     match find_config_file(root_directory_path, &file_exists) {
         Ok(path) => {
-            if path != "No config file found" {
+            if path != NO_CONFIG_FILE_FOUND {
                 return Ok(());
             }
         }

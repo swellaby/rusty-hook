@@ -35,3 +35,15 @@ mod find_config_file_tests {
         assert_eq!(act.unwrap(), exp_path);
     }
 }
+
+#[cfg(test)]
+mod create_config_file_tests {
+    // use super::*;
+
+}
+
+#[cfg(test)]
+mod create_default_config_file_tests {
+    // use super::*;
+
+}
