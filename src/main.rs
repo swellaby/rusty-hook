@@ -32,32 +32,37 @@ fn get_command_runner() -> fn(cmd: &str) -> Result<String, String> {
 }
 
 #[cfg(target_family = "unix")]
-fn create_file(path: PathBuf) -> Result<File, ()> {
+fn create_file(path: PathBuf, make_executable: bool) -> Result<File, ()> {
     let file = match File::create(&path) {
         Ok(file) => file,
         Err(_) => return Err(()),
     };
-    let metadata = match file.metadata() {
-        Ok(metadata) => metadata,
-        Err(_) => return Err(()),
+
+    if make_executable {
+        let metadata = match file.metadata() {
+            Ok(metadata) => metadata,
+            Err(_) => return Err(()),
+        };
+
+        let mut permissions = metadata.permissions();
+        permissions.set_mode(0o755);
     };
-    let mut permissions = metadata.permissions();
-    permissions.set_mode(0o644);
+
     Ok(file)
 }
 
 #[cfg(target_family = "windows")]
-fn create_file(path: PathBuf) -> Result<File, ()> {
+fn create_file(path: PathBuf, _make_executable: bool) -> Result<File, ()> {
     match File::create(&path) {
         Err(_) => Err(()),
         Ok(file) => Ok(file),
     }
 }
 
-fn get_file_writer() -> fn(file_path: &str, contents: &str) -> Result<(), String> {
-    |file_path: &str, contents: &str| {
+fn get_file_writer() -> fn(file_path: &str, contents: &str, make_executable: bool) -> Result<(), String> {
+    |file_path: &str, contents: &str, make_executable: bool| {
         let path = PathBuf::from(file_path);
-        let mut file = match create_file(path) {
+        let mut file = match create_file(path, make_executable) {
             Ok(f) => f,
             Err(_) => return Err(format!("Failed to create file {}", file_path)),
         };

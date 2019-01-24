@@ -7,7 +7,7 @@ mod git;
 pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
 where
     F: Fn(&str) -> Result<String, String>,
-    G: Fn(&str, &str) -> Result<(), String>,
+    G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
     let root_directory_path = match git::get_root_directory_path(&run_command) {

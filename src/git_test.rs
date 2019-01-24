@@ -62,7 +62,7 @@ mod create_hook_files_tests {
     fn errors_when_hooks_directory_unknown() {
         let exp_err = "Failure determining git hooks directory";
         let run_command = |_cmd: &str| Err(String::from(""));
-        let write_file = |_path: &str, _contents: &str| Ok(());
+        let write_file = |_path: &str, _contents: &str, _x: bool| Ok(());
         let result = create_hook_files(run_command, write_file, "");
         assert_eq!(result, Err(String::from(exp_err)));
     }
@@ -71,7 +71,7 @@ mod create_hook_files_tests {
     fn errors_when_hook_write_fails() {
         let exp_err = "Fatal error encountered while trying to create git hook files";
         let run_command = |_cmd: &str| Ok(String::from("/usr/repos/foo/.git/hooks"));
-        let write_file = |_path: &str, _contents: &str| Err(String::from(""));
+        let write_file = |_path: &str, _contents: &str, _x: bool| Err(String::from(""));
         let result = create_hook_files(run_command, write_file, "");
         assert_eq!(result, Err(String::from(exp_err)));
     }
@@ -112,12 +112,13 @@ mod create_hook_files_tests {
         let git_hooks = ".git/hooks";
         let exp_contents = &String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", version);
         let run_command = |_cmd: &str| Ok(String::from(git_hooks));
-        let write_file = |path: &str, contents: &str| {
+        let write_file = |path: &str, contents: &str, make_executable: bool| {
             let act_hook = &&path[(path.rfind('/').unwrap() + 1)..];
             let exp_hook = EXP_HOOK_NAMES.iter().find(|&n| n == act_hook).unwrap();
             let exp_path = &format!("{}/{}/{}", root_dir, git_hooks, exp_hook);
             assert_eq!(exp_path, path);
             assert_eq!(exp_contents, contents);
+            assert_eq!(true, make_executable);
             Ok(())
         };
         let result = create_hook_files(run_command, write_file, root_dir);

@@ -34,7 +34,7 @@ pub fn create_default_config_file<F, G>(
     root_directory_path: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<(), String>,
+    F: Fn(&str, &str, bool) -> Result<(), String>,
     G: Fn(&str) -> Result<bool, ()>,
 {
     create_config_file(
@@ -52,7 +52,7 @@ pub fn create_config_file<F, G>(
     desired_config_file_name: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<(), String>,
+    F: Fn(&str, &str, bool) -> Result<(), String>,
     G: Fn(&str) -> Result<bool, ()>,
 {
     match find_config_file(root_directory_path, &file_exists) {
@@ -80,6 +80,7 @@ where
     if write_file(
         &format!("{}/{}", root_directory_path, config_file),
         CONFIG_FILE_TEMPLATE,
+        false,
     )
     .is_err()
     {

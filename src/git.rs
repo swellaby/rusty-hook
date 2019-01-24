@@ -55,7 +55,7 @@ pub fn create_hook_files<F, G>(
 ) -> Result<(), String>
 where
     F: Fn(&str) -> Result<String, String>,
-    G: Fn(&str, &str) -> Result<(), String>,
+    G: Fn(&str, &str, bool) -> Result<(), String>,
 {
     let hooks_directory = match get_hooks_directory(&run_command) {
         Ok(path) => path,
@@ -67,6 +67,7 @@ where
         if write_file(
             &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),
             &hook_file_contents,
+            true,
         )
         .is_err()
         {
