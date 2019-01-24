@@ -83,7 +83,7 @@ where
     )
     .is_err()
     {
-        return Err(String::from(""));
+        return Err(String::from("Failed to create config file"));
     };
     Ok(())
 }
