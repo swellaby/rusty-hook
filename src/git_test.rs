@@ -33,7 +33,7 @@ mod get_hooks_directory_tests {
 
     #[test]
     fn uses_git_hooks_path_command() {
-        let exp = "/.git/hooks";
+        let exp = ".git/hooks";
         let run_command = |cmd: &str| {
             if cmd == "git rev-parse --git-path hooks" {
                 Ok(String::from(exp))

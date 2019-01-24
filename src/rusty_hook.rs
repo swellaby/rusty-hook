@@ -21,8 +21,12 @@ where
 
     if config::create_default_config_file(&write_file, &file_exists, &root_directory_path).is_err()
     {
-        return Err(String::from(""));
+        return Err(String::from("Unable to create config file"));
     }
 
     Ok(())
 }
+
+#[cfg(test)]
+#[path = "rusty_hook_test.rs"]
+mod rusty_hook_tests;
