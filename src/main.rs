@@ -1,8 +1,9 @@
 mod rusty_hook;
 
-use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
+#[cfg(target_family = "unix")]
+use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -30,22 +31,40 @@ fn get_command_runner() -> fn(cmd: &str) -> Result<String, String> {
     }
 }
 
+#[cfg(target_family = "unix")]
+fn create_file(path: PathBuf) -> Result<File, ()> {
+    let file = match File::create(&path) {
+        Ok(file) => file,
+        Err(_) => return Err(()),
+    };
+    let metadata = match file.metadata() {
+        Ok(metadata) => metadata,
+        Err(_) => return Err(()),
+    };
+    let mut permissions = metadata.permissions();
+    permissions.set_mode(0o644);
+    Ok(file)
+}
+
+#[cfg(target_family = "windows")]
+fn create_file(path: PathBuf) -> Result<File, ()> {
+    match File::create(&path) {
+        Err(_) => Err(()),
+        Ok(file) => Ok(file),
+    }
+}
+
 fn get_file_writer() -> fn(file_path: &str, contents: &str) -> Result<(), String> {
     |file_path: &str, contents: &str| {
         let path = PathBuf::from(file_path);
-        let display = path.display();
-        let mut file = match File::create(&path) {
-            Err(why) => panic!("couldn't create {}: {}", display, why.description()),
-            Ok(file) => file,
+        let mut file = match create_file(path) {
+            Ok(f) => f,
+            Err(_) => return Err(format!("Failed to create file {}", file_path)),
         };
 
         match file.write_all(contents.as_bytes()) {
             Ok(_) => Ok(()),
-            Err(why) => Err(format!(
-                "couldn't write to {}: {}",
-                display,
-                why.description()
-            )),
+            Err(_) => Err(format!("Failed to write contents to {}", file_path)),
         }
     }
 }

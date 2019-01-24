@@ -76,7 +76,12 @@ mod create_config_file_tests {
         };
         let file_exists = |_path: &str| Err(());
         let result = create_config_file(write_file, file_exists, "", "");
-        assert_eq!(result, Err(String::from("Fatal error encountered while looking for existing config")));
+        assert_eq!(
+            result,
+            Err(String::from(
+                "Fatal error encountered while looking for existing config"
+            ))
+        );
     }
 
     #[test]

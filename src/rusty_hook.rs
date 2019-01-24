@@ -14,14 +14,15 @@ where
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git repo root directory")),
     };
+
     if git::create_hook_files(&run_command, &write_file, &root_directory_path).is_err() {
         return Err(String::from("Unable to create git hooks"));
     };
 
-    if let Err(_) =
-        config::create_default_config_file(&write_file, &file_exists, &root_directory_path)
+    if config::create_default_config_file(&write_file, &file_exists, &root_directory_path).is_err()
     {
         return Err(String::from(""));
     }
+
     Ok(())
 }
