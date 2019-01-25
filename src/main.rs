@@ -5,7 +5,11 @@ use std::io::prelude::*;
 #[cfg(target_family = "unix")]
 use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
-use std::process::Command;
+use std::process::{exit, Command};
+
+// extern crate getopts;
+// use getopts::Options;
+use std::env;
 
 fn get_command_runner() -> fn(cmd: &str) -> Result<String, String> {
     |cmd: &str| {
@@ -59,7 +63,8 @@ fn create_file(path: PathBuf, _make_executable: bool) -> Result<File, ()> {
     }
 }
 
-fn get_file_writer() -> fn(file_path: &str, contents: &str, make_executable: bool) -> Result<(), String> {
+fn get_file_writer(
+) -> fn(file_path: &str, contents: &str, make_executable: bool) -> Result<(), String> {
     |file_path: &str, contents: &str, make_executable: bool| {
         let path = PathBuf::from(file_path);
         let mut file = match create_file(path, make_executable) {
@@ -78,11 +83,32 @@ fn get_file_existence_checker() -> fn(file_path: &str) -> Result<bool, ()> {
     |file_path: &str| Ok(Path::new(file_path).exists())
 }
 
-fn main() {
-    println!("Work in progress!");
-    rusty_hook::init(
+fn print_version() {
+    println!(env!("CARGO_PKG_VERSION"));
+}
+
+fn init(_args: Vec<String>) {
+    if let Err(err) = rusty_hook::init(
         &get_command_runner(),
         &get_file_writer(),
         &get_file_existence_checker(),
-    );
+    ) {
+        eprintln!(
+            "Fatal error encountered during initialization. Details: {}",
+            err
+        );
+        exit(1);
+    };
+}
+
+fn main() {
+    let args: Vec<String> = env::args().collect();
+    // let program = args[0].clone();
+    let first_opt = args[1].clone();
+    match first_opt.as_ref() {
+        "-v" => print_version(),
+        "--version" => print_version(),
+        "init" => init(args),
+        _ => panic!("Unknown command or option: {}", first_opt),
+    };
 }
