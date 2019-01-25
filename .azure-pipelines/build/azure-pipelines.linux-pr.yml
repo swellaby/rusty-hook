@@ -36,7 +36,7 @@ steps:
   displayName: 'Prep test tools'
 
 - script: |
-    cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
+    cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=/.cargo,_test.rs,main.rs
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
