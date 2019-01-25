@@ -61,7 +61,7 @@ mod create_config_file_tests {
     use super::*;
 
     #[test]
-    fn returns_empty_result_when_config_already_exists() {
+    fn returns_empty_when_config_exists() {
         let write_file = |_file_path: &str, _contents: &str, _x: bool| {
             panic!("Should not get here");
         };
@@ -86,7 +86,7 @@ mod create_config_file_tests {
     }
 
     #[test]
-    fn creates_default_config_file_when_specified_file_invalid() {
+    fn creates_default_when_specified_file_invalid() {
         let root_dir = "/usr/mine/bar";
         let exp_path = format!("{}/{}", root_dir, DEFAULT_CONFIG_FILE_NAME);
         let write_file = |file_path: &str, contents: &str, make_executable: bool| {
@@ -101,7 +101,7 @@ mod create_config_file_tests {
     }
 
     #[test]
-    fn creates_specified_config_file_when_specified_file_valid() {
+    fn creates_specified_config_when_valid() {
         let root_dir = "/usr/mine/bar";
         let desired_config = "rusty-hook.toml";
         let exp_path = format!("{}/{}", root_dir, desired_config);
