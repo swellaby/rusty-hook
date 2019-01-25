@@ -24,4 +24,5 @@ exclude = [
 ]
 
 [dependencies]
+ci_info = "0.3.1"
 getopts = "0.2"

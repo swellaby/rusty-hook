@@ -7,6 +7,7 @@ use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::{exit, Command};
 
+extern crate ci_info;
 // extern crate getopts;
 // use getopts::Options;
 use std::env;
@@ -88,6 +89,11 @@ fn print_version() {
 }
 
 fn init(_args: Vec<String>) {
+    if ci_info::is_ci() {
+        println!("CI Environment detected. Skipping hook install");
+        exit(0);
+    }
+
     if let Err(err) = rusty_hook::init(
         &get_command_runner(),
         &get_file_writer(),
