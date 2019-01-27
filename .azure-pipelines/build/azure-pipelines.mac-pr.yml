@@ -17,17 +17,18 @@ steps:
 - task: DownloadPipelineArtifact@0
   displayName: 'Download cargo-junit executable'
   inputs:
-    pipelineId: 1373
+    pipelineId: 1447
     artifactName: 'cargo-junit'
     targetPath: '$(cargoBinPath)'
 
 - script: |
     sudo chmod +rwx $(cargoBinPath)/cargo-junit
-    mkdir -p $(Build.SourcesDirectory)/.testresults/unit
+    mkdir -p .testresults/unit
   displayName: 'Prep test tools'
 
 - script: |
-    cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
+    cargo test
+    cargo junit --name .testresults/unit/junit.xml
   displayName: 'Run tests'
 
 - task: PublishTestResults@2
@@ -36,4 +37,4 @@ steps:
     testResultsFormat: JUnit
     testResultsFiles: 'junit.xml'
     searchFolder: $(Build.SourcesDirectory)/.testresults/unit
-    testRunTitle: 'rust-hook::Unit Tests::Mac PR - Build $(Build.BuildId)'
+    testRunTitle: 'rusty-hook::Unit Tests::Mac PR - Build $(Build.BuildId)'

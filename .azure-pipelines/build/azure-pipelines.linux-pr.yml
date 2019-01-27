@@ -36,11 +36,15 @@ steps:
   displayName: 'Prep test tools'
 
 - script: |
-    cargo kcov --kcov $(cargoBinPath)/kcov  -o .coverage/unit --bin rusty-hook -- --exclude-pattern=_test.rs,main.rs
+    cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=/.cargo,_test.rs,main.rs
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
+
+- script: |
+    bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
+  displayName: 'Publish coverage to Codecov'
 
 - task: cobertura-transform@0
   displayName: 'Transform Cobertura Format From 3 to 4'
@@ -62,4 +66,4 @@ steps:
     testResultsFormat: JUnit
     testResultsFiles: 'junit.xml'
     searchFolder: $(Build.SourcesDirectory)/.testresults/unit
-    testRunTitle: 'rust-hook::Unit Tests::Linux PR - Build $(Build.BuildId)'
+    testRunTitle: 'rusty-hook::Unit Tests::Linux PR - Build $(Build.BuildId)'

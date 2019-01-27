@@ -8,11 +8,14 @@ repository = "https://github.com/swellaby/rusty-hook"
 readme = "README.md"
 edition = "2018"
 exclude = [
+  ".coverage/**",
+  ".testresults/**",
   ".vscode/**",
   ".github/**",
   ".editorconfig",
   ".gitattributes",
   ".rustfmt.toml",
+  ".rusty-hook.toml",
   "azure-pipelines.yml",
   ".azure-pipelines/**",
   "kcov*/**",
@@ -21,3 +24,5 @@ exclude = [
 ]
 
 [dependencies]
+ci_info = "0.3.1"
+getopts = "0.2"
