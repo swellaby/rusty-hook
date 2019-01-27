@@ -42,6 +42,10 @@ steps:
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
 
+- script: |
+    bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
+  displayName: 'Publish coverage to Codecov'
+
 - task: cobertura-transform@0
   displayName: 'Transform Cobertura Format From 3 to 4'
   inputs:
