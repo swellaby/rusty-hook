@@ -125,3 +125,147 @@ mod create_config_file_tests {
         assert_eq!(result, Err(String::from(exp_err)));
     }
 }
+
+#[cfg(test)]
+mod get_config_file_contents_tests {
+    use super::*;
+
+    #[test]
+    fn fails_on_config_file_search_error() {
+        let file_exists = |_path: &str| Err(());
+        let read_file = |_path: &str| panic!("Should not call here");
+        let result = get_config_file_contents(read_file, file_exists, "");
+        assert_eq!(result, Err(String::from(NO_CONFIG_FILE_FOUND)));
+    }
+
+    #[test]
+    fn fails_on_config_file_not_found() {
+        let file_exists = |_path: &str| Ok(false);
+        let read_file = |_path: &str| panic!("Should not call here");
+        let result = get_config_file_contents(read_file, file_exists, "");
+        assert_eq!(result, Err(String::from(NO_CONFIG_FILE_FOUND)));
+    }
+
+    #[test]
+    fn fails_on_config_file_read_error() {
+        let exp_err = "Failure reading file";
+        let file_exists = |_path: &str| Ok(true);
+        let read_file = |_path: &str| Err(());
+        let result = get_config_file_contents(read_file, file_exists, "/var/foo");
+        assert_eq!(result, Err(String::from(exp_err)));
+    }
+
+    #[test]
+    fn returns_contents_on_success() {
+        let exp_contents = "[hooks]
+            pre-commit = 'cargo test'
+        ";
+        let file_exists = |_path: &str| Ok(true);
+        let read_file = |_path: &str| Ok(String::from(exp_contents));
+        let result = get_config_file_contents(read_file, file_exists, "/var/foo");
+        assert_eq!(result.unwrap(), String::from(exp_contents));
+    }
+}
+
+#[cfg(test)]
+mod get_table_key_value_from_config {
+    use super::*;
+
+    #[test]
+    fn handles_invalid_toml() {
+        let invalid_contents = "90827342089734";
+        let result = get_table_key_value_from_config(invalid_contents, "", "");
+        assert_eq!(result, Err(String::from("Error parsing config file")));
+    }
+
+    #[test]
+    fn handles_missing_table() {
+        let contents = "[hooks]";
+        let result = get_table_key_value_from_config(contents, "foo", "");
+        assert_eq!(result, Err(String::from("Missing config table")));
+    }
+
+    #[test]
+    fn handles_missing_table_key() {
+        let contents = "[hooks]
+            pre-commit = 'cargo test'
+        ";
+        let result = get_table_key_value_from_config(contents, "hooks", "pre-push");
+        assert_eq!(result, Err(String::from("Missing config key")));
+    }
+
+    #[test]
+    fn parses_hook_value() {
+        let contents = "[hooks]
+            pre-commit = 'cargo test'
+        ";
+        let table = "hooks";
+        let key = "pre-commit";
+        let exp_value = "cargo test";
+        let result = get_table_key_value_from_config(contents, table, key).unwrap();
+        assert_eq!(
+            String::from(result.as_str().unwrap()),
+            String::from(exp_value)
+        );
+    }
+}
+
+#[cfg(test)]
+mod get_log_setting_tests {
+    use super::*;
+
+    #[test]
+    fn returns_true_when_content_not_found() {
+        let invalid_contents = "90827342089734";
+        let result = get_log_setting(invalid_contents);
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn returns_true_when_log_not_boolean() {
+        let contents = "[logging]
+            verbose = 'cargo test'
+        ";
+        let result = get_log_setting(contents);
+        assert_eq!(result, true);
+    }
+
+    #[test]
+    fn returns_result_when_value_valid() {
+        let contents = "[logging]
+            verbose = false
+        ";
+        let result = get_log_setting(contents);
+        assert_eq!(result, false);
+    }
+}
+
+#[cfg(test)]
+mod get_hook_script_tests {
+    use super::*;
+
+    #[test]
+    fn returns_err_when_content_not_found() {
+        let invalid_contents = "abc";
+        let result = get_hook_script(invalid_contents, "");
+        assert_eq!(result, Err(String::from("Error parsing config file")));
+    }
+
+    #[test]
+    fn returns_err_when_hook_not_string() {
+        let contents = "[hooks]
+            pre-push = false
+        ";
+        let result = get_hook_script(contents, "pre-push");
+        assert_eq!(result, Err(String::from("Invalid hook config")));
+    }
+
+    #[test]
+    fn returns_result_when_value_valid() {
+        let contents = "[hooks]
+            pre-commit = 'cargo test'
+        ";
+        let result = get_hook_script(contents, "pre-commit");
+        assert_eq!(result.unwrap(), "cargo test");
+    }
+}

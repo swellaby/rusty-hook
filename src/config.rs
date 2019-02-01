@@ -1,9 +1,17 @@
+extern crate ci_info;
+use toml::Value;
+
 const CONFIG_FILE_TEMPLATE: &str = "[hooks]
-pre-commit = \"cargo test\"";
+pre-commit = \"cargo test\"
+
+[logging]
+verbose = true
+";
 
 const DEFAULT_CONFIG_FILE_NAME: &str = ".rusty-hook.toml";
 const CONFIG_FILE_NAMES: [&str; 2] = [DEFAULT_CONFIG_FILE_NAME, "rusty-hook.toml"];
 const NO_CONFIG_FILE_FOUND: &str = "No config file found";
+pub const MISSING_CONFIG_KEY: &str = "Missing config key";
 
 fn find_config_file<F>(root_directory_path: &str, file_exists: F) -> Result<String, String>
 where
@@ -87,6 +95,74 @@ where
         return Err(String::from("Failed to create config file"));
     };
     Ok(())
+}
+
+pub fn get_config_file_contents<F, G>(
+    read_file: F,
+    file_exists: G,
+    root_directory_path: &str,
+) -> Result<String, String>
+where
+    F: Fn(&str) -> Result<String, ()>,
+    G: Fn(&str) -> Result<bool, ()>,
+{
+    let path = match find_config_file(root_directory_path, &file_exists) {
+        Ok(path) => path,
+        Err(_) => {
+            return Err(String::from(NO_CONFIG_FILE_FOUND));
+        }
+    };
+
+    if path == NO_CONFIG_FILE_FOUND {
+        return Err(String::from(NO_CONFIG_FILE_FOUND));
+    };
+
+    match read_file(&path) {
+        Ok(contents) => Ok(contents),
+        Err(_) => Err(String::from("Failure reading file")),
+    }
+}
+
+fn get_table_key_value_from_config(
+    config_contents: &str,
+    table: &str,
+    key: &str,
+) -> Result<Value, String> {
+    let value = match config_contents.parse::<Value>() {
+        Ok(val) => val,
+        Err(_) => return Err(String::from("Error parsing config file")),
+    };
+
+    let config = value.as_table().unwrap();
+    if !config.contains_key(table) {
+        return Err(String::from("Missing config table"));
+    };
+
+    if !value[table].as_table().unwrap().contains_key(key) {
+        return Err(String::from(MISSING_CONFIG_KEY));
+    };
+
+    Ok(value[table][key].clone())
+}
+
+pub fn get_log_setting(config_contents: &str) -> bool {
+    match get_table_key_value_from_config(config_contents, "logging", "verbose") {
+        Err(_) => true,
+        Ok(value) => match value.as_bool() {
+            Some(setting) => setting,
+            None => true,
+        },
+    }
+}
+
+pub fn get_hook_script(config_contents: &str, hook_name: &str) -> Result<String, String> {
+    match get_table_key_value_from_config(config_contents, "hooks", hook_name) {
+        Err(err) => Err(err),
+        Ok(value) => match value.as_str() {
+            Some(script) => Ok(String::from(script)),
+            None => Err(String::from("Invalid hook config")),
+        },
+    }
 }
 
 #[cfg(test)]

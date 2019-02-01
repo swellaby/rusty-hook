@@ -1,15 +1,15 @@
 pub fn get_root_directory_path<F>(run_command: F) -> Result<String, String>
 where
-    F: Fn(&str) -> Result<String, String>,
+    F: Fn(&str, &str) -> Result<String, String>,
 {
-    run_command("git rev-parse --show-toplevel")
+    run_command("git rev-parse --show-toplevel", "")
 }
 
 fn get_hooks_directory<F>(run_command: F) -> Result<String, String>
 where
-    F: Fn(&str) -> Result<String, String>,
+    F: Fn(&str, &str) -> Result<String, String>,
 {
-    run_command("git rev-parse --git-path hooks")
+    run_command("git rev-parse --git-path hooks", "")
 }
 
 const HOOK_FILE_TEMPLATE: &str = "#!/bin/sh
@@ -54,7 +54,7 @@ pub fn create_hook_files<F, G>(
     root_directory_path: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str) -> Result<String, String>,
+    F: Fn(&str, &str) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
 {
     let hooks_directory = match get_hooks_directory(&run_command) {

@@ -5,6 +5,8 @@
     "applypatch",
     "cobertura",
     "codebases",
+    "codecov",
+    "cratesio",
     "editorconfig",
     "gcda",
     "gcno",

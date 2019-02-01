@@ -26,6 +26,6 @@ Work in progress! Not ready for use
 [windows-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/56.svg?label=windows%20build&style=flat-square
 [windows-ci-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=56
 [coverage-badge]: https://img.shields.io/azure-devops/coverage/swellaby/opensource/49.svg?style=flat-square
-[coverage-url]: https://codecov.io/gh/swellaby/captain-githook
+[coverage-url]: https://codecov.io/gh/swellaby/rusty-hook
 [tests-badge]: https://img.shields.io/azure-devops/tests/swellaby/opensource/49.svg?label=unit%20tests&style=flat-square
 [tests-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=49
