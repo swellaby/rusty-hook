@@ -4,8 +4,8 @@ mod rusty_hook;
 use std::process::exit;
 
 extern crate ci_info;
-// extern crate getopts;
-// use getopts::Options;
+extern crate getopts;
+use getopts::Options;
 use std::env;
 
 fn print_version() {
@@ -31,18 +31,32 @@ fn init(_args: Vec<String>) {
     };
 }
 
-fn run(_args: Vec<String>) {
+fn run(args: Vec<String>) {
+    let mut opts = Options::new();
+    opts.optopt("h", "hook", "the git hook name", "NAME");
+    let matches = match opts.parse(&args[2..]) {
+        Ok(m) => m,
+        Err(_) => {
+            eprintln!("Error parsing options");
+            exit(1);
+        }
+    };
+
+    if !matches.opt_present("h") {
+        eprintln!("Hook name option missing");
+        exit(1);
+    }
+
+    let hook_name = matches.opt_str("h").unwrap();
+
     if let Err(err) = rusty_hook::run(
         &closures::get_command_runner(),
         &closures::get_file_existence_checker(),
         &closures::get_file_reader(),
         &closures::get_logger(),
-        "",
+        &hook_name,
     ) {
-        eprintln!(
-            "Fatal error encountered during initialization. Details: {}",
-            err
-        );
+        eprintln!("{}", err);
         exit(1);
     }
 }
