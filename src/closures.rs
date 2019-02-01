@@ -27,7 +27,10 @@ pub fn get_command_runner() -> fn(cmd: &str, dir: &str) -> Result<String, String
                 if output.status.success() {
                     Ok(String::from_utf8(output.stdout).unwrap().trim_end_matches("\n").to_string())
                 } else {
-                    Err(String::from_utf8(output.stderr).unwrap())
+                    Err(format!("{}\n{}",
+                        String::from_utf8(output.stderr).unwrap(),
+                        String::from_utf8(output.stdout).unwrap(),
+                    ))
                 }
             }
         }
