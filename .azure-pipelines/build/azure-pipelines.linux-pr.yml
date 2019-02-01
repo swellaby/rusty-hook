@@ -17,7 +17,7 @@ steps:
 - task: DownloadPipelineArtifact@0
   displayName: 'Download cargo-kcov executable'
   inputs:
-    pipelineId: 1366
+    pipelineId: 1452
     artifactName: 'kcov'
     targetPath: '$(cargoBinPath)'
 
