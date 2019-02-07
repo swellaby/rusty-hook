@@ -1,0 +1,12 @@
+version: 1
+
+update_configs:
+  - package_manager: "rust:cargo"
+    directory: "/"
+    update_schedule: "live"
+    default_reviewers:
+      - "calebcartwright"
+    default_assignees:
+      - "calebcartwright"
+    default_labels:
+      - "dependencies"
