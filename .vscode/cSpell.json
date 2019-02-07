@@ -3,6 +3,10 @@
   "language": "en",
   "words": [
     "applypatch",
+    "choco",
+    "chocolatey",
+    "cinst",
+    "clippy",
     "cobertura",
     "codebases",
     "codecov",
@@ -15,6 +19,7 @@
     "junit",
     "kcov",
     "repo",
+    "rustc",
     "rustfmt",
     "rustup",
     "sendemail",
@@ -22,7 +27,9 @@
     "swellaby",
     "testresults",
     "toml",
-    "userprofile"
+    "userprofile",
+    "vctools",
+    "visualstudio"
   ],
   "flagWords": [
 

@@ -21,6 +21,7 @@
     "json",
     "markdown",
     "plaintext",
+    "powershell",
     "properties",
     "restructuredtext",
     "rust",
@@ -35,6 +36,7 @@
     "en_us",
     "filetypes",
     "misc",
+    "powershell",
     "rust",
     "softwareTerms"
   ],
