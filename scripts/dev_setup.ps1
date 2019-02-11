@@ -53,4 +53,5 @@ if (-NOT (Get-Command 'rusty-hook' -ErrorAction SilentlyContinue))
 
 Write-Host "Environment successfully configured!"
 cd (Get-Item $PSScriptRoot).Parent.FullName
+rusty-hook init
 cargo test --bin rusty-hook
