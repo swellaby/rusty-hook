@@ -25,6 +25,7 @@
     "properties",
     "restructuredtext",
     "rust",
+    "shellscript",
     "text",
     "toml",
     "yaml",
