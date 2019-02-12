@@ -102,6 +102,6 @@ You can optionally skip this hook by including the `--no-verify` switch (i.e. `g
 [codecov project]: https://codecov.io/gh/swellaby/rusty-hook
 [clippy]: https://github.com/rust-lang/rust-clippy
 [rustfmt]: https://github.com/rust-lang/rustfmt
-[git hooks]: https://git-scm.com/docs/githooks
+[git hooks]: https://git-scm.com/docs/githooks#_hooks
 [pre-commit hook]: https://git-scm.com/docs/githooks#_pre_commit
 [pre-push hook]: https://git-scm.com/docs/githooks#_pre_push
