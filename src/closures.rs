@@ -53,9 +53,7 @@ fn create_file(path: PathBuf, make_executable: bool) -> Result<File, ()> {
             Ok(metadata) => metadata,
             Err(_) => return Err(()),
         };
-
-        let mut permissions = metadata.permissions();
-        permissions.set_mode(0o755);
+        metadata.permissions().set_mode(0o755);
     };
 
     Ok(file)

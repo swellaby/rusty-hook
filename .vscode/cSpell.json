@@ -3,11 +3,16 @@
   "language": "en",
   "words": [
     "applypatch",
+    "choco",
+    "chocolatey",
+    "cinst",
+    "clippy",
     "calebcartwright",
     "cobertura",
     "codebases",
     "codecov",
     "cratesio",
+    "dependabot",
     "editorconfig",
     "gcda",
     "gcno",
@@ -16,14 +21,18 @@
     "junit",
     "kcov",
     "repo",
+    "rustc",
     "rustfmt",
     "rustup",
     "sendemail",
     "setvariable",
+    "shiba",
     "swellaby",
     "testresults",
     "toml",
-    "userprofile"
+    "userprofile",
+    "vctools",
+    "visualstudio"
   ],
   "flagWords": [
 

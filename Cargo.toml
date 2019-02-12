@@ -1,8 +1,8 @@
 [package]
 name = "rusty-hook"
-version = "0.1.2"
+version = "0.4.0"
 authors = ["Swellaby <opensource@swellaby.com>"]
-description = "work in progress, git hook utility"
+description = "git hook utility"
 license = "MIT"
 repository = "https://github.com/swellaby/rusty-hook"
 readme = "README.md"
@@ -10,14 +10,16 @@ edition = "2018"
 exclude = [
   ".coverage/**",
   ".testresults/**",
-  ".vscode/**",
+  ".azure-pipelines/**",
+  ".dependabot/**",
   ".github/**",
+  ".vscode/**",
+  "scripts/**",
   ".editorconfig",
   ".gitattributes",
   ".rustfmt.toml",
   ".rusty-hook.toml",
   "azure-pipelines.yml",
-  ".azure-pipelines/**",
   "kcov*/**",
   "**/*.gcda",
   "**/*.gcno",
