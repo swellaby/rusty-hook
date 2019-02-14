@@ -78,7 +78,7 @@ All contributions are welcome and appreciated! Check out our [Contributing Guide
 [coverage-badge]: https://img.shields.io/azure-devops/coverage/swellaby/opensource/49.svg?style=flat-square
 [coverage-url]: https://codecov.io/gh/swellaby/rusty-hook
 [tests-badge]: https://img.shields.io/azure-devops/tests/swellaby/opensource/49.svg?label=unit%20tests&style=flat-square
-[tests-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=49
+[tests-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=49&view=ms.vss-test-web.build-test-results-tab
 [git hooks]: https://git-scm.com/docs/githooks#_hooks
 [pre-commit hook]: https://git-scm.com/docs/githooks#_pre_commit
 [pre-push hook]: https://git-scm.com/docs/githooks#_pre_push

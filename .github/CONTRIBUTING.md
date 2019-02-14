@@ -49,7 +49,7 @@ Run the unit tests:
 cargo test
 ```  
 
-You must write corresponding unit for any code you add or modify, and all tests must pass before those changes can be merged back to the master branch.
+You must write corresponding unit tests for any code you add or modify, and all tests must pass before those changes can be merged back to the master branch.
 
 ### Code Coverage
 We're currently using `kcov` for code coverage, more detailed documentation coming soon.
