@@ -2,6 +2,8 @@
   "recommendations": [
     "swellaby.rust-pack",
     "swellaby.common-pack",
+    "swellaby.vscode-rust-test-adapter",
+    "hbenl.vscode-test-explorer",
     "ms-azure-devops.azure-pipelines"
   ]
 }
