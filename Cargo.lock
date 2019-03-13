@@ -1,6 +1,6 @@
 [[package]]
 name = "ci_info"
-version = "0.3.1"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -15,7 +15,7 @@ dependencies = [
 name = "rusty-hook"
 version = "0.4.0"
 dependencies = [
- "ci_info 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ci_info 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.18 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -39,7 +39,7 @@ version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
-"checksum ci_info 0.3.1 (registry+https://github.com/rust-lang/crates.io-index)" = "e5e881307a989a3a5e20d52a32cc05950e3c2178cccfcc9428271a6cde09f902"
+"checksum ci_info 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "dfcf68347ec0a46073779c85ed8c9ff90b70bbf9cc73a10f80f6e0b7bb66b032"
 "checksum getopts 0.2.18 (registry+https://github.com/rust-lang/crates.io-index)" = "0a7292d30132fb5424b354f5dc02512a86e4c516fe544bb7a25e7f266951b797"
 "checksum serde 1.0.85 (registry+https://github.com/rust-lang/crates.io-index)" = "534b8b91a95e0f71bca3ed5824752d558da048d4248c91af873b63bd60519752"
 "checksum toml 0.4.10 (registry+https://github.com/rust-lang/crates.io-index)" = "758664fc71a3a69038656bee8b6be6477d2a6c315a6b81f7081f591bffa4111f"
