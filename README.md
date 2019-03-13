@@ -15,10 +15,17 @@ Functional, but still in Beta!
 [![Coverage Badge][coverage-badge]][coverage-url]
 
 ## Installing
-We'll add binary releases soon, but for now the best way to install `rusty-hook` is to use `cargo`:
+The best way to install `rusty-hook` is to use `cargo`:
 
 ```sh
 cargo install rusty-hook
+```
+
+Or add it as a dev dependency in your Cargo.toml file:
+
+```toml
+[dev-dependencies]
+rusty-hook = "0.4.1"
 ```
 
 ## Initialize

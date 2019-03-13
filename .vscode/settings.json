@@ -13,7 +13,7 @@
     "Cargo.lock",
     "**/.git/**",
     ".vscode",
-],
+  ],
   "cSpell.enabledLanguageIds": [
     "asciidoc",
     "azure-pipelines",
@@ -28,8 +28,7 @@
     "shellscript",
     "text",
     "toml",
-    "yaml",
-    "yml"
+    "yaml"
   ],
   "cSpell.dictionaries": [
     "companies",
@@ -41,20 +40,7 @@
     "rust",
     "softwareTerms"
   ],
-  "vsicons.associations.files": [
-    {
-      "icon": "azurepipelines",
-      "extensions": [
-        "azure-pipelines.linux-pr.yml",
-        "azure-pipelines.mac-pr.yml",
-        "azure-pipelines.windows-pr.yml",
-        "azure-pipelines.ci.yml",
-      ],
-      "filename": true,
-      "format": "svg"
-    }
-  ],
   "files.associations": {
-    "*azure-pipelines*": "azure-pipelines"
+    "**/.azure-pipelines/**": "azure-pipelines"
   }
 }
