@@ -38,7 +38,7 @@ if (-NOT (Get-Command 'rustc' -ErrorAction SilentlyContinue))
     {
         Write-Host "C++ build tools not found. Starting install now. This might take a while..."
         cinst -y --timeout 14400 --force visualstudio2017-workload-vctools
-        Write-Host "C++ build tools install finished. You should restart your machine to complete the install. Script will exit in 15 seconds..."
+        Write-Host "C++ build tools install finished. You should restart your machine to complete the install, and then re-run this script. Script will exit in 15 seconds..."
         Start-Sleep -Seconds 15
         Exit
     }
