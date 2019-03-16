@@ -17,8 +17,35 @@ if (-NOT (Get-Command 'choco' -ErrorAction SilentlyContinue))
 
 if (-NOT (Get-Command 'rustc' -ErrorAction SilentlyContinue))
 {
-    Write-Host 'Rust not found. Installing now...'
-    cinst -y --timeout 14400 --force visualstudio2017-workload-vctools
+    Write-Host 'Rust not found...'
+    Write-Host "Checking for pre-requisite C++ build tools..."
+
+    # Check for C++ build tool pre-requisites
+    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+    Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
+    Install-Module VSSetup -Scope CurrentUser
+    $installationPaths = Get-VSSetupInstance | Select -ExpandProperty InstallationPath
+    foreach ($installationPath in $installationPaths)
+    {
+        if ((Get-ChildItem -Recurse -Path "$installationPath" -Filter cl.exe | Select-Object -First 1))
+        {
+            $buildToolsInstalled = $true
+            break
+        }
+    }
+
+    if (!$buildToolsInstalled)
+    {
+        Write-Host "C++ build tools not found. Starting install now. This might take a while..."
+        cinst -y --timeout 14400 --force visualstudio2017-workload-vctools
+        Write-Host "C++ build tools install finished. You should restart your machine to complete the install, and then re-run this script. Script will exit in 15 seconds..."
+        Start-Sleep -Seconds 15
+        Exit
+    }
+
+    Write-Host "Pre-requisite C++ build tools detected..."
+    Write-Host "Installing Rust now..."
+
     $rustupExecutable = "$($env:TEMP)\rustup-init.exe"
 
     if (-NOT (Test-Path $rustupExecutable))
