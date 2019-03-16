@@ -32,7 +32,8 @@
     "toml",
     "userprofile",
     "vctools",
-    "visualstudio"
+    "visualstudio",
+    "vswhere"
   ],
   "flagWords": [
 
