@@ -1,12 +1,13 @@
 [package]
 name = "rusty-hook"
-version = "0.4.1"
+version = "0.5.0"
 authors = ["Swellaby <opensource@swellaby.com>"]
 description = "git hook utility"
 license = "MIT"
 repository = "https://github.com/swellaby/rusty-hook"
 readme = "README.md"
 edition = "2018"
+keywords = [ "hooks", "githook", "git", "hook", ]
 exclude = [
   ".coverage/**",
   ".testresults/**",
@@ -28,4 +29,10 @@ exclude = [
 [dependencies]
 ci_info = "0.4.0"
 getopts = "0.2.18"
+toml = "0.5.0"
+
+
+
+[build-dependencies]
+ci_info = "0.4.0"
 toml = "0.5.0"

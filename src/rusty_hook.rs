@@ -4,13 +4,18 @@ mod config;
 #[path = "git.rs"]
 mod git;
 
-pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
+pub fn init_directory<F, G, H>(
+    run_command: F,
+    write_file: G,
+    file_exists: H,
+    target_directory: &str,
+) -> Result<(), String>
 where
     F: Fn(&str, &str) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
-    let root_directory_path = match git::get_root_directory_path(&run_command) {
+    let root_directory_path = match git::get_root_directory_path(&run_command, &target_directory) {
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git repo root directory")),
     };
@@ -27,6 +32,15 @@ where
     Ok(())
 }
 
+pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
+where
+    F: Fn(&str, &str) -> Result<String, String>,
+    G: Fn(&str, &str, bool) -> Result<(), String>,
+    H: Fn(&str) -> Result<bool, ()>,
+{
+    init_directory(&run_command, &write_file, &file_exists, "")
+}
+
 pub fn run<F, G, H, I>(
     run_command: F,
     file_exists: G,
@@ -40,7 +54,7 @@ where
     H: Fn(&str) -> Result<String, ()>,
     I: Fn(&str),
 {
-    let root_directory_path = match git::get_root_directory_path(&run_command) {
+    let root_directory_path = match git::get_root_directory_path(&run_command, "") {
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git repo root directory")),
     };

@@ -1,15 +1,15 @@
-pub fn get_root_directory_path<F>(run_command: F) -> Result<String, String>
+pub fn get_root_directory_path<F>(run_command: F, target_directory: &str) -> Result<String, String>
 where
     F: Fn(&str, &str) -> Result<String, String>,
 {
-    run_command("git rev-parse --show-toplevel", "")
+    run_command("git rev-parse --show-toplevel", &target_directory)
 }
 
-fn get_hooks_directory<F>(run_command: F) -> Result<String, String>
+fn get_hooks_directory<F>(run_command: F, root_directory: &str) -> Result<String, String>
 where
     F: Fn(&str, &str) -> Result<String, String>,
 {
-    run_command("git rev-parse --git-path hooks", "")
+    run_command("git rev-parse --git-path hooks", &root_directory)
 }
 
 const HOOK_FILE_TEMPLATE: &str = "#!/bin/sh
@@ -57,7 +57,7 @@ where
     F: Fn(&str, &str) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
 {
-    let hooks_directory = match get_hooks_directory(&run_command) {
+    let hooks_directory = match get_hooks_directory(&run_command, &root_directory_path) {
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git hooks directory")),
     };

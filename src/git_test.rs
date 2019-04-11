@@ -7,14 +7,15 @@ mod get_root_directory_path_tests {
     #[test]
     fn uses_git_rev_parse_top_level_command() {
         let exp = "/usr/me/foo";
+        let target_dir = "";
         let run_command = |cmd: &str, dir: &str| {
-            if cmd == "git rev-parse --show-toplevel" && dir == "" {
+            if cmd == "git rev-parse --show-toplevel" && dir == target_dir {
                 Ok(String::from(exp))
             } else {
                 Ok(String::from(""))
             }
         };
-        let act = get_root_directory_path(run_command);
+        let act = get_root_directory_path(run_command, &target_dir);
         assert_eq!(act.unwrap(), exp);
     }
 
@@ -22,7 +23,7 @@ mod get_root_directory_path_tests {
     fn returns_error_on_command_error() {
         let exp_err = "Ah!";
         let run_command = |_cmd: &str, _dir: &str| Err(String::from(exp_err));
-        let act = get_root_directory_path(run_command);
+        let act = get_root_directory_path(run_command, "");
         assert_eq!(act, Err(String::from(exp_err)));
     }
 }
@@ -34,14 +35,15 @@ mod get_hooks_directory_tests {
     #[test]
     fn uses_git_hooks_path_command() {
         let exp = ".git/hooks";
+        let target_dir = "";
         let run_command = |cmd: &str, dir: &str| {
-            if cmd == "git rev-parse --git-path hooks" && dir == "" {
+            if cmd == "git rev-parse --git-path hooks" && dir == target_dir {
                 Ok(String::from(exp))
             } else {
                 Ok(String::from(""))
             }
         };
-        let act = get_hooks_directory(run_command);
+        let act = get_hooks_directory(run_command, &target_dir);
         assert_eq!(act.unwrap(), exp);
     }
 
@@ -49,7 +51,7 @@ mod get_hooks_directory_tests {
     fn returns_error_on_command_error() {
         let exp_err = "failed";
         let run_command = |_cmd: &str, _dir: &str| Err(String::from(exp_err));
-        let act = get_hooks_directory(run_command);
+        let act = get_hooks_directory(run_command, "");
         assert_eq!(act, Err(String::from(exp_err)));
     }
 }

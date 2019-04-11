@@ -18,6 +18,7 @@
     "gcno",
     "getopts",
     "gitattributes",
+    "githook",
     "junit",
     "kcov",
     "repo",
@@ -32,7 +33,8 @@
     "toml",
     "userprofile",
     "vctools",
-    "visualstudio"
+    "visualstudio",
+    "vswhere"
   ],
   "flagWords": [
 
