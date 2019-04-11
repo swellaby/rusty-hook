@@ -5,7 +5,7 @@ pr:
 - master
 
 pool:
-  vmImage: macos-10.13
+  vmImage: macos-10.14
 
 steps:
 - script: |
@@ -27,7 +27,7 @@ steps:
   displayName: 'Prep test tools'
 
 - script: |
-    cargo test
+    cargo test --bin rusty-hook
     cargo junit --name .testresults/unit/junit.xml
   failOnStderr: true
   displayName: 'Run tests'
