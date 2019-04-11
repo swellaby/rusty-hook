@@ -1,7 +1,7 @@
 use super::*;
 
 #[cfg(test)]
-mod init_tests {
+mod init_directory_tests {
     use super::*;
 
     #[test]
@@ -37,6 +37,25 @@ mod init_tests {
     #[test]
     fn should_return_ok_on_success() {
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from(""));
+        let write_file = |_file_path: &str, _contents: &str, _x: bool| Ok(());
+        let file_exists = |_path: &str| Ok(false);
+        let result = init(run_command, write_file, file_exists);
+        assert_eq!(result, Ok(()));
+    }
+}
+
+mod init_tests {
+    use super::*;
+
+    #[test]
+    fn invokes_init_directory_with_cwd() {
+        let run_command = |_cmd: &str, dir: &str| {
+            if dir == "" {
+                Ok(String::from(""))
+            } else {
+                Err(String::from(""))
+            }
+        };
         let write_file = |_file_path: &str, _contents: &str, _x: bool| Ok(());
         let file_exists = |_path: &str| Ok(false);
         let result = init(run_command, write_file, file_exists);

@@ -1,4 +1,3 @@
-extern crate ci_info;
 use toml::Value;
 
 const CONFIG_FILE_TEMPLATE: &str = "[hooks]
