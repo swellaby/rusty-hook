@@ -26,6 +26,7 @@ steps:
     cargo test
     mkdir $(Build.SourcesDirectory)\.testresults\unit
     cargo junit --name $(Build.SourcesDirectory)\.testresults\unit\junit.xml
+  failOnStderr: true
   displayName: 'Run tests'
 
 - task: PublishTestResults@2

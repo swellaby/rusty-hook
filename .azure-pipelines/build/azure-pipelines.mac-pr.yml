@@ -29,6 +29,7 @@ steps:
 - script: |
     cargo test
     cargo junit --name .testresults/unit/junit.xml
+  failOnStderr: true
   displayName: 'Run tests'
 
 - task: PublishTestResults@2
