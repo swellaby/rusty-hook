@@ -20,6 +20,8 @@ hookName=`basename \"$0\"`
 gitParams=\"$*\"
 
 if command -v rusty-hook >/dev/null 2>&1; then
+  echo \"rusty-hook version: $(rusty-hook --version)\"
+  echo \"hook file version: {{VERSION}}\"
   rusty-hook run --hook $hookName \"$gitParams\"
 else
   echo \"Can't find rusty-hook, skipping $hookName hook\"
