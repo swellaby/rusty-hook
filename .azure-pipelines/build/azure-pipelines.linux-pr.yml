@@ -36,11 +36,15 @@ steps:
   displayName: 'Prep test tools'
 
 - script: |
+    cargo build
+  failOnStderr: true
+  displayName: 'Compile'
+
+- script: |
     cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=/.cargo,_test.rs,main.rs,closures.rs
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
-  failOnStderr: true
   displayName: 'Run tests'
 
 - script: |

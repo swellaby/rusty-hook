@@ -27,9 +27,17 @@ steps:
   displayName: 'Prep test tools'
 
 - script: |
-    cargo test --bin rusty-hook
-    cargo junit --name .testresults/unit/junit.xml
+    cargo build
   failOnStderr: true
+  displayName: 'Compile'
+
+- script: |
+    cargo test --bin rusty-hook
+  failOnStderr: true
+  displayName: 'Run tests 1'
+
+- script: |
+    cargo junit --name .testresults/unit/junit.xml
   displayName: 'Run tests'
 
 - task: PublishTestResults@2

@@ -23,6 +23,11 @@ steps:
     targetPath: '$(cargoBinPath)'
 
 - script: |
+    cargo build
+  failOnStderr: true
+  displayName: 'Compile'
+
+- script: |
     cargo test --bin rusty-hook
     mkdir $(Build.SourcesDirectory)\.testresults\unit
     cargo junit --name $(Build.SourcesDirectory)\.testresults\unit\junit.xml
