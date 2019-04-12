@@ -21,15 +21,17 @@ The best way to install `rusty-hook` is to use `cargo`:
 cargo install rusty-hook
 ```
 
-Or add it as a dev dependency in your Cargo.toml file:
+You'll also want to add it as a dev dependency in your Cargo.toml file:
 
 ```toml
 [dev-dependencies]
-rusty-hook = "0.4.1"
+rusty-hook = "0.5.0"
 ```
 
 ## Initialize
-Run the `init` command in any git directory to set it up:
+When you add `rusty-hook` as a dev-dependency in your project, it will automatically configure the git hooks once it is built (for example the first time you run `cargo test`).
+
+You can optionally manually initialize any git directory by running the `init` command in any git directory to set it up:
 
 ```sh
 rusty-hook init
