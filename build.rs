@@ -21,7 +21,6 @@ fn main() {
             "Fatal error encountered during initialization. Details: {}",
             err
         );
-        exit(1);
     };
     exit(0);
 }
