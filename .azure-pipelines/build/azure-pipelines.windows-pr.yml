@@ -23,7 +23,7 @@ steps:
     targetPath: '$(cargoBinPath)'
 
 - script: |
-    set -eo pipefail
+    set -e
     cargo test --bin rusty-hook
     mkdir $(Build.SourcesDirectory)\.testresults\unit
     cargo junit --name $(Build.SourcesDirectory)\.testresults\unit\junit.xml
