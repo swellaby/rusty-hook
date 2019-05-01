@@ -34,7 +34,7 @@ fi
 
 # echo \"rusty-hook version: $(rusty-hook --version)\"
 # echo \"hook file version: {{VERSION}}\"
-rusty-hook run --hook $hookName \"$gitParams\"";
+rusty-hook run --hook \"$hookName\" \"$gitParams\"";
 
 const HOOK_NAMES: [&str; 19] = [
     "applypatch-msg",
