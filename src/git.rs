@@ -19,8 +19,9 @@ const HOOK_FILE_TEMPLATE: &str = "#!/bin/sh
 hookName=`basename \"$0\"`
 gitParams=\"$*\"
 
-if ! [ command -v rusty-hook >/dev/null 2>&1 ]; then
+if ! command -v rusty-hook >/dev/null 2>&1; then
   if [[ -z \"${RUSTY_HOOK_SKIP_AUTO_INSTALL}\" ]]; then
+    echo \"going to try to install rusty-hook\"
     cargo install rusty-hook
   else
     echo \"rusty-hook is not installed, and auto install is disabled\"
