@@ -13,7 +13,7 @@ dependencies = [
 
 [[package]]
 name = "rusty-hook"
-version = "0.5.0"
+version = "0.5.1"
 dependencies = [
  "ci_info 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.18 (registry+https://github.com/rust-lang/crates.io-index)",
