@@ -20,7 +20,7 @@ hookName=`basename \"$0\"`
 gitParams=\"$*\"
 
 if ! command -v rusty-hook >/dev/null 2>&1; then
-  if [[ -z \"${RUSTY_HOOK_SKIP_AUTO_INSTALL}\" ]]; then
+  if [ -z \"${RUSTY_HOOK_SKIP_AUTO_INSTALL}\" ]; then
     echo \"Finalizing rusty-hook configuration...\"
     echo \"This may take a few seconds...\"
     cargo install rusty-hook >/dev/null 2>&1
