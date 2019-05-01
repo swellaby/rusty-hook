@@ -21,8 +21,9 @@ gitParams=\"$*\"
 
 if ! command -v rusty-hook >/dev/null 2>&1; then
   if [[ -z \"${RUSTY_HOOK_SKIP_AUTO_INSTALL}\" ]]; then
-    echo \"going to try to install rusty-hook\"
-    cargo install rusty-hook
+    echo \"Finalizing rusty-hook configuration...\"
+    echo \"This may take a few seconds...\"
+    cargo install rusty-hook >/dev/null 2>&1
   else
     echo \"rusty-hook is not installed, and auto install is disabled\"
     echo \"skipping $hookName hook\"
