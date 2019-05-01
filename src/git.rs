@@ -19,14 +19,20 @@ const HOOK_FILE_TEMPLATE: &str = "#!/bin/sh
 hookName=`basename \"$0\"`
 gitParams=\"$*\"
 
-if command -v rusty-hook >/dev/null 2>&1; then
-  # echo \"rusty-hook version: $(rusty-hook --version)\"
-  # echo \"hook file version: {{VERSION}}\"
-  rusty-hook run --hook $hookName \"$gitParams\"
-else
-  echo \"Can't find rusty-hook, skipping $hookName hook\"
-  echo \"You can reinstall it using 'cargo install rusty-hook' or delete this hook\"
-fi";
+if ! [ command -v rusty-hook >/dev/null 2>&1 ]; then
+  if [[ -z \"${RUSTY_HOOK_SKIP_AUTO_INSTALL}\" ]]; then
+    cargo install rusty-hook
+  else
+    echo \"rusty-hook is not installed, and auto install is disabled\"
+    echo \"skipping $hookName hook\"
+    echo \"You can reinstall it using 'cargo install rusty-hook' or delete this hook\"
+    exit 0
+  fi
+fi
+
+# echo \"rusty-hook version: $(rusty-hook --version)\"
+# echo \"hook file version: {{VERSION}}\"
+rusty-hook run --hook $hookName \"$gitParams\"";
 
 const HOOK_NAMES: [&str; 19] = [
     "applypatch-msg",
