@@ -1,13 +1,14 @@
 [package]
 name = "rusty-hook"
-version = "0.6.4"
+version = "0.6.5"
 authors = ["Swellaby <opensource@swellaby.com>"]
 description = "git hook utility"
 license = "MIT"
 repository = "https://github.com/swellaby/rusty-hook"
 readme = "README.md"
 edition = "2018"
-keywords = [ "hooks", "githook", "git", "hook", ]
+keywords = [ "hooks", "githook", "git", "hook", "commit" ]
+categories = [ "development-tools" ]
 exclude = [
   ".coverage/**",
   ".testresults/**",
@@ -34,3 +35,8 @@ toml = "0.5.0"
 [build-dependencies]
 ci_info = "0.4.0"
 toml = "0.5.0"
+
+[badges]
+azure-devops = { project = "swellaby/opensource", pipeline = "rusty-hook.linux-pr", build="49" }
+codecov = { repository = "swellaby/rusty-hook", branch = "master", service = "github" }
+maintenance = { status = "actively-developed" }

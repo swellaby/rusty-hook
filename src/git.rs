@@ -16,7 +16,7 @@ const HOOK_FILE_TEMPLATE: &str = "#!/bin/sh
 # rusty-hook
 # version {{VERSION}}
 
-hookName=`basename \"$0\"`
+hookName=$(basename \"$0\")
 gitParams=\"$*\"
 
 if ! command -v rusty-hook >/dev/null 2>&1; then

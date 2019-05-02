@@ -14,30 +14,42 @@ Functional, but still in Beta!
 [![Test Results Badge][tests-badge]][tests-url]
 [![Coverage Badge][coverage-badge]][coverage-url]
 
-## Installing
-The best way to install `rusty-hook` is to use `cargo`:
+## Quick Start
+1) Add `rusty-hook` as a dev dependency in your Cargo.toml file
+2) Run `cargo test` (to build your dev dependencies, including `rusty-hook`)
+3) Update the generated `.rusty-hook.toml` file with the commands you want to run
+4) Run `git commit` (or equivalent to trigger your git hook)! **note the very first (and only) time you do this will take an extra ~30 seconds or so to finalize the setup**
 
-```sh
-cargo install rusty-hook
-```
-
-You'll also want to add it as a dev dependency in your Cargo.toml file:
+## Setup
+Just add `rusty-hook` as a dev dependency in your Cargo.toml file:
 
 ```toml
 [dev-dependencies]
-rusty-hook = "0.5.0"
+rusty-hook = "0.6.5"
 ```
 
 ## Initialize
 When you add `rusty-hook` as a dev-dependency in your project, it will automatically configure the git hooks once it is built (for example the first time you run `cargo test`).
+
+This will ensure that all of the client side git hooks are setup and available, and it will create a `rusty-hook` configuration file if one does not already exist.
+
+The git hook script will ensure that the `rusty-hook` cli is available, so the very first time a git hook is triggered on your machine you will see a message indicating that the `rusty-hook` setup is being finalized which may take ~30 seconds or so:
+```sh
+Finalizing rusty-hook configuration...
+This may take a few seconds...
+```
+
+### (Optional) Install
+You can also install the `rusty-hook` cli with cargo:
+```sh
+cargo install rusty-hook
+```
 
 You can optionally manually initialize any git directory by running the `init` command in any git directory to set it up:
 
 ```sh
 rusty-hook init
 ```
-
-This will ensure that all of the client side git hooks are available, and it will create a `rusty-hook` configuration file if one does not already exist.
 
 ## Configure
 You define your desired [git hook][git hooks] configuration in the `rusty-hook` configuration file (a TOML file named `.rusty-hook.toml` or `rusty-hook.toml`).
