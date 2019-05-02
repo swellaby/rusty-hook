@@ -29,7 +29,7 @@ exclude = [
 
 [dependencies]
 ci_info = "0.4.0"
-getopts = "0.2.18"
+getopts = "0.2.19"
 toml = "0.5.0"
 
 [build-dependencies]
