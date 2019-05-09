@@ -10,6 +10,10 @@ use std::env;
 use std::process::exit;
 
 fn main() {
+    if ci_info::is_ci() {
+        exit(0);
+    };
+
     let target_directory = env::var("OUT_DIR").unwrap();
     if let Err(err) = rusty_hook::init_directory(
         &closures::get_command_runner(),
