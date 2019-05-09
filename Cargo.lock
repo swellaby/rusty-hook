@@ -2,15 +2,15 @@
 # It is not intended for manual editing.
 [[package]]
 name = "ci_info"
-version = "0.5.0"
+version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "envmnt 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "envmnt 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "envmnt"
-version = "0.1.1"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
@@ -25,7 +25,7 @@ dependencies = [
 name = "rusty-hook"
 version = "0.6.5"
 dependencies = [
- "ci_info 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ci_info 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -49,8 +49,8 @@ version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
-"checksum ci_info 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "be328517a773687f45c7d2cc8627ae9c2cad8f73c0fb32a96052bca0e6c12958"
-"checksum envmnt 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)" = "040f6dbcf91adee066cbfc5691e9359e5021a51db15df1a848435eac0e30460b"
+"checksum ci_info 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "2c763af4bb32d4a452372ff14ce3a5d28b83b7a282a5c9a29c2b5f7f4a419a50"
+"checksum envmnt 0.2.0 (registry+https://github.com/rust-lang/crates.io-index)" = "fcce1b3f1ea3488df850ad80f60f4af8b6a986dbe58b2441df43a281ad832d1a"
 "checksum getopts 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)" = "72327b15c228bfe31f1390f93dd5e9279587f0463836393c9df719ce62a3e450"
 "checksum serde 1.0.85 (registry+https://github.com/rust-lang/crates.io-index)" = "534b8b91a95e0f71bca3ed5824752d558da048d4248c91af873b63bd60519752"
 "checksum toml 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)" = "87c5890a989fa47ecdc7bcb4c63a77a82c18f306714104b1decfd722db17b39e"
