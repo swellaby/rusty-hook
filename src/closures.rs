@@ -53,7 +53,11 @@ fn create_file(path: PathBuf, make_executable: bool) -> Result<File, ()> {
             Ok(metadata) => metadata,
             Err(_) => return Err(()),
         };
-        metadata.permissions().set_mode(0o755);
+        let mut permissions = metadata.permissions();
+        permissions.set_mode(0o755);
+        if std::fs::set_permissions(&path, permissions).is_err() {
+            return Err(());
+        };
     };
 
     Ok(file)
