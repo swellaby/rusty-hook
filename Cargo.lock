@@ -2,16 +2,19 @@
 # It is not intended for manual editing.
 [[package]]
 name = "ci_info"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "envmnt 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "envmnt 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "envmnt"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+dependencies = [
+ "indexmap 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "getopts"
@@ -22,10 +25,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "indexmap"
+version = "1.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
 name = "rusty-hook"
 version = "0.8.1"
 dependencies = [
- "ci_info 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ci_info 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
@@ -49,9 +57,10 @@ version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
-"checksum ci_info 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "b4f6332a64510c735dc49c0b23abff28e254131e9c79050e60034128d1aafcbd"
-"checksum envmnt 0.3.0 (registry+https://github.com/rust-lang/crates.io-index)" = "81bc9e4850a81d1f07748f96873aafc9c3b01fa6f62f997b2c25ab8ccc41be58"
+"checksum ci_info 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "2b23758f38871fd279ebaa33155e222566e196f744c46df882f82dfecb4aeabe"
+"checksum envmnt 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f209625083e9cb95e9e6d049ab314f5233c8c231e4e881b1e7c59ba575c1e147"
 "checksum getopts 0.2.19 (registry+https://github.com/rust-lang/crates.io-index)" = "72327b15c228bfe31f1390f93dd5e9279587f0463836393c9df719ce62a3e450"
+"checksum indexmap 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7e81a7c05f79578dbc15793d8b619db9ba32b4577003ef3af1a91c416798c58d"
 "checksum serde 1.0.85 (registry+https://github.com/rust-lang/crates.io-index)" = "534b8b91a95e0f71bca3ed5824752d558da048d4248c91af873b63bd60519752"
 "checksum toml 0.5.1 (registry+https://github.com/rust-lang/crates.io-index)" = "b8c96d7873fa7ef8bdeb3a9cda3ac48389b4154f32b9803b4bc26220b677b039"
 "checksum unicode-width 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "882386231c45df4700b275c7ff55b6f3698780a650026380e72dabe76fa46526"
