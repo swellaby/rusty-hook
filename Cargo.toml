@@ -28,12 +28,12 @@ exclude = [
 ]
 
 [dependencies]
-ci_info = "0.7.0"
+ci_info = "0.7.1"
 getopts = "0.2.19"
 toml = "0.5.1"
 
 [build-dependencies]
-ci_info = "0.7.0"
+ci_info = "0.7.1"
 toml = "0.5.1"
 
 [badges]
