@@ -90,15 +90,15 @@ All contributions are welcome and appreciated! Check out our [Contributing Guide
 [license-badge]: https://img.shields.io/crates/l/rusty-hook.svg?style=flat-square
 [downloads-badge]: https://img.shields.io/crates/d/rusty-hook.svg?style=flat-square
 [crate url]: https://crates.io/crates/rusty-hook
-[linux-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/49.svg?label=linux%20build&style=flat-square
+[linux-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/49/master.svg?label=linux%20build&style=flat-square
 [linux-ci-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=49
-[mac-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/54.svg?label=mac%20build&style=flat-square
+[mac-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/54/master.svg?label=mac%20build&style=flat-square
 [mac-ci-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=54
-[windows-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/56.svg?label=windows%20build&style=flat-square
+[windows-ci-badge]: https://img.shields.io/azure-devops/build/swellaby/opensource/56/master.svg?label=windows%20build&style=flat-square
 [windows-ci-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=56
-[coverage-badge]: https://img.shields.io/azure-devops/coverage/swellaby/opensource/49.svg?style=flat-square
+[coverage-badge]: https://img.shields.io/azure-devops/coverage/swellaby/opensource/49/master.svg?style=flat-square
 [coverage-url]: https://codecov.io/gh/swellaby/rusty-hook
-[tests-badge]: https://img.shields.io/azure-devops/tests/swellaby/opensource/49.svg?label=unit%20tests&style=flat-square
+[tests-badge]: https://img.shields.io/azure-devops/tests/swellaby/opensource/49/master.svg?label=unit%20tests&style=flat-square
 [tests-url]: https://dev.azure.com/swellaby/OpenSource/_build/latest?definitionId=49&view=ms.vss-test-web.build-test-results-tab
 [git hooks]: https://git-scm.com/docs/githooks#_hooks
 [pre-commit hook]: https://git-scm.com/docs/githooks#_pre_commit
