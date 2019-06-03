@@ -1,6 +1,6 @@
 [package]
 name = "rusty-hook"
-version = "0.8.3"
+version = "0.8.4"
 authors = ["Swellaby <opensource@swellaby.com>"]
 description = "git hook utility"
 license = "MIT"
@@ -28,12 +28,12 @@ exclude = [
 ]
 
 [dependencies]
-ci_info = "0.7.0"
+ci_info = "0.7.1"
 getopts = "0.2.19"
 toml = "0.5.1"
 
 [build-dependencies]
-ci_info = "0.7.0"
+ci_info = "0.7.1"
 toml = "0.5.1"
 
 [badges]
