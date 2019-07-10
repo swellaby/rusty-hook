@@ -22,7 +22,7 @@ rusty-hook run --hook "$hookName" "$gitParams"
 rhExitCode=$?
 
 if [ $rhExitCode -ne 0 ]; then
-  # shellcheck disable=SC2170,SC1083
+# shellcheck disable=SC2170,SC1083
   if [ $rhExitCode -eq {{NO_CONFIG_FILE_EXIT_CODE}} ]; then
     if [ "$hookName" = "pre-commit" ]; then
       echo "rusty-hook git hooks are configured, but no config file was found"

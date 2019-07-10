@@ -57,7 +57,7 @@ where
             "{{NO_CONFIG_FILE_EXIT_CODE}}",
             &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string(),
         )
-        .replace("# shellcheck disable=SC2170,SC1083", "");
+        .replace("\n# shellcheck disable=SC2170,SC1083", "");
     for hook in HOOK_NAMES.iter() {
         if write_file(
             &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),

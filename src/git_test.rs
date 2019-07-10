@@ -118,7 +118,7 @@ mod create_hook_files_tests {
                 "{{NO_CONFIG_FILE_EXIT_CODE}}",
                 &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string(),
             )
-            .replace("# shellcheck disable=SC2170,SC1083", "");
+            .replace("\n# shellcheck disable=SC2170,SC1083", "");
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from(git_hooks));
         let write_file = |path: &str, contents: &str, make_executable: bool| {
             let act_hook = &&path[(path.rfind('/').unwrap() + 1)..];
