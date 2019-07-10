@@ -1,3 +1,5 @@
+pub const NO_CONFIG_FILE_FOUND_ERROR_CODE: i32 = 3;
+
 pub fn get_root_directory_path<F>(run_command: F, target_directory: &str) -> Result<String, String>
 where
     F: Fn(&str, &str) -> Result<String, String>,
@@ -12,30 +14,7 @@ where
     run_command("git rev-parse --git-path hooks", &root_directory)
 }
 
-const HOOK_FILE_TEMPLATE: &str = "#!/bin/sh
-# rusty-hook
-# version {{VERSION}}
-
-hookName=$(basename \"$0\")
-gitParams=\"$*\"
-
-if ! command -v rusty-hook >/dev/null 2>&1; then
-  if [ -z \"${RUSTY_HOOK_SKIP_AUTO_INSTALL}\" ]; then
-    echo \"Finalizing rusty-hook configuration...\"
-    echo \"This may take a few seconds...\"
-    cargo install rusty-hook >/dev/null 2>&1
-  else
-    echo \"rusty-hook is not installed, and auto install is disabled\"
-    echo \"skipping $hookName hook\"
-    echo \"You can reinstall it using 'cargo install rusty-hook' or delete this hook\"
-    exit 0
-  fi
-fi
-
-# echo \"rusty-hook version: $(rusty-hook --version)\"
-# echo \"hook file version: {{VERSION}}\"
-rusty-hook run --hook \"$hookName\" \"$gitParams\"";
-
+const HOOK_FILE_TEMPLATE: &str = include_str!("hook_script.sh");
 const HOOK_NAMES: [&str; 19] = [
     "applypatch-msg",
     "pre-applypatch",
@@ -72,7 +51,13 @@ where
         Err(_) => return Err(String::from("Failure determining git hooks directory")),
     };
     let version = env!("CARGO_PKG_VERSION");
-    let hook_file_contents = String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", version);
+    let hook_file_contents = String::from(HOOK_FILE_TEMPLATE)
+        .replace("{{VERSION}}", version)
+        .replace(
+            "{{NO_CONFIG_FILE_EXIT_CODE}}",
+            &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string(),
+        )
+        .replace("# shellcheck disable=SC2170,SC1083", "");
     for hook in HOOK_NAMES.iter() {
         if write_file(
             &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),

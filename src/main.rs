@@ -56,8 +56,12 @@ fn run(args: Vec<String>) {
         &closures::get_logger(),
         &hook_name,
     ) {
-        eprintln!("{}", err);
-        exit(1);
+        if err == rusty_hook::NO_CONFIG_FILE_FOUND {
+            exit(rusty_hook::NO_CONFIG_FILE_FOUND_ERROR_CODE);
+        } else {
+            eprintln!("{}", err);
+            exit(1);
+        }
     }
 }
 

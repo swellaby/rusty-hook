@@ -112,7 +112,13 @@ mod create_hook_files_tests {
         let version = env!("CARGO_PKG_VERSION");
         let root_dir = "/usr/repos/foo";
         let git_hooks = ".git/hooks";
-        let exp_contents = &String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", version);
+        let exp_contents = &String::from(HOOK_FILE_TEMPLATE)
+            .replace("{{VERSION}}", version)
+            .replace(
+                "{{NO_CONFIG_FILE_EXIT_CODE}}",
+                &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string(),
+            )
+            .replace("# shellcheck disable=SC2170,SC1083", "");
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from(git_hooks));
         let write_file = |path: &str, contents: &str, make_executable: bool| {
             let act_hook = &&path[(path.rfind('/').unwrap() + 1)..];

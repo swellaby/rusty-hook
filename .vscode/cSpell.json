@@ -28,6 +28,7 @@
     "rustup",
     "sendemail",
     "setvariable",
+    "shellcheck",
     "shiba",
     "swellaby",
     "testresults",
