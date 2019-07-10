@@ -9,7 +9,7 @@ verbose = true
 
 const DEFAULT_CONFIG_FILE_NAME: &str = ".rusty-hook.toml";
 const CONFIG_FILE_NAMES: [&str; 2] = [DEFAULT_CONFIG_FILE_NAME, "rusty-hook.toml"];
-const NO_CONFIG_FILE_FOUND: &str = "No config file found";
+pub const NO_CONFIG_FILE_FOUND: &str = "No config file found";
 pub const MISSING_CONFIG_KEY: &str = "Missing config key";
 
 fn find_config_file<F>(root_directory_path: &str, file_exists: F) -> Result<String, String>
@@ -106,14 +106,14 @@ where
     G: Fn(&str) -> Result<bool, ()>,
 {
     let path = match find_config_file(root_directory_path, &file_exists) {
-        Ok(path) => path,
-        Err(_) => {
-            return Err(String::from(NO_CONFIG_FILE_FOUND));
+        Ok(path) => {
+            if path == NO_CONFIG_FILE_FOUND {
+                return Err(String::from(NO_CONFIG_FILE_FOUND));
+            } else {
+                path
+            }
         }
-    };
-
-    if path == NO_CONFIG_FILE_FOUND {
-        return Err(String::from(NO_CONFIG_FILE_FOUND));
+        Err(_) => return Err(String::from(NO_CONFIG_FILE_FOUND)),
     };
 
     match read_file(&path) {
