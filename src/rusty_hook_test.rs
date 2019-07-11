@@ -79,11 +79,22 @@ mod run_tests {
     }
 
     #[test]
-    fn returns_error_when_config_contents_unloadable() {
-        let exp_err = "Failed to locate or parse config file";
+    fn returns_error_when_config_file_missing() {
+        let exp_err = config::NO_CONFIG_FILE_FOUND;
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from(""));
         let read_file = |_file_path: &str| Err(());
         let file_exists = |_path: &str| Ok(false);
+        let log = |_path: &str| panic!("");
+        let result = run(run_command, file_exists, read_file, log, "");
+        assert_eq!(result, Err(String::from(exp_err)));
+    }
+
+    #[test]
+    fn returns_error_when_config_contents_unloadable() {
+        let exp_err = "Failed to parse config file";
+        let run_command = |_cmd: &str, _dir: &str| Ok(String::from(""));
+        let read_file = |_file_path: &str| Err(());
+        let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str| panic!("");
         let result = run(run_command, file_exists, read_file, log, "");
         assert_eq!(result, Err(String::from(exp_err)));
@@ -104,7 +115,7 @@ mod run_tests {
 
     #[test]
     fn returns_error_on_invalid_config() {
-        let exp_err = "Invalid config file";
+        let exp_err = "Invalid rusty-hook config file";
         let contents = "abc";
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from(""));
         let read_file = |_file_path: &str| Ok(String::from(contents));

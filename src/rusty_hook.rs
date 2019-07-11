@@ -4,6 +4,9 @@ mod config;
 #[path = "git.rs"]
 mod git;
 
+pub use config::NO_CONFIG_FILE_FOUND;
+pub use git::NO_CONFIG_FILE_FOUND_ERROR_CODE;
+
 pub fn init_directory<F, G, H>(
     run_command: F,
     write_file: G,
@@ -62,7 +65,13 @@ where
     let config_file_contents =
         match config::get_config_file_contents(read_file, file_exists, &root_directory_path) {
             Ok(contents) => contents,
-            Err(_) => return Err(String::from("Failed to locate or parse config file")),
+            Err(err) => {
+                if err == config::NO_CONFIG_FILE_FOUND {
+                    return Err(String::from(config::NO_CONFIG_FILE_FOUND));
+                } else {
+                    return Err(String::from("Failed to parse config file"));
+                }
+            }
         };
 
     let log_details = config::get_log_setting(&config_file_contents);
@@ -72,7 +81,7 @@ where
             if err == config::MISSING_CONFIG_KEY {
                 return Ok(());
             }
-            return Err(String::from("Invalid config file"));
+            return Err(String::from("Invalid rusty-hook config file"));
         }
     };
 
@@ -81,14 +90,13 @@ where
         log(&format!("Running command: {}", script));
     };
 
-    match run_command(&script, &root_directory_path) {
-        Ok(stdout) => {
-            if log_details {
-                log(&stdout);
-            }
+    match (run_command(&script, &root_directory_path), log_details) {
+        (Ok(stdout), true) => {
+            log(&stdout);
             Ok(())
         }
-        Err(stderr) => Err(stderr),
+        (Ok(_), false) => Ok(()),
+        (Err(stderr), _) => Err(stderr),
     }
 }
 
