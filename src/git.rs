@@ -51,13 +51,12 @@ where
         Err(_) => return Err(String::from("Failure determining git hooks directory")),
     };
     let version = env!("CARGO_PKG_VERSION");
+    let exit_code = &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string();
     let hook_file_contents = String::from(HOOK_FILE_TEMPLATE)
         .replace("{{VERSION}}", version)
         .replace("\n# shellcheck disable=SC2170,SC1083", "")
-        .replace(
-            "{{NO_CONFIG_FILE_EXIT_CODE}}",
-            &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string(),
-        );
+        .replace("{{NO_CONFIG_FILE_EXIT_CODE}}", exit_code);
+
     for hook in HOOK_NAMES.iter() {
         if write_file(
             &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),
