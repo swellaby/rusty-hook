@@ -22,3 +22,5 @@ steps:
     targetFiles: '**/*.sh'
     followSourcedFiles: true
     checkSourcedFiles: true
+    ignoredErrorCodes: |
+      SC2039
