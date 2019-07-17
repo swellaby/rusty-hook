@@ -178,6 +178,8 @@ assertEquals() {
   shunit_actual_=$2
 
   shunit_return=${SHUNIT_TRUE}
+  # echo "expected: ${shunit_expected_}"
+  # echo "actual: ${shunit_actual_}"
   if command [ "${shunit_expected_}" = "${shunit_actual_}" ]; then
     _shunit_assertPass
   else

@@ -2,9 +2,6 @@
 # rusty-hook
 # version {{VERSION}}
 
-# shellcheck source=src/hook_files/semver.sh
-. "$(dirname "$0")"/semver.sh
-
 # shellcheck disable=SC2170,SC1083
 minimumMajorCliVersion={{MINIMUM_MAJOR}}
 # shellcheck disable=SC2170,SC1083
@@ -42,23 +39,28 @@ handleRustyHookCliResult() {
   hookName=${2}
 
   # shellcheck disable=SC2086
-  if [ ${rustyHookExitCode} -ne 0 ]; then
-    # shellcheck disable=SC2086
-    if [ ${rustyHookExitCode} -eq ${noConfigFileExitCode} ]; then
-      if [ "${hookName}" = "pre-commit" ]; then
-        echo "rusty-hook git hooks are configured, but no config file was found"
-        echo "In order to use rusty-hook, your project must have a config file"
-        echo "See https://github.com/swellaby/rusty-hook#configure for more information"
-        echo
-        echo "If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning"
-        echo
-      fi
-      exit 0
-    else
-      echo "Configured hook command failed"
-      echo "${hookName} hook rejected"
-      # shellcheck disable=SC2086
-      exit ${rustyHookExitCode}
+  if [ ${rustyHookExitCode} -eq 0 ]; then
+    exit 0
+  fi
+
+  # shellcheck disable=SC2086
+  if [ ${rustyHookExitCode} -eq ${noConfigFileExitCode} ]; then
+    if [ "${hookName}" = "pre-commit" ]; then
+      echo "rusty-hook git hooks are configured, but no config file was found"
+      echo "In order to use rusty-hook, your project must have a config file"
+      echo "See https://github.com/swellaby/rusty-hook#configure for more information"
+      echo
+      echo "If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning"
+      echo
     fi
+    exit 0
+  else
+    echo "Configured hook command failed"
+    echo "${hookName} hook rejected"
+    # shellcheck disable=SC2086
+    exit ${rustyHookExitCode}
   fi
 }
+
+# shellcheck source=src/hook_files/semver.sh
+. "$(dirname "$0")"/semver.sh
