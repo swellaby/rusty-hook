@@ -35,9 +35,10 @@ const MINIMUM_CLI_MINOR_VERSION: i32 = 9;
 const MINIMUM_CLI_PATCH_VERSION: i32 = 0;
 const MINIMUM_CLI_VERSION_ALLOW_PRERELEASE: bool = false;
 
-const HOOK_CREATION_ERROR: &str = "Fatal error encountered while trying to create git hook files";
+pub const HOOK_CREATION_ERROR: &str =
+    "Fatal error encountered while trying to create git hook files";
 
-pub fn get_hook_file_contents() -> String {
+fn get_hook_file_contents() -> String {
     String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", VERSION)
 }
 

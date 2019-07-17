@@ -16,7 +16,7 @@ where
     run_command("git rev-parse --git-path hooks", &root_directory)
 }
 
-pub fn create_hook_files<F, G>(
+pub fn setup_hooks<F, G>(
     run_command: F,
     write_file: G,
     root_directory_path: &str,

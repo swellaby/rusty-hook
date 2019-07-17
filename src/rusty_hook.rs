@@ -23,7 +23,7 @@ where
         Err(_) => return Err(String::from("Failure determining git repo root directory")),
     };
 
-    if git::create_hook_files(&run_command, &write_file, &root_directory_path).is_err() {
+    if git::setup_hooks(&run_command, &write_file, &root_directory_path).is_err() {
         return Err(String::from("Unable to create git hooks"));
     };
 
