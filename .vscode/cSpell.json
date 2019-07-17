@@ -26,6 +26,7 @@
     "rustc",
     "rustfmt",
     "rustup",
+    "semver",
     "sendemail",
     "setvariable",
     "shellcheck",

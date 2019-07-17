@@ -1,0 +1,24 @@
+#!/bin/sh
+# rusty-hook
+# version {{VERSION}}
+
+hookName=$(basename "$0")
+gitParams="$*"
+
+. $(dirname $0)/cli.sh
+
+if ! command -v rusty-hook >/dev/null 2>&1; then
+  if [ -z "${RUSTY_HOOK_SKIP_AUTO_INSTALL}" ]; then
+    installRustyHookCli
+  else
+    echo "rusty-hook is not installed, and auto install is disabled"
+    echo "skipping ${hookName} hook"
+    echo "You can reinstall it using 'cargo install rusty-hook' or delete this hook"
+    exit 0
+  fi
+else
+  ensureMinimumRustyHookCliVersion || true
+fi
+
+rusty-hook run --hook "${hookName}" "${gitParams}"
+handleRustyHookCliResult $? "{$hookName}"
