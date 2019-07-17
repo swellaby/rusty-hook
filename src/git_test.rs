@@ -1,5 +1,22 @@
 use super::*;
 
+fn get_expected_hook_file_contents() -> String {
+    let version = env!("CARGO_PKG_VERSION");
+    let exit_code = &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string();
+    let minimum_major = &MINIMUM_CLI_MAJOR_VERSION.to_string();
+    let minimum_minor = &MINIMUM_CLI_MINOR_VERSION.to_string();
+    let minimum_patch = &MINIMUM_CLI_PATCH_VERSION.to_string();
+    let minimum_allow_pre = &MINIMUM_CLI_VERSION_ALLOW_PRERELEASE.to_string();
+    String::from(HOOK_FILE_TEMPLATE)
+        .replace("{{VERSION}}", version)
+        .replace("\n# shellcheck disable=SC2170,SC1083", "")
+        .replace("{{NO_CONFIG_FILE_EXIT_CODE}}", exit_code)
+        .replace("{{MINIMUM_MAJOR}}", minimum_major)
+        .replace("{{MINIMUM_MINOR}}", minimum_minor)
+        .replace("{{MINIMUM_PATCH}}", minimum_patch)
+        .replace("{{MINIMUM_ALLOW_PRE}}", minimum_allow_pre)
+}
+
 #[cfg(test)]
 mod get_root_directory_path_tests {
     use super::*;
@@ -57,6 +74,17 @@ mod get_hooks_directory_tests {
 }
 
 #[cfg(test)]
+mod get_hook_contents_tests {
+    use super::*;
+
+    #[test]
+    fn provides_correct_contents() {
+        let exp = get_expected_hook_file_contents();
+        assert_eq!(get_hook_file_contents(), exp);
+    }
+}
+
+#[cfg(test)]
 mod create_hook_files_tests {
     use super::*;
 
@@ -109,14 +137,9 @@ mod create_hook_files_tests {
 
     #[test]
     fn creates_all_hooks() {
-        let version = env!("CARGO_PKG_VERSION");
         let root_dir = "/usr/repos/foo";
         let git_hooks = ".git/hooks";
-        let exit_code = &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string();
-        let exp_contents = String::from(HOOK_FILE_TEMPLATE)
-            .replace("{{VERSION}}", version)
-            .replace("\n# shellcheck disable=SC2170,SC1083", "")
-            .replace("{{NO_CONFIG_FILE_EXIT_CODE}}", exit_code);
+        let exp_contents = get_expected_hook_file_contents();
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from(git_hooks));
         let write_file = |path: &str, contents: &str, make_executable: bool| {
             let act_hook = &&path[(path.rfind('/').unwrap() + 1)..];

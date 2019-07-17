@@ -4,6 +4,64 @@
 
 hookName=$(basename "$0")
 gitParams="$*"
+# shellcheck disable=SC2170,SC1083
+minimumMajorCliVersion={{MINIMUM_MAJOR}}
+# shellcheck disable=SC2170,SC1083
+minimumMinorCliVersion={{MINIMUM_MINOR}}
+# shellcheck disable=SC2170,SC1083
+minimumPatchCliVersion={{MINIMUM_PATCH}}
+# shellcheck disable=SC2170,SC1083
+allowPrereleaseCliVersion={{MINIMUM_ALLOW_PRE}}
+
+upgradeRustyHookCli() {
+  echo "Upgrading rusty-hook cli..."
+  echo "This may take a few seconds..."
+  cargo install --force rusty-hook >/dev/null 2>&1
+}
+
+ensureMinimumRustyHookCliVersion() {
+  currentVersion=$(rusty-hook -v)
+  oldIFS=$IFS
+  IFS="."
+  # shellcheck disable=SC2086
+  set -- $currentVersion
+  currentMajor=$1
+  currentMinor=$2
+  suffix=$3
+  IFS="-"
+  set -- $suffix
+  currentPatch=$1
+  currentPre=$2
+  IFS=$oldIFS
+
+  # shellcheck disable=SC2086
+  if [ $currentMajor -lt $minimumMajorCliVersion ]; then
+    echo "major version mismatch"
+    upgradeRustyHookCli
+    return
+  fi
+
+  # shellcheck disable=SC2086
+  if [ $currentMinor -lt $minimumMinorCliVersion ]; then
+    echo "major version mismatch"
+    upgradeRustyHookCli
+    return
+  fi
+
+  # shellcheck disable=SC2086
+  if [ $currentPatch -lt $minimumPatchCliVersion ]; then
+    echo "patch version mismatch"
+    upgradeRustyHookCli
+    return
+  fi
+
+  if [ -z "$currentPre" ]; then
+    return
+  elif [ "$allowPrereleaseCliVersion" != "true" ]; then
+    echo "pre version mismatch"
+    upgradeRustyHookCli
+  fi
+}
 
 if ! command -v rusty-hook >/dev/null 2>&1; then
   if [ -z "${RUSTY_HOOK_SKIP_AUTO_INSTALL}" ]; then
@@ -16,6 +74,8 @@ if ! command -v rusty-hook >/dev/null 2>&1; then
     echo "You can reinstall it using 'cargo install rusty-hook' or delete this hook"
     exit 0
   fi
+else
+  ensureMinimumRustyHookCliVersion || true
 fi
 
 rusty-hook run --hook "$hookName" "$gitParams"
