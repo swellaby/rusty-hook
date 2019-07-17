@@ -39,7 +39,7 @@ pub const HOOK_CREATION_ERROR: &str =
     "Fatal error encountered while trying to create git hook files";
 
 fn get_hook_file_contents() -> String {
-    String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", VERSION)
+    return String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", VERSION);
 }
 
 fn get_cli_script_file_contents() -> String {
@@ -59,7 +59,7 @@ fn get_cli_script_file_contents() -> String {
 }
 
 fn get_semver_script_file_contents() -> String {
-    String::from(HOOK_SEMVER_SCRIPT_FILE_TEMPLATE).replace("{{VERSION}}", VERSION)
+    return String::from(HOOK_SEMVER_SCRIPT_FILE_TEMPLATE).replace("{{VERSION}}", VERSION);
 }
 
 pub fn create_hook_files<F>(
