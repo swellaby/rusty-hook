@@ -24,34 +24,29 @@ isGreaterThanEqualToMinimumVersion() {
   IFS=${oldIFS}
 
   # shellcheck disable=SC2086
-  if [ ${currentMajor} -lt ${minimumMajor} ]; then
-    echo "major version mismatch"
-    echo "minimum: ${minimumMajor}"
-    echo "current: ${currentMajor}"
+  if [ ${currentMajor} -gt ${minimumMajor} ]; then
+    return 0
+  elif [ ${currentMajor} -lt ${minimumMajor} ]; then
     return 1
-  fi
-
-  # shellcheck disable=SC2086
-  if [ ${currentMinor} -lt ${minimumMinor} ]; then
-    echo "minor version mismatch"
-    echo "minimum: ${minimumMinor}"
-    echo "current: ${currentMinor}"
-    return 2
-  fi
-
-  # shellcheck disable=SC2086
-  if [ ${currentPatch} -lt ${minimumPatch} ]; then
-    echo "patch version mismatch"
-    echo "minimum: ${minimumPatch}"
-    echo "current: ${currentPatch}"
-    return 3
-  # shellcheck disable=SC2086
-  elif [ ${currentPatch} -eq ${minimumPatch} ]; then
-    if [ -z "${currentPre}" ]; then
+  else
+    # shellcheck disable=SC2086
+    if [ ${currentMinor} -gt ${minimumMinor} ]; then
       return 0
-    elif [ "${allowPrerelease}" != "true" ]; then
-      echo "pre version mismatch"
-      return 4
+    elif [ ${currentMinor} -lt ${minimumMinor} ]; then
+      return 2
+    else
+      # shellcheck disable=SC2086
+      if [ ${currentPatch} -gt ${minimumPatch} ]; then
+        return 0
+      elif [ ${currentPatch} -lt ${minimumPatch} ]; then
+        return 3
+      else
+        if [ -z "${currentPre}" ]; then
+          return 0
+        elif [ "${allowPrerelease}" != "true" ]; then
+          return 4
+        fi
+      fi
     fi
   fi
 }

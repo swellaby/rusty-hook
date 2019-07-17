@@ -5,7 +5,8 @@
 hookName=$(basename "$0")
 gitParams="$*"
 
-. $(dirname $0)/cli.sh
+# shellcheck source=src/hook_files/cli.sh
+. "$(dirname "$0")"/cli.sh
 
 if ! command -v rusty-hook >/dev/null 2>&1; then
   if [ -z "${RUSTY_HOOK_SKIP_AUTO_INSTALL}" ]; then
@@ -21,4 +22,4 @@ else
 fi
 
 rusty-hook run --hook "${hookName}" "${gitParams}"
-handleRustyHookCliResult $? "{$hookName}"
+handleRustyHookCliResult $? "${hookName}"

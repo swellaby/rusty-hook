@@ -2,7 +2,8 @@
 # rusty-hook
 # version {{VERSION}}
 
-. $(dirname $0)/semver.sh
+# shellcheck source=src/hook_files/semver.sh
+. "$(dirname "$0")"/semver.sh
 
 # shellcheck disable=SC2170,SC1083
 minimumMajorCliVersion={{MINIMUM_MAJOR}}
@@ -14,15 +15,6 @@ minimumPatchCliVersion={{MINIMUM_PATCH}}
 allowPrereleaseCliVersion={{MINIMUM_ALLOW_PRE}}
 # shellcheck disable=SC2170,SC1083
 noConfigFileExitCode={{NO_CONFIG_FILE_EXIT_CODE}}
-
-# minimumMajorCliVersion=1
-# # shellcheck disable=SC2170,SC1083
-# minimumMinorCliVersion=0
-# # shellcheck disable=SC2170,SC1083
-# minimumPatchCliVersion=0
-# # shellcheck disable=SC2170,SC1083
-# allowPrereleaseCliVersion=false
-# noConfigFileExitCode=3
 
 upgradeRustyHookCli() {
   echo "Upgrading rusty-hook cli..."
@@ -72,11 +64,5 @@ handleRustyHookCliResult() {
       # shellcheck disable=SC2086
       exit ${rustyHookExitCode}
     fi
-  else
-    echo "hook succeeded!"
-    exit 0
   fi
 }
-
-# handleRustyHookCliResult 2 "pre-commit"
-# ensureMinimumRustyHookCliVersion

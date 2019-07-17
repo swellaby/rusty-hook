@@ -1,4 +1,10 @@
+pub const HOOK_CREATION_ERROR: &str =
+    "Fatal error encountered while trying to create git hook files";
 pub const NO_CONFIG_FILE_FOUND_ERROR_CODE: i32 = 3;
+const MINIMUM_CLI_MAJOR_VERSION: i32 = 0;
+const MINIMUM_CLI_MINOR_VERSION: i32 = 9;
+const MINIMUM_CLI_PATCH_VERSION: i32 = 0;
+const MINIMUM_CLI_VERSION_ALLOW_PRERELEASE: bool = false;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
 const HOOK_FILE_TEMPLATE: &str = include_str!("hook_files/hook_script.sh");
@@ -26,17 +32,8 @@ const HOOK_NAMES: [&str; 19] = [
     "post-rewrite",
     "sendemail-validate",
 ];
-
 const CLI_SCRIPT_NAME: &str = "cli.sh";
 const SEMVER_SCRIPT_NAME: &str = "semver.sh";
-
-const MINIMUM_CLI_MAJOR_VERSION: i32 = 0;
-const MINIMUM_CLI_MINOR_VERSION: i32 = 9;
-const MINIMUM_CLI_PATCH_VERSION: i32 = 0;
-const MINIMUM_CLI_VERSION_ALLOW_PRERELEASE: bool = false;
-
-pub const HOOK_CREATION_ERROR: &str =
-    "Fatal error encountered while trying to create git hook files";
 
 fn get_hook_file_contents() -> String {
     return String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", VERSION);
@@ -62,6 +59,10 @@ fn get_semver_script_file_contents() -> String {
     return String::from(HOOK_SEMVER_SCRIPT_FILE_TEMPLATE).replace("{{VERSION}}", VERSION);
 }
 
+fn get_file_path(root_directory_path: &str, hooks_directory: &str, file: &str) -> String {
+    format!("{}/{}/{}", root_directory_path, hooks_directory, file)
+}
+
 pub fn create_hook_files<F>(
     write_file: F,
     root_directory_path: &str,
@@ -72,32 +73,21 @@ where
 {
     let hook_file_contents = get_hook_file_contents();
     for hook in HOOK_NAMES.iter() {
-        if write_file(
-            &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),
-            &hook_file_contents,
-            true,
-        )
-        .is_err()
-        {
+        let path = get_file_path(root_directory_path, hooks_directory, hook);
+        if write_file(&path, &hook_file_contents, true).is_err() {
             return Err(String::from(HOOK_CREATION_ERROR));
         };
     }
 
-    let cli_script_file_contents = get_cli_script_file_contents();
-    let cli_script_file_path = format!(
-        "{}/{}/{}",
-        root_directory_path, hooks_directory, CLI_SCRIPT_NAME
-    );
-    if write_file(&cli_script_file_path, &cli_script_file_contents, true).is_err() {
+    let cli_file_contents = get_cli_script_file_contents();
+    let cli_file_path = get_file_path(root_directory_path, hooks_directory, CLI_SCRIPT_NAME);
+    if write_file(&cli_file_path, &cli_file_contents, true).is_err() {
         return Err(String::from(HOOK_CREATION_ERROR));
     };
 
-    let semver_script_file_contents = get_semver_script_file_contents();
-    let semver_script_file_path = format!(
-        "{}/{}/{}",
-        root_directory_path, hooks_directory, SEMVER_SCRIPT_NAME
-    );
-    if write_file(&semver_script_file_path, &semver_script_file_contents, true).is_err() {
+    let semver_file_contents = get_semver_script_file_contents();
+    let semver_file_path = get_file_path(root_directory_path, hooks_directory, SEMVER_SCRIPT_NAME);
+    if write_file(&semver_file_path, &semver_file_contents, true).is_err() {
         return Err(String::from(HOOK_CREATION_ERROR));
     };
 
