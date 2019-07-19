@@ -68,11 +68,6 @@ mod setup_hooks_tests {
         let result = setup_hooks(run_command, write_file, "");
         assert_eq!(result, Err(String::from(exp_err)));
     }
-}
-
-#[cfg(test)]
-mod create_hook_files_tests {
-    use super::*;
 
     #[test]
     fn errors_when_hook_write_fails() {
