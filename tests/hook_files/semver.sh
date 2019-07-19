@@ -79,6 +79,19 @@ testCurrentVersionWithPrereleaseNotAllowed() {
   assertEquals 4 ${act}
 }
 
+testMinimumDoubleDigitVersionWithFirstDigitLessThanCurrentVersion() {
+  # Current minor version is `5`, minimum minor version is `36`
+  # This test ensures that the implementation is never done using char by char comparisons.
+  current="1.5.0"
+  minMajor=1
+  minMinor=36
+  minPatch=0
+  allowPre=false
+  isGreaterThanEqualToMinimumVersion ${current} ${minMajor} ${minMinor} ${minPatch} ${allowPre}
+  act=$?
+  assertEquals 2 ${act}
+}
+
 # shellcheck source=src/hook_files/semver.sh
 . "$(dirname "$0")"/../../src/hook_files/semver.sh
 # shellcheck source=tests/hook_files/shunit2.sh
