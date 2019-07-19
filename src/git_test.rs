@@ -57,7 +57,7 @@ mod get_hooks_directory_tests {
 }
 
 #[cfg(test)]
-mod create_hook_files_tests {
+mod setup_hooks_tests {
     use super::*;
 
     #[test]
@@ -65,69 +65,25 @@ mod create_hook_files_tests {
         let exp_err = "Failure determining git hooks directory";
         let run_command = |_cmd: &str, _dir: &str| Err(String::from(""));
         let write_file = |_path: &str, _contents: &str, _x: bool| Ok(());
-        let result = create_hook_files(run_command, write_file, "");
+        let result = setup_hooks(run_command, write_file, "");
         assert_eq!(result, Err(String::from(exp_err)));
     }
 
     #[test]
     fn errors_when_hook_write_fails() {
-        let exp_err = "Fatal error encountered while trying to create git hook files";
         let run_command = |_cmd: &str, _dir: &str| Ok(String::from("/usr/repos/foo/.git/hooks"));
         let write_file = |_path: &str, _contents: &str, _x: bool| Err(String::from(""));
-        let result = create_hook_files(run_command, write_file, "");
-        assert_eq!(result, Err(String::from(exp_err)));
-    }
-
-    const EXP_HOOK_NAMES: [&str; 19] = [
-        "applypatch-msg",
-        "pre-applypatch",
-        "post-applypatch",
-        "pre-commit",
-        "prepare-commit-msg",
-        "commit-msg",
-        "post-commit",
-        "pre-rebase",
-        "post-checkout",
-        "post-merge",
-        "pre-push",
-        "pre-receive",
-        "update",
-        "post-receive",
-        "post-update",
-        "push-to-checkout",
-        "pre-auto-gc",
-        "post-rewrite",
-        "sendemail-validate",
-    ];
-
-    #[test]
-    fn should_use_correct_hook_names() {
-        for (&exp_hook, &act_hook) in EXP_HOOK_NAMES.iter().zip(HOOK_NAMES.iter()) {
-            assert_eq!(exp_hook, act_hook);
-        }
+        let result = setup_hooks(run_command, write_file, "");
+        assert_eq!(result, Err(String::from(hooks::HOOK_CREATION_ERROR)));
     }
 
     #[test]
     fn creates_all_hooks() {
-        let version = env!("CARGO_PKG_VERSION");
         let root_dir = "/usr/repos/foo";
         let git_hooks = ".git/hooks";
-        let exit_code = &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string();
-        let exp_contents = String::from(HOOK_FILE_TEMPLATE)
-            .replace("{{VERSION}}", version)
-            .replace("\n# shellcheck disable=SC2170,SC1083", "")
-            .replace("{{NO_CONFIG_FILE_EXIT_CODE}}", exit_code);
-        let run_command = |_cmd: &str, _dir: &str| Ok(String::from(git_hooks));
-        let write_file = |path: &str, contents: &str, make_executable: bool| {
-            let act_hook = &&path[(path.rfind('/').unwrap() + 1)..];
-            let exp_hook = EXP_HOOK_NAMES.iter().find(|&n| n == act_hook).unwrap();
-            let exp_path = &format!("{}/{}/{}", root_dir, git_hooks, exp_hook);
-            assert_eq!(exp_path, path);
-            assert_eq!(exp_contents, contents);
-            assert_eq!(true, make_executable);
-            Ok(())
-        };
-        let result = create_hook_files(run_command, write_file, root_dir);
+        let run_command = |_c: &str, _d: &str| Ok(String::from(git_hooks));
+        let write_file = |_p: &str, _c: &str, _x: bool| Ok(());
+        let result = setup_hooks(run_command, write_file, root_dir);
         assert_eq!(result, Ok(()));
     }
 }

@@ -1,4 +1,6 @@
-pub const NO_CONFIG_FILE_FOUND_ERROR_CODE: i32 = 3;
+mod hooks;
+
+pub use hooks::NO_CONFIG_FILE_FOUND_ERROR_CODE;
 
 pub fn get_root_directory_path<F>(run_command: F, target_directory: &str) -> Result<String, String>
 where
@@ -14,30 +16,7 @@ where
     run_command("git rev-parse --git-path hooks", &root_directory)
 }
 
-const HOOK_FILE_TEMPLATE: &str = include_str!("hook_script.sh");
-const HOOK_NAMES: [&str; 19] = [
-    "applypatch-msg",
-    "pre-applypatch",
-    "post-applypatch",
-    "pre-commit",
-    "prepare-commit-msg",
-    "commit-msg",
-    "post-commit",
-    "pre-rebase",
-    "post-checkout",
-    "post-merge",
-    "pre-push",
-    "pre-receive",
-    "update",
-    "post-receive",
-    "post-update",
-    "push-to-checkout",
-    "pre-auto-gc",
-    "post-rewrite",
-    "sendemail-validate",
-];
-
-pub fn create_hook_files<F, G>(
+pub fn setup_hooks<F, G>(
     run_command: F,
     write_file: G,
     root_directory_path: &str,
@@ -50,27 +29,7 @@ where
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git hooks directory")),
     };
-    let version = env!("CARGO_PKG_VERSION");
-    let exit_code = &NO_CONFIG_FILE_FOUND_ERROR_CODE.to_string();
-    let hook_file_contents = String::from(HOOK_FILE_TEMPLATE)
-        .replace("{{VERSION}}", version)
-        .replace("\n# shellcheck disable=SC2170,SC1083", "")
-        .replace("{{NO_CONFIG_FILE_EXIT_CODE}}", exit_code);
-
-    for hook in HOOK_NAMES.iter() {
-        if write_file(
-            &format!("{}/{}/{}", root_directory_path, hooks_directory, hook),
-            &hook_file_contents,
-            true,
-        )
-        .is_err()
-        {
-            return Err(String::from(
-                "Fatal error encountered while trying to create git hook files",
-            ));
-        };
-    }
-    Ok(())
+    hooks::create_hook_files(write_file, &root_directory_path, &hooks_directory)
 }
 
 #[cfg(test)]
