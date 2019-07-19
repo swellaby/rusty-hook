@@ -37,6 +37,7 @@
     "toml",
     "userprofile",
     "vctools",
+    "vendored",
     "visualstudio",
     "vswhere"
   ],
