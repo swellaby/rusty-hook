@@ -25,6 +25,7 @@ exclude = [
   "kcov*/**",
   "**/*.gcda",
   "**/*.gcno",
+  "tests/**",
 ]
 
 [dependencies]
