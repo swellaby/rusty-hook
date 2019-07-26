@@ -37,6 +37,7 @@ steps:
 
 - script: |
     set -eo pipefail
+    cargo test --no-run
     cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=$CARGO_HOME,/.cargo,_test.rs,main.rs,closures.rs
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
     sudo chmod +rw .coverage -R
