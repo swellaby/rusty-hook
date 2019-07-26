@@ -14,12 +14,21 @@ steps:
     echo "##vso[task.setvariable variable=cargoBinPath;]$HOME/.cargo/bin"
   displayName: 'Install Rust'
 
-- task: DownloadPipelineArtifact@0
-  displayName: 'Download cargo-kcov executable'
+# - task: DownloadPipelineArtifact@0
+#   displayName: 'Download cargo-kcov executable'
+#   inputs:
+#     pipelineId: 3209
+#     artifactName: 'kcov'
+#     targetPath: '$(cargoBinPath)'
+
+- task: DownloadPipelineArtifact@2
+  displayName: 'Download Pipeline Artifact'
   inputs:
-    pipelineId: 3209
+    buildType: specific
+    project: 'OpenSource'
     artifactName: 'kcov'
     targetPath: '$(cargoBinPath)'
+    definition: 51
 
 - task: DownloadPipelineArtifact@0
   displayName: 'Download cargo-junit executable'
