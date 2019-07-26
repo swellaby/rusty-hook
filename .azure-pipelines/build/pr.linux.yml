@@ -25,7 +25,7 @@ steps:
   displayName: 'Download Pipeline Artifact'
   inputs:
     buildType: specific
-    project: 'OpenSource'
+    project: 'a20e510e-3abe-41cd-bd26-c0ef57b8df43'
     artifactName: 'kcov'
     targetPath: '$(cargoBinPath)'
     definition: 51
