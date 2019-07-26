@@ -54,6 +54,7 @@ steps:
   displayName: 'Run tests'
 
 - script: |
+    cat .coverage/unit/kcov-merged/cobertura.xml
     bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
   displayName: 'Publish coverage to Codecov'
 
