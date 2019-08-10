@@ -95,9 +95,10 @@ We'll be sad to see you go, but here's what to do if you'd like to remove `rusty
 ```
 rusty-hook git hooks are configured, but no config file was found
 In order to use rusty-hook, your project must have a config file
-See https://github.com/swellaby/rusty-hook#configure for more information
+See https://github.com/swellaby/rusty-hook#configure for more information about configuring rusty-hook
 
 If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning
+See https://github.com/swellaby/rusty-hook#removing-rusty-hook for more information about removing rusty-hook from your project
 ```
 
 Please also consider [opening an issue][create-issue] to report any bugs/problems you experienced, missing features, etc. so that we can work on improving `rusty-hook`!
