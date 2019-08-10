@@ -48,9 +48,10 @@ handleRustyHookCliResult() {
     if [ "${hookName}" = "pre-commit" ]; then
       echo "rusty-hook git hooks are configured, but no config file was found"
       echo "In order to use rusty-hook, your project must have a config file"
-      echo "See https://github.com/swellaby/rusty-hook#configure for more information"
+      echo "See https://github.com/swellaby/rusty-hook#configure for more information about configuring rusty-hook"
       echo
       echo "If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning"
+      echo "See https://github.com/swellaby/rusty-hook#removing-rusty-hook for more information about removing rusty-hook from your project"
       echo
     fi
     exit 0

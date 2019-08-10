@@ -25,7 +25,7 @@ Just add `rusty-hook` as a dev dependency in your Cargo.toml file:
 
 ```toml
 [dev-dependencies]
-rusty-hook = "0.9.1"
+rusty-hook = "^0.9.2"
 ```
 
 ## Initialize
@@ -86,6 +86,23 @@ There's a few other git hook utilities available on [crates.io][cratesio], but n
 ## Contributions
 All contributions are welcome and appreciated! Check out our [Contributing Guidelines][contributing] for more information about opening issues, developing, and more.
 
+## Removing rusty-hook
+We'll be sad to see you go, but here's what to do if you'd like to remove `rusty-hook` from your project. 
+
+1. Remove the `rusty-hook` dev dependency from the `Cargo.toml` file in your project.
+2. Remove the `.rusty-hook.toml` configuration file from your project.
+3. Remove the git hook scripts that were placed in the git hooks directory in your local project workspace (this is typically in the `.git/hooks/` directory). Note that if you were using `rusty-hook` version `0.9.1` or newer and you skip this step, then the git hooks will still be invoked as part of your git workflow and you will see the following warning message on git commit:
+```
+rusty-hook git hooks are configured, but no config file was found
+In order to use rusty-hook, your project must have a config file
+See https://github.com/swellaby/rusty-hook#configure for more information about configuring rusty-hook
+
+If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning
+See https://github.com/swellaby/rusty-hook#removing-rusty-hook for more information about removing rusty-hook from your project
+```
+
+Please also consider [opening an issue][create-issue] to report any bugs/problems you experienced, missing features, etc. so that we can work on improving `rusty-hook`!
+
 [version-badge]: https://img.shields.io/crates/v/rusty-hook.svg?style=flat-square
 [license-badge]: https://img.shields.io/crates/l/rusty-hook.svg?style=flat-square
 [downloads-badge]: https://img.shields.io/crates/d/rusty-hook.svg?style=flat-square
@@ -108,3 +125,4 @@ All contributions are welcome and appreciated! Check out our [Contributing Guide
 [git_hooks crate]: https://crates.io/crates/git_hooks
 [cratesio]: https://crates.io
 [contributing]: .github/CONTRIBUTING.md
+[create-issue]: https://github.com/swellaby/rusty-hook/issues/new/choose
