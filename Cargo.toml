@@ -31,11 +31,11 @@ exclude = [
 [dependencies]
 ci_info = "0.8.0"
 getopts = "0.2.19"
-toml = "0.5.2"
+toml = "0.5.3"
 
 [build-dependencies]
 ci_info = "0.8.0"
-toml = "0.5.2"
+toml = "0.5.3"
 
 [badges]
 azure-devops = { project = "swellaby/opensource", pipeline = "rusty-hook.linux-pr", build="49" }
