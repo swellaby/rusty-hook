@@ -19,5 +19,5 @@ steps:
 
 - script: |
     set -eo pipefail
-    cargo clippy
+    cargo clippy -- -D warnings
   displayName: 'Run clippy'
