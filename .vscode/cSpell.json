@@ -22,6 +22,7 @@
     "githook",
     "junit",
     "kcov",
+    "pipefail",
     "repo",
     "rustc",
     "rustfmt",
