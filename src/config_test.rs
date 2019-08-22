@@ -26,7 +26,7 @@ mod find_config_file_tests {
         let found_file = "rusty-hook.toml";
         let exp_path = format!("{}/{}", root_dir, found_file);
         let file_exists = |path: &str| {
-            if path == &exp_path {
+            if path == exp_path {
                 return Ok(true);
             }
             Ok(false)

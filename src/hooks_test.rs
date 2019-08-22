@@ -117,9 +117,9 @@ mod create_hook_files_tests {
     fn errors_when_hook_write_fails() {
         let write_file = |path: &str, _contents: &str, _make_executable: bool| {
             let file_name = &&path[(path.rfind('/').unwrap() + 1)..];
-            match file_name {
-                &EXP_CLI_SCRIPT_NAME => Ok(()),
-                &EXP_SEMVER_SCRIPT_NAME => Ok(()),
+            match *file_name {
+                EXP_CLI_SCRIPT_NAME => Ok(()),
+                EXP_SEMVER_SCRIPT_NAME => Ok(()),
                 _ => Err(String::from("")),
             }
         };
@@ -131,9 +131,9 @@ mod create_hook_files_tests {
     fn errors_when_cli_script_write_fails() {
         let write_file = |path: &str, _contents: &str, _make_executable: bool| {
             let file_name = &&path[(path.rfind('/').unwrap() + 1)..];
-            match file_name {
-                &EXP_CLI_SCRIPT_NAME => Err(String::from("")),
-                &EXP_SEMVER_SCRIPT_NAME => Ok(()),
+            match *file_name {
+                EXP_CLI_SCRIPT_NAME => Err(String::from("")),
+                EXP_SEMVER_SCRIPT_NAME => Ok(()),
                 _ => Ok(()),
             }
         };
@@ -145,9 +145,9 @@ mod create_hook_files_tests {
     fn errors_when_semver_script_write_fails() {
         let write_file = |path: &str, _contents: &str, _make_executable: bool| {
             let file_name = &&path[(path.rfind('/').unwrap() + 1)..];
-            match file_name {
-                &EXP_CLI_SCRIPT_NAME => Ok(()),
-                &EXP_SEMVER_SCRIPT_NAME => Err(String::from("")),
+            match *file_name {
+                EXP_CLI_SCRIPT_NAME => Ok(()),
+                EXP_SEMVER_SCRIPT_NAME => Err(String::from("")),
                 _ => Ok(()),
             }
         };
@@ -166,12 +166,12 @@ mod create_hook_files_tests {
         let exp_semver_contents = get_expected_semver_script_file_contents();
         let write_file = |path: &str, contents: &str, make_executable: bool| {
             let file_name = &&path[(path.rfind('/').unwrap() + 1)..];
-            match file_name {
-                &EXP_CLI_SCRIPT_NAME => {
+            match *file_name {
+                EXP_CLI_SCRIPT_NAME => {
                     assert_eq!(exp_cli_path, path);
                     assert_eq!(exp_cli_contents, contents);
                 }
-                &EXP_SEMVER_SCRIPT_NAME => {
+                EXP_SEMVER_SCRIPT_NAME => {
                     assert_eq!(exp_semver_path, path);
                     assert_eq!(exp_semver_contents, contents);
                 }
