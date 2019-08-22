@@ -15,17 +15,19 @@ Functional, but still in Beta!
 [![Coverage Badge][coverage-badge]][coverage-url]
 
 ## Quick Start
-1) Add `rusty-hook` as a dev dependency in your Cargo.toml file
-2) Run `cargo test` (to build your dev dependencies, including `rusty-hook`)
-3) Update the generated `.rusty-hook.toml` file with the commands you want to run
-4) Run `git commit` (or equivalent to trigger your git hook)! **note the very first (and only) time you do this will take an extra ~30 seconds or so to finalize the setup**
+1. Add `rusty-hook` as a dev dependency in your Cargo.toml file
+2. Run `cargo test` (to build your dev dependencies, including `rusty-hook`)
+3. Update the generated `.rusty-hook.toml` file with the commands you want to run
+4. Run `git commit` (or equivalent to trigger your git hook)!
+    - You may also want to have your hook script fail (for example add a failing test if your commit hook is `cargo test`) to see the hooks be enforced.
+    - **note the very first (and only) time you do this will take an extra ~30 seconds or so to finalize the setup**
 
 ## Setup
 Just add `rusty-hook` as a dev dependency in your Cargo.toml file:
 
 ```toml
 [dev-dependencies]
-rusty-hook = "^0.9.3"
+rusty-hook = "^0.9.4"
 ```
 
 ## Initialize
