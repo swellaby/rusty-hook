@@ -2,7 +2,10 @@ mod hooks;
 
 pub use hooks::NO_CONFIG_FILE_FOUND_ERROR_CODE;
 
-pub fn get_root_directory_path<F>(run_command: F, target_directory: Option<&str>) -> Result<String, String>
+pub fn get_root_directory_path<F>(
+    run_command: F,
+    target_directory: Option<&str>,
+) -> Result<String, String>
 where
     F: Fn(&str, Option<&str>) -> Result<String, String>,
 {
