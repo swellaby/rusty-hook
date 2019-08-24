@@ -22,6 +22,7 @@
     "githook",
     "junit",
     "kcov",
+    "nias",
     "pipefail",
     "repo",
     "rustc",

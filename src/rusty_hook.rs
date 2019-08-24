@@ -11,14 +11,14 @@ pub fn init_directory<F, G, H>(
     run_command: F,
     write_file: G,
     file_exists: H,
-    target_directory: &str,
+    target_directory: Option<&str>,
 ) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<String, String>,
+    F: Fn(&str, Option<&str>) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
-    let root_directory_path = match git::get_root_directory_path(&run_command, &target_directory) {
+    let root_directory_path = match git::get_root_directory_path(&run_command, target_directory) {
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git repo root directory")),
     };
@@ -37,11 +37,11 @@ where
 
 pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<String, String>,
+    F: Fn(&str, Option<&str>) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
-    init_directory(&run_command, &write_file, &file_exists, "")
+    init_directory(&run_command, &write_file, &file_exists, None)
 }
 
 pub fn run<F, G, H, I>(
@@ -52,12 +52,12 @@ pub fn run<F, G, H, I>(
     hook_name: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<String, String>,
+    F: Fn(&str, Option<&str>) -> Result<String, String>,
     G: Fn(&str) -> Result<bool, ()>,
     H: Fn(&str) -> Result<String, ()>,
-    I: Fn(&str),
+    I: Fn(&str, bool),
 {
-    let root_directory_path = match git::get_root_directory_path(&run_command, "") {
+    let root_directory_path = match git::get_root_directory_path(&run_command, None) {
         Ok(path) => path,
         Err(_) => return Err(String::from("Failure determining git repo root directory")),
     };
@@ -85,18 +85,18 @@ where
         }
     };
 
-    if log_details {
-        log(&format!("Found configured hook: {}", hook_name));
-        log(&format!("Running command: {}", script));
-    };
+    let message = format!(
+        "Found configured hook: {}\nRunning command: {}",
+        hook_name, script
+    );
+    log(&message, log_details);
 
-    match (run_command(&script, &root_directory_path), log_details) {
-        (Ok(stdout), true) => {
-            log(&stdout);
+    match run_command(&script, Some(&root_directory_path)) {
+        Ok(stdout) => {
+            log(&stdout, log_details);
             Ok(())
         }
-        (Ok(_), false) => Ok(()),
-        (Err(stderr), _) => Err(stderr),
+        Err(stderr) => Err(stderr),
     }
 }
 
