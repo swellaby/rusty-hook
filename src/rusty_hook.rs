@@ -85,13 +85,11 @@ where
         }
     };
 
-    log(
-        &format!(
-            "Found configured hook: {}\nRunning command: {}",
-            hook_name, script
-        ),
-        log_details,
+    let message = format!(
+        "Found configured hook: {}\nRunning command: {}",
+        hook_name, script
     );
+    log(&message, log_details);
 
     match run_command(&script, Some(&root_directory_path)) {
         Ok(stdout) => {
