@@ -50,10 +50,14 @@ mod init_tests {
     #[test]
     fn invokes_init_directory_with_cwd() {
         let run_command = |_cmd: &str, dir: Option<&str>| {
-            if dir == Some("") {
-                Ok(String::from(""))
+            if dir.is_none() {
+                Ok(String::from("."))
             } else {
-                Err(String::from(""))
+                let target_dir = dir.unwrap();
+                if target_dir != "." {
+                    return Err(String::from(""));
+                }
+                Ok(String::from(""))
             }
         };
         let write_file = |_file_path: &str, _contents: &str, _x: bool| Ok(());

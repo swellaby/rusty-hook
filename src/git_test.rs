@@ -15,7 +15,7 @@ mod get_root_directory_path_tests {
                 Ok(String::from(""))
             }
         };
-        let act = get_root_directory_path(run_command, &target_dir);
+        let act = get_root_directory_path(run_command, Some(&target_dir));
         assert_eq!(act.unwrap(), exp);
     }
 
@@ -23,7 +23,7 @@ mod get_root_directory_path_tests {
     fn returns_error_on_command_error() {
         let exp_err = "Ah!";
         let run_command = |_cmd: &str, _dir: Option<&str>| Err(String::from(exp_err));
-        let act = get_root_directory_path(run_command, "");
+        let act = get_root_directory_path(run_command, None);
         assert_eq!(act, Err(String::from(exp_err)));
     }
 }

@@ -15,7 +15,7 @@ fn main() {
         nias::get_command_runner(),
         nias::get_file_writer(),
         nias::get_file_existence_checker(),
-        &target_directory,
+        Some(&target_directory),
     ) {
         println!(
             "Fatal error encountered during initialization. Details: {}",
