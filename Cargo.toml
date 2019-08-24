@@ -32,12 +32,12 @@ exclude = [
 ci_info = "0.8.0"
 getopts = "0.2.21"
 toml = "0.5.3"
-nias = { path = "../nias" }
+nias = "0.4.0"
 
 [build-dependencies]
 ci_info = "0.8.0"
 toml = "0.5.3"
-nias = { path = "../nias" }
+nias = "0.4.0"
 
 [badges]
 azure-devops = { project = "swellaby/opensource", pipeline = "rusty-hook.linux-pr", build="49" }

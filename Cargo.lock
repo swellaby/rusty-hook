@@ -32,6 +32,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 [[package]]
 name = "nias"
 version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
 name = "rusty-hook"
@@ -39,7 +40,7 @@ version = "0.10.0"
 dependencies = [
  "ci_info 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)",
- "nias 0.4.0",
+ "nias 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
@@ -66,6 +67,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 "checksum envmnt 0.6.0 (registry+https://github.com/rust-lang/crates.io-index)" = "d4bb00f062cd05ad863c6d46b6c672b1c29113c7f15a59bbbf7ea594eec0f38b"
 "checksum getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)" = "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5"
 "checksum indexmap 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7e81a7c05f79578dbc15793d8b619db9ba32b4577003ef3af1a91c416798c58d"
+"checksum nias 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f76f01f5c032698d0e4d61dd761213ebfaeb11bb22d558811dd740bf75046376"
 "checksum serde 1.0.98 (registry+https://github.com/rust-lang/crates.io-index)" = "7fe5626ac617da2f2d9c48af5515a21d5a480dbd151e01bb1c355e26a3e68113"
 "checksum toml 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)" = "c7aabe75941d914b72bf3e5d3932ed92ce0664d49d8432305a8b547c37227724"
 "checksum unicode-width 0.1.5 (registry+https://github.com/rust-lang/crates.io-index)" = "882386231c45df4700b275c7ff55b6f3698780a650026380e72dabe76fa46526"
