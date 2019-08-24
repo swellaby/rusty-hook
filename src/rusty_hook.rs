@@ -14,7 +14,7 @@ pub fn init_directory<F, G, H>(
     target_directory: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<String, String>,
+    F: Fn(&str, Option<&str>) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
@@ -37,7 +37,7 @@ where
 
 pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<String, String>,
+    F: Fn(&str, Option<&str>) -> Result<String, String>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
@@ -52,10 +52,10 @@ pub fn run<F, G, H, I>(
     hook_name: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str, &str) -> Result<String, String>,
+    F: Fn(&str, Option<&str>) -> Result<String, String>,
     G: Fn(&str) -> Result<bool, ()>,
     H: Fn(&str) -> Result<String, ()>,
-    I: Fn(&str),
+    I: Fn(&str, bool),
 {
     let root_directory_path = match git::get_root_directory_path(&run_command, "") {
         Ok(path) => path,
@@ -85,18 +85,20 @@ where
         }
     };
 
-    if log_details {
-        log(&format!("Found configured hook: {}", hook_name));
-        log(&format!("Running command: {}", script));
-    };
+    log(
+        &format!(
+            "Found configured hook: {}\nRunning command: {}",
+            hook_name, script
+        ),
+        log_details,
+    );
 
-    match (run_command(&script, &root_directory_path), log_details) {
-        (Ok(stdout), true) => {
-            log(&stdout);
+    match run_command(&script, Some(&root_directory_path)) {
+        Ok(stdout) => {
+            log(&stdout, log_details);
             Ok(())
         }
-        (Ok(_), false) => Ok(()),
-        (Err(stderr), _) => Err(stderr),
+        Err(stderr) => Err(stderr),
     }
 }
 

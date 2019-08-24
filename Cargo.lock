@@ -30,11 +30,16 @@ version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [[package]]
+name = "nias"
+version = "0.4.0"
+
+[[package]]
 name = "rusty-hook"
-version = "0.9.4"
+version = "0.10.0"
 dependencies = [
  "ci_info 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)",
+ "nias 0.4.0",
  "toml 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

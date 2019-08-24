@@ -1,10 +1,10 @@
-mod closures;
 mod rusty_hook;
 
 use std::process::exit;
 
 extern crate ci_info;
 extern crate getopts;
+extern crate nias;
 use getopts::Options;
 use std::env;
 
@@ -19,9 +19,9 @@ fn init(_args: Vec<String>) {
     }
 
     if let Err(err) = rusty_hook::init(
-        &closures::get_command_runner(),
-        &closures::get_file_writer(),
-        &closures::get_file_existence_checker(),
+        nias::get_command_runner(),
+        nias::get_file_writer(),
+        nias::get_file_existence_checker(),
     ) {
         eprintln!(
             "Fatal error encountered during initialization. Details: {}",
@@ -50,10 +50,10 @@ fn run(args: Vec<String>) {
     let hook_name = matches.opt_str("h").unwrap();
 
     if let Err(err) = rusty_hook::run(
-        &closures::get_command_runner(),
-        &closures::get_file_existence_checker(),
-        &closures::get_file_reader(),
-        &closures::get_logger(),
+        nias::get_command_runner(),
+        nias::get_file_existence_checker(),
+        nias::get_file_reader(),
+        nias::get_conditional_logger(),
         &hook_name,
     ) {
         if err == rusty_hook::NO_CONFIG_FILE_FOUND {

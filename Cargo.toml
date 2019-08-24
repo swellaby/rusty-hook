@@ -1,6 +1,6 @@
 [package]
 name = "rusty-hook"
-version = "0.9.4"
+version = "0.10.0"
 authors = ["Swellaby <opensource@swellaby.com>"]
 description = "git hook utility"
 license = "MIT"
@@ -32,10 +32,12 @@ exclude = [
 ci_info = "0.8.0"
 getopts = "0.2.21"
 toml = "0.5.3"
+nias = { path = "c:/dev/nias" }
 
 [build-dependencies]
 ci_info = "0.8.0"
 toml = "0.5.3"
+nias = { path = "c:/dev/nias" }
 
 [badges]
 azure-devops = { project = "swellaby/opensource", pipeline = "rusty-hook.linux-pr", build="49" }
