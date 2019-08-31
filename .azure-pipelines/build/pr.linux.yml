@@ -65,7 +65,7 @@ steps:
     codeCoverageTool: 'Cobertura'
     # summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura4.xml'
     summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/cobertura.xml'
-    summaryFileLocation: '$(Build.SourcesDirectory)/cobertura.xml'
+    # summaryFileLocation: '$(Build.SourcesDirectory)/cobertura.xml'
     # reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
   displayName: 'Publish coverage results'
   condition: succeededOrFailed()
