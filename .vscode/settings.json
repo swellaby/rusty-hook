@@ -6,7 +6,9 @@
     ".testresults": true,
     "**/kcov*/": true,
     "**/*.gcda": true,
-    "**/*.gcno": true
+    "**/*.gcno": true,
+    "**/cobertura.xml": true,
+    "**/tarpaulin-report.html": true
   },
   "cSpell.enabled": true,
   "cSpell.ignorePaths": [

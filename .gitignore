@@ -5,3 +5,5 @@
 **/*kcov*/
 .coverage/
 .testresults/
+cobertura.xml
+tarpaulin-report.html
