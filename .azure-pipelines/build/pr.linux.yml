@@ -37,10 +37,10 @@ steps:
     sudo chmod +rwx $(cargoBinPath)/cargo-junit
     mkdir -p $(Build.SourcesDirectory)/.testresults/unit
     mkdir -p $(Build.SourcesDirectory)/.coverage/unit
-    sudo apt install libssl-dev pkg-config cmake zlib1g-dev -y
+    # sudo apt install libssl-dev pkg-config cmake zlib1g-dev -y
   displayName: 'Prep test tools'
 
-- script: |
+- bash: |
     set -eo pipefail
     # cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=$HOME/.cargo,/.cargo,_test.rs,main.rs
     cargo tarpaulin --version
