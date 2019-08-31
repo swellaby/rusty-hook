@@ -50,11 +50,6 @@ steps:
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
 
-- script: |
-    # cat .coverage/unit/kcov-merged/cobertura.xml
-    bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
-  displayName: 'Publish coverage to Codecov'
-
 # - task: cobertura-transform@0
 #   displayName: 'Transform Cobertura Format From 3 to 4'
 #   inputs:
@@ -69,6 +64,7 @@ steps:
     summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/cobertura.xml'
     # reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
   displayName: 'Publish coverage results'
+  condition: succeededOrFailed()
 
 - task: PublishTestResults@2
   displayName: 'publish unit test results'
@@ -77,3 +73,10 @@ steps:
     testResultsFiles: 'junit.xml'
     searchFolder: $(Build.SourcesDirectory)/.testresults/unit
     testRunTitle: 'rusty-hook::Unit Tests::Linux PR - Build $(Build.BuildId)'
+  condition: succeededOrFailed()
+
+- script: |
+    # cat .coverage/unit/kcov-merged/cobertura.xml
+    bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
+  displayName: 'Publish coverage to Codecov'
+  condition: succeededOrFailed()
