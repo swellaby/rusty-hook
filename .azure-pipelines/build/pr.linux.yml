@@ -42,15 +42,16 @@ steps:
     set -eo pipefail
     # cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=$HOME/.cargo,/.cargo,_test.rs,main.rs
     cargo tarpaulin -o Xml --exclude-files *_test.rs,main.rs
+    cat cobertura.xml
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
+    mkdir -p .coverage/unit
+    cp cobertura-xml .coverage/unit/cobertura.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
 
 - script: |
     # cat .coverage/unit/kcov-merged/cobertura.xml
-    mkdir -p .coverage/unit
-    cp cobertura-xml .coverage/unit/cobertura.xml
     bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
   displayName: 'Publish coverage to Codecov'
 
