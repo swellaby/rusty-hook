@@ -92,11 +92,11 @@ where
     log(&message, log_details);
 
     match run_command(&script, Some(&root_directory_path)) {
+        Err(stderr) => Err(stderr),
         Ok(stdout) => {
             log(&stdout, log_details);
             Ok(())
         }
-        Err(stderr) => Err(stderr),
     }
 }
 
