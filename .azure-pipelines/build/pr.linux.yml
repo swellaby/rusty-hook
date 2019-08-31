@@ -36,16 +36,19 @@ steps:
     sudo chmod +rwx $(cargoBinPath)/cargo-tarpaulin
     sudo chmod +rwx $(cargoBinPath)/cargo-junit
     mkdir -p $(Build.SourcesDirectory)/.testresults/unit
+    mkdir -p $(Build.SourcesDirectory)/.coverage/unit
+    sudo apt install libssl-dev pkg-config cmake zlib1g-dev -y
   displayName: 'Prep test tools'
 
 - script: |
     set -eo pipefail
     # cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=$HOME/.cargo,/.cargo,_test.rs,main.rs
+    cargo tarpaulin --version
     cargo tarpaulin -o Xml --exclude-files *_test.rs,main.rs
     cat cobertura.xml
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
-    mkdir -p .coverage/unit
-    cp cobertura-xml .coverage/unit/cobertura.xml
+    #mkdir -p .coverage/unit
+    cp cobertura.xml .coverage/unit/cobertura.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
@@ -62,6 +65,7 @@ steps:
     codeCoverageTool: 'Cobertura'
     # summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura4.xml'
     summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/cobertura.xml'
+    summaryFileLocation: '$(Build.SourcesDirectory)/cobertura.xml'
     # reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
   displayName: 'Publish coverage results'
   condition: succeededOrFailed()
