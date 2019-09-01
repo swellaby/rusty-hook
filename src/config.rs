@@ -68,9 +68,7 @@ where
             }
         }
         Err(_) => {
-            return Err(String::from(
-                "Fatal error encountered while looking for existing config",
-            ));
+            return Err(String::from(FATAL_ERROR_DURING_CONFIG_LOOKUP));
         }
     };
 
