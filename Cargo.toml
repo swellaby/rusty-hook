@@ -26,6 +26,8 @@ exclude = [
   "**/*.gcda",
   "**/*.gcno",
   "tests/**",
+  "cobertura.xml",
+  "tarpaulin-report.html",
 ]
 
 [dependencies]

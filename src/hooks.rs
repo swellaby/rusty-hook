@@ -2,8 +2,8 @@ pub const HOOK_CREATION_ERROR: &str =
     "Fatal error encountered while trying to create git hook files";
 pub const NO_CONFIG_FILE_FOUND_ERROR_CODE: i32 = 3;
 const MINIMUM_CLI_MAJOR_VERSION: i32 = 0;
-const MINIMUM_CLI_MINOR_VERSION: i32 = 9;
-const MINIMUM_CLI_PATCH_VERSION: i32 = 2;
+const MINIMUM_CLI_MINOR_VERSION: i32 = 10;
+const MINIMUM_CLI_PATCH_VERSION: i32 = 0;
 const MINIMUM_CLI_VERSION_ALLOW_PRERELEASE: bool = false;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -35,11 +35,8 @@ const HOOK_NAMES: [&str; 19] = [
 const CLI_SCRIPT_NAME: &str = "cli.sh";
 const SEMVER_SCRIPT_NAME: &str = "semver.sh";
 
-// For unknown reasons, kcov is reporting an uncovered line for the closing `}`
-// when using the idiomatic expression.
-#[allow(clippy::needless_return)]
 fn get_hook_file_contents() -> String {
-    return String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", VERSION);
+    String::from(HOOK_FILE_TEMPLATE).replace("{{VERSION}}", VERSION)
 }
 
 fn get_cli_script_file_contents() -> String {
@@ -58,11 +55,8 @@ fn get_cli_script_file_contents() -> String {
         .replace("{{MINIMUM_ALLOW_PRE}}", minimum_allow_pre)
 }
 
-// For unknown reasons, kcov is reporting an uncovered line for the closing `}`
-// when using the idiomatic expression.
-#[allow(clippy::needless_return)]
 fn get_semver_script_file_contents() -> String {
-    return String::from(HOOK_SEMVER_SCRIPT_FILE_TEMPLATE).replace("{{VERSION}}", VERSION);
+    String::from(HOOK_SEMVER_SCRIPT_FILE_TEMPLATE).replace("{{VERSION}}", VERSION)
 }
 
 fn get_file_path(root_directory_path: &str, hooks_directory: &str, file: &str) -> String {

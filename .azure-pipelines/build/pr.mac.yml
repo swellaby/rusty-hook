@@ -28,7 +28,7 @@ steps:
 
 - script: |
     set -eo pipefail
-    cargo test --bin rusty-hook
+    cargo test --no-run
     cargo junit --name .testresults/unit/junit.xml
   displayName: 'Run tests'
 

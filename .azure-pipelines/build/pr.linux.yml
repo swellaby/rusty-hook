@@ -15,13 +15,13 @@ steps:
   displayName: 'Install Rust'
 
 - task: DownloadPipelineArtifact@2
-  displayName: 'Download Pipeline Artifact'
+  displayName: 'Download cargo-tarpaulin'
   inputs:
     buildType: specific
     project: 'a20e510e-3abe-41cd-bd26-c0ef57b8df43'
-    artifactName: 'kcov'
+    artifactName: 'cargo-tarpaulin'
     targetPath: '$(cargoBinPath)'
-    definition: 51
+    definition: 120
 
 - task: DownloadPipelineArtifact@0
   displayName: 'Download cargo-junit executable'
@@ -31,38 +31,27 @@ steps:
     targetPath: '$(cargoBinPath)'
 
 - script: |
-    sudo chmod +rwx $(cargoBinPath)/kcov
-    sudo chmod +rwx $(cargoBinPath)/cargo-kcov
+    sudo chmod +rwx $(cargoBinPath)/cargo-tarpaulin
     sudo chmod +rwx $(cargoBinPath)/cargo-junit
     mkdir -p $(Build.SourcesDirectory)/.testresults/unit
+    mkdir -p $(Build.SourcesDirectory)/.coverage/unit
   displayName: 'Prep test tools'
 
-- script: |
+- bash: |
     set -eo pipefail
-    cargo kcov --kcov $(cargoBinPath)/kcov -o .coverage/unit --bin rusty-hook -- --exclude-pattern=$HOME/.cargo,/.cargo,_test.rs,main.rs
+    cargo tarpaulin -o Xml --exclude-files *_test.rs,main.rs
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
+    cp cobertura.xml .coverage/unit/cobertura.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
 
-- script: |
-    cat .coverage/unit/kcov-merged/cobertura.xml
-    bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
-  displayName: 'Publish coverage to Codecov'
-
-- task: cobertura-transform@0
-  displayName: 'Transform Cobertura Format From 3 to 4'
-  inputs:
-    cobertura3FilePath: .coverage/unit/kcov-merged/cobertura.xml
-    cobertura4FilePath: .coverage/unit/kcov-merged/cobertura4.xml
-
-
 - task: PublishCodeCoverageResults@1
   inputs:
     codeCoverageTool: 'Cobertura'
-    summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged/cobertura4.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/.coverage/unit/kcov-merged'
+    summaryFileLocation: '$(Build.SourcesDirectory)/.coverage/unit/cobertura.xml'
   displayName: 'Publish coverage results'
+  condition: succeededOrFailed()
 
 - task: PublishTestResults@2
   displayName: 'publish unit test results'
@@ -71,3 +60,9 @@ steps:
     testResultsFiles: 'junit.xml'
     searchFolder: $(Build.SourcesDirectory)/.testresults/unit
     testRunTitle: 'rusty-hook::Unit Tests::Linux PR - Build $(Build.BuildId)'
+  condition: succeededOrFailed()
+
+- script: |
+    bash <(curl -s https://codecov.io/bash) -t $(codecovToken)
+  displayName: 'Publish coverage to Codecov'
+  condition: succeededOrFailed()
