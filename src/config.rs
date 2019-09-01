@@ -62,13 +62,13 @@ where
     G: Fn(&str) -> Result<bool, ()>,
 {
     match find_config_file(root_directory_path, &file_exists) {
+        Err(_) => {
+            return Err(String::from(FATAL_ERROR_DURING_CONFIG_LOOKUP));
+        }
         Ok(path) => {
             if path != NO_CONFIG_FILE_FOUND {
                 return Ok(());
             }
-        }
-        Err(_) => {
-            return Err(String::from(FATAL_ERROR_DURING_CONFIG_LOOKUP));
         }
     };
 
