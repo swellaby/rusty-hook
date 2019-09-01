@@ -11,7 +11,8 @@ const DEFAULT_CONFIG_FILE_NAME: &str = ".rusty-hook.toml";
 const CONFIG_FILE_NAMES: [&str; 2] = [DEFAULT_CONFIG_FILE_NAME, "rusty-hook.toml"];
 pub const NO_CONFIG_FILE_FOUND: &str = "No config file found";
 pub const MISSING_CONFIG_KEY: &str = "Missing config key";
-pub const FATAL_ERROR_DURING_CONFIG_LOOKUP: &str = "Fatal error encountered while looking for existing config";
+pub const FATAL_ERROR_DURING_CONFIG_LOOKUP: &str =
+    "Fatal error encountered while looking for existing config";
 
 fn find_config_file<F>(root_directory_path: &str, file_exists: F) -> Result<String, String>
 where
