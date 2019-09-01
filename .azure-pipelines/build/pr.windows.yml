@@ -24,7 +24,7 @@ steps:
 
 - script: |
     set -e
-    cargo test --bin rusty-hook
+    cargo test --no-run
     mkdir $(Build.SourcesDirectory)\.testresults\unit
     cargo junit --name $(Build.SourcesDirectory)\.testresults\unit\junit.xml
   displayName: 'Run tests'
