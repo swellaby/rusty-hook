@@ -39,9 +39,9 @@ steps:
 
 - bash: |
     set -eo pipefail
-    cargo tarpaulin -o Xml --exclude-files *_test.rs,main.rs
+    cargo tarpaulin -o Xml --exclude-files *_test.rs,main.rs --out-dir .coverage/unit
     cargo junit --name $(Build.SourcesDirectory)/.testresults/unit/junit.xml
-    cp cobertura.xml .coverage/unit/cobertura.xml
+    # cp cobertura.xml .coverage/unit/cobertura.xml
     sudo chmod +rw .coverage -R
     sudo chmod +rw .testresults -R
   displayName: 'Run tests'
