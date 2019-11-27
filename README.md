@@ -27,7 +27,7 @@ Just add `rusty-hook` as a dev dependency in your Cargo.toml file:
 
 ```toml
 [dev-dependencies]
-rusty-hook = "^0.10.2"
+rusty-hook = "^0.10.1"
 ```
 
 ## Initialize
