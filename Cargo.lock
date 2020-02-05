@@ -2,15 +2,15 @@
 # It is not intended for manual editing.
 [[package]]
 name = "ci_info"
-version = "0.9.0"
+version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
- "envmnt 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "envmnt 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]
 name = "envmnt"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "indexmap 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -38,7 +38,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "rusty-hook"
 version = "0.10.2"
 dependencies = [
- "ci_info 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ci_info 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)",
  "nias 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -63,8 +63,8 @@ version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
-"checksum ci_info 0.9.0 (registry+https://github.com/rust-lang/crates.io-index)" = "a4e9091c3d285e7046afdb70fc7413d1ac670288705e151443f868f71e66ed2a"
-"checksum envmnt 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)" = "7760c979bc8a1f3319ee72ee71df5eaaf02ada9daaa80ae257011cab0f3a25ef"
+"checksum ci_info 0.9.1 (registry+https://github.com/rust-lang/crates.io-index)" = "e53a6853eb0aafd4be4d1c7c891982a91a58f84df98838992ce3eb774572bfd9"
+"checksum envmnt 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "db101f16134ca37f91a6e30c32d9df5bbfcbe8d926f0c1f03602baf2fc2f7352"
 "checksum getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)" = "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5"
 "checksum indexmap 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7e81a7c05f79578dbc15793d8b619db9ba32b4577003ef3af1a91c416798c58d"
 "checksum nias 0.4.0 (registry+https://github.com/rust-lang/crates.io-index)" = "f76f01f5c032698d0e4d61dd761213ebfaeb11bb22d558811dd740bf75046376"
