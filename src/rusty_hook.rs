@@ -14,13 +14,13 @@ pub fn init_directory<F, G, H>(
     target_directory: Option<&str>,
 ) -> Result<(), String>
 where
-    F: Fn(&str, Option<&str>) -> Result<String, String>,
+    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
     let root_directory_path = match git::get_root_directory_path(&run_command, target_directory) {
-        Ok(path) => path,
-        Err(_) => return Err(String::from("Failure determining git repo root directory")),
+        Ok(Some(path)) => path,
+        _ => return Err(String::from("Failure determining git repo root directory")),
     };
 
     if git::setup_hooks(&run_command, &write_file, &root_directory_path).is_err() {
@@ -37,7 +37,7 @@ where
 
 pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
 where
-    F: Fn(&str, Option<&str>) -> Result<String, String>,
+    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
@@ -50,16 +50,20 @@ pub fn run<F, G, H, I>(
     read_file: H,
     log: I,
     hook_name: &str,
-) -> Result<(), String>
+) -> Result<(), Option<String>>
 where
-    F: Fn(&str, Option<&str>) -> Result<String, String>,
+    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
     G: Fn(&str) -> Result<bool, ()>,
     H: Fn(&str) -> Result<String, ()>,
     I: Fn(&str, bool),
 {
     let root_directory_path = match git::get_root_directory_path(&run_command, None) {
-        Ok(path) => path,
-        Err(_) => return Err(String::from("Failure determining git repo root directory")),
+        Ok(Some(path)) => path,
+        _ => {
+            return Err(Some(String::from(
+                "Failure determining git repo root directory",
+            )));
+        }
     };
 
     let config_file_contents =
@@ -67,9 +71,9 @@ where
             Ok(contents) => contents,
             Err(err) => {
                 if err == config::NO_CONFIG_FILE_FOUND {
-                    return Err(String::from(config::NO_CONFIG_FILE_FOUND));
+                    return Err(Some(String::from(config::NO_CONFIG_FILE_FOUND)));
                 } else {
-                    return Err(String::from("Failed to parse config file"));
+                    return Err(Some(String::from("Failed to parse config file")));
                 }
             }
         };
@@ -81,7 +85,7 @@ where
             if err == config::MISSING_CONFIG_KEY {
                 return Ok(());
             }
-            return Err(String::from("Invalid rusty-hook config file"));
+            return Err(Some(String::from("Invalid rusty-hook config file")));
         }
     };
 
@@ -91,12 +95,9 @@ where
     );
     log(&message, log_details);
 
-    match run_command(&script, Some(&root_directory_path)) {
-        Err(stderr) => Err(stderr),
-        Ok(stdout) => {
-            log(&stdout, log_details);
-            Ok(())
-        }
+    match run_command(&script, Some(&root_directory_path), log_details) {
+        Err(e) => Err(e),
+        Ok(_) => Ok(()),
     }
 }
 
