@@ -56,11 +56,15 @@ fn run(args: Vec<String>) {
         nias::get_conditional_logger(),
         &hook_name,
     ) {
-        if err == rusty_hook::NO_CONFIG_FILE_FOUND {
-            exit(rusty_hook::NO_CONFIG_FILE_FOUND_ERROR_CODE);
-        } else {
-            eprintln!("{}", err);
-            exit(1);
+        match err {
+            Some(e) if e == rusty_hook::NO_CONFIG_FILE_FOUND => {
+                exit(rusty_hook::NO_CONFIG_FILE_FOUND_ERROR_CODE);
+            }
+            Some(e) => {
+                eprintln!("{}", e);
+                exit(1);
+            }
+            None => exit(1),
         }
     }
 }
