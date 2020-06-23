@@ -10,11 +10,13 @@ Functional, but still in Beta!
 [![Linux CI Badge][linux-ci-badge]][linux-ci-url]
 [![Mac CI Badge][mac-ci-badge]][mac-ci-url]
 [![Windows CI Badge][windows-ci-badge]][windows-ci-url]  
-
 [![Test Results Badge][tests-badge]][tests-url]
 [![Coverage Badge][coverage-badge]][coverage-url]
 
 ## Quick Start
+Pre-requisites: Make sure you have Rust installed and that Cargo's bin directory is on your PATH. 
+https://www.rust-lang.org/tools/install
+
 1. Add `rusty-hook` as a dev dependency in your Cargo.toml file
 2. Run `cargo test` (to build your dev dependencies, including `rusty-hook`)
 3. Update the generated `.rusty-hook.toml` file with the commands you want to run
