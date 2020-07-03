@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 [[package]]
 name = "ci_info"
-version = "0.10.1"
+version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 dependencies = [
  "envmnt 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -38,7 +38,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "rusty-hook"
 version = "0.11.2"
 dependencies = [
- "ci_info 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "ci_info 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)",
  "nias 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "toml 0.5.6 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -63,7 +63,7 @@ version = "0.1.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 
 [metadata]
-"checksum ci_info 0.10.1 (registry+https://github.com/rust-lang/crates.io-index)" = "a19c5f9baeac8a1176ca7fc58a0cc1abadd84d360365a93d1dd31e926f3f502b"
+"checksum ci_info 0.10.2 (registry+https://github.com/rust-lang/crates.io-index)" = "24f638c70e8c5753795cc9a8c07c44da91554a09e4cf11a7326e8161b0a3c45e"
 "checksum envmnt 0.8.0 (registry+https://github.com/rust-lang/crates.io-index)" = "db101f16134ca37f91a6e30c32d9df5bbfcbe8d926f0c1f03602baf2fc2f7352"
 "checksum getopts 0.2.21 (registry+https://github.com/rust-lang/crates.io-index)" = "14dbbfd5c71d70241ecf9e6f13737f7b5ce823821063188d7e46c41d371eebd5"
 "checksum indexmap 1.0.2 (registry+https://github.com/rust-lang/crates.io-index)" = "7e81a7c05f79578dbc15793d8b619db9ba32b4577003ef3af1a91c416798c58d"
