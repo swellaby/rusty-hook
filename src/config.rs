@@ -155,9 +155,19 @@ pub fn get_log_setting(config_contents: &str) -> bool {
 pub fn get_hook_script(config_contents: &str, hook_name: &str) -> Result<String, String> {
     match get_table_key_value_from_config(config_contents, "hooks", hook_name) {
         Err(err) => Err(err),
-        Ok(value) => match value.as_str() {
-            Some(script) => Ok(String::from(script)),
-            None => Err(String::from("Invalid hook config")),
+        Ok(value) => match value {
+            Value::String(script) => Ok(script),
+            Value::Array(script) => {
+                let mut script = script.iter().map(|f| f.as_str());
+                match script.any(|f| f.is_none()) {
+                    true => Err(String::from("An element in the array is not a string")),
+                    false => Ok(script
+                        .map(|f| f.unwrap())
+                        .collect::<Vec<&str>>()
+                        .join(" && ")),
+                }
+            }
+            _ => Err(String::from("Invalid hook config")),
         },
     }
 }
