@@ -6,7 +6,7 @@ use clap::{crate_authors, Clap};
 mod rusty_hook;
 
 #[derive(Clap)]
-#[clap(version = env ! ("CARGO_PKG_VERSION"), author = crate_authors ! ())]
+#[clap(version = env!("CARGO_PKG_VERSION"), author = crate_authors!())]
 struct RustyHookOpts {
     #[clap(subcommand)]
     subcmd: RustyHookSubCommand,
@@ -15,11 +15,11 @@ struct RustyHookOpts {
 #[derive(Clap)]
 enum RustyHookSubCommand {
     /// Initialize rusty-hook's git hooks in the current directory.
-    #[clap(version = env ! ("CARGO_PKG_VERSION"), author = crate_authors ! ())]
+    #[clap(version = env!("CARGO_PKG_VERSION"), author = crate_authors!())]
     Init,
     /// Run a git hook using the current directory's configuration.
     /// Ran automatically by rusty-hook's git hooks.
-    #[clap(version = env ! ("CARGO_PKG_VERSION"), author = crate_authors ! ())]
+    #[clap(version = env!("CARGO_PKG_VERSION"), author = crate_authors!())]
     Run(RustyHookRun),
 }
 
