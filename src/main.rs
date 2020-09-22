@@ -1,18 +1,37 @@
-mod rusty_hook;
-
+use std::env;
 use std::process::exit;
 
-extern crate ci_info;
-extern crate getopts;
-extern crate nias;
-use getopts::Options;
-use std::env;
+use clap::{crate_authors, Clap};
 
-fn print_version() {
-    println!(env!("CARGO_PKG_VERSION"));
+mod rusty_hook;
+
+#[derive(Clap)]
+#[clap(version = env ! ("CARGO_PKG_VERSION"), author = crate_authors ! ())]
+struct RustyHookOpts {
+    #[clap(subcommand)]
+    subcmd: RustyHookSubCommand,
 }
 
-fn init(_args: Vec<String>) {
+#[derive(Clap)]
+enum RustyHookSubCommand {
+    /// Initialize rusty-hook's git hooks in the current directory.
+    #[clap(version = env ! ("CARGO_PKG_VERSION"), author = crate_authors ! ())]
+    Init,
+    /// Run a git hook using the current directory's configuration.
+    /// Ran automatically by rusty-hook's git hooks.
+    #[clap(version = env ! ("CARGO_PKG_VERSION"), author = crate_authors ! ())]
+    Run(RustyHookRun),
+}
+
+#[derive(Clap)]
+struct RustyHookRun {
+    #[clap(long)]
+    hook: String,
+    #[clap(name = "git args", raw(true))]
+    args: Vec<String>,
+}
+
+fn init() {
     if ci_info::is_ci() {
         println!("CI Environment detected. Skipping hook install");
         exit(0);
@@ -31,30 +50,14 @@ fn init(_args: Vec<String>) {
     };
 }
 
-fn run(args: Vec<String>) {
-    let mut opts = Options::new();
-    opts.optopt("h", "hook", "the git hook name", "NAME");
-    let matches = match opts.parse(&args[2..]) {
-        Ok(m) => m,
-        Err(_) => {
-            eprintln!("Error parsing options");
-            exit(1);
-        }
-    };
-
-    if !matches.opt_present("h") {
-        eprintln!("Hook name option missing");
-        exit(1);
-    }
-
-    let hook_name = matches.opt_str("h").unwrap();
-
+fn run(hook: String, args: Vec<String>) {
     if let Err(err) = rusty_hook::run(
         nias::get_command_runner(),
         nias::get_file_existence_checker(),
         nias::get_file_reader(),
         nias::get_conditional_logger(),
-        &hook_name,
+        &hook,
+        args,
     ) {
         match err {
             Some(e) if e == rusty_hook::NO_CONFIG_FILE_FOUND => {
@@ -70,13 +73,9 @@ fn run(args: Vec<String>) {
 }
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    let first_opt = args[1].clone();
-    match first_opt.as_ref() {
-        "-v" => print_version(),
-        "--version" => print_version(),
-        "init" => init(args),
-        "run" => run(args),
-        _ => panic!("Unknown command or option: {}", first_opt),
-    };
+    let opts = RustyHookOpts::parse();
+    match opts.subcmd {
+        RustyHookSubCommand::Init => init(),
+        RustyHookSubCommand::Run(run_cmd) => run(run_cmd.hook, run_cmd.args),
+    }
 }

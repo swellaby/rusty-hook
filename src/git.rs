@@ -1,6 +1,6 @@
-mod hooks;
-
 pub use hooks::NO_CONFIG_FILE_FOUND_ERROR_CODE;
+
+mod hooks;
 
 pub fn get_root_directory_path<F>(
     run_command: F,
