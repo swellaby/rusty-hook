@@ -158,8 +158,8 @@ pub fn get_hook_script(config_contents: &str, hook_name: &str) -> Result<String,
         Ok(value) => match value {
             Value::String(script) => Ok(script),
             Value::Array(script) => {
-                let mut script = script.iter().map(|f| f.as_str());
-                match script.any(|f| f.is_none()) {
+                let script = script.iter().map(|f| f.as_str());
+                match script.clone().any(|f| f.is_none()) {
                     true => Err(String::from("An element in the array is not a string")),
                     false => Ok(script
                         .map(|f| f.unwrap())
