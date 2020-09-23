@@ -50,7 +50,7 @@ pub fn run<F, G, H, I>(
     read_file: H,
     log: I,
     hook_name: &str,
-    _args: Vec<String>,
+    _args: &str,
 ) -> Result<(), Option<String>>
 where
     F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,

@@ -28,7 +28,7 @@ struct RustyHookRun {
     #[clap(long)]
     hook: String,
     #[clap(name = "git args", raw(true))]
-    args: Vec<String>,
+    args: Option<String>,
 }
 
 fn init() {
@@ -50,14 +50,14 @@ fn init() {
     };
 }
 
-fn run(hook: String, args: Vec<String>) {
+fn run(hook: String, args: String) {
     if let Err(err) = rusty_hook::run(
         nias::get_command_runner(),
         nias::get_file_existence_checker(),
         nias::get_file_reader(),
         nias::get_conditional_logger(),
         &hook,
-        args,
+        &args,
     ) {
         match err {
             Some(e) if e == rusty_hook::NO_CONFIG_FILE_FOUND => {
@@ -76,6 +76,6 @@ fn main() {
     let opts = RustyHookOpts::parse();
     match opts.subcmd {
         RustyHookSubCommand::Init => init(),
-        RustyHookSubCommand::Run(run_cmd) => run(run_cmd.hook, run_cmd.args),
+        RustyHookSubCommand::Run(run_cmd) => run(run_cmd.hook, run_cmd.args.unwrap_or_default()),
     }
 }
