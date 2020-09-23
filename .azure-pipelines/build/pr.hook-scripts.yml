@@ -19,8 +19,8 @@ steps:
 - task: swellaby.shellcheck.shellcheck.shellcheck@0
   displayName: 'Run ShellCheck analysis'
   inputs:
-    targetFiles: '**/*.sh'
+    targetFiles: '**/!(shunit2).sh'
     followSourcedFiles: true
-    checkSourcedFiles: true
+    checkSourcedFiles: false
     ignoredErrorCodes: |
       SC2039
