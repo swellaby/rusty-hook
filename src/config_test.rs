@@ -271,24 +271,24 @@ mod get_hook_script_tests {
 
     #[test]
     fn returns_result_when_value_array() {
-        let contents = "[hooks]
+        let contents = r#"[hooks]
             pre-commit = [
-                'cargo test',
-                'cargo fmt'
+                "cargo test",
+                "cargo fmt"
             ]
-        ";
+        "#;
         let result = get_hook_script(contents, "pre-commit");
         assert_eq!(result.unwrap(), "cargo test && cargo fmt");
     }
 
     #[test]
     fn returns_error_when_wrong_value_array() {
-        let contents = "[hooks]
+        let contents = r#"[hooks]
             pre-commit = [
-                'cargo test',
+                "cargo test",
                 8
             ]
-        ";
+        "#;
         let result = get_hook_script(contents, "pre-commit");
         assert_eq!(
             result,
