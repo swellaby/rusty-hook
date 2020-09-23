@@ -139,12 +139,12 @@ mod run_tests {
 
     #[test]
     fn does_not_log_details_when_disabled() {
-        let contents = "[hooks]
+        let contents = r#"[hooks]
             pre-commit = 'cargo test'
 
             [logging]
             verbose = false
-        ";
+        "#;
         let run_command = |cmd: &str, _dir: Option<&str>, stream_io: bool| {
             if cmd == "cargo test" && stream_io {
                 panic!("")
@@ -164,12 +164,12 @@ mod run_tests {
 
     #[test]
     fn logs_details_when_enabled() {
-        let contents = "[hooks]
+        let contents = r#"[hooks]
             pre-commit = 'cargo test'
 
             [logging]
             verbose = true
-        ";
+        "#;
         let run_command = |cmd: &str, _dir: Option<&str>, stream_io: bool| {
             if cmd == "cargo test" && !stream_io {
                 panic!("")
@@ -189,12 +189,12 @@ mod run_tests {
 
     #[test]
     fn returns_ok_when_script_succeeds() {
-        let contents = "[hooks]
+        let contents = r#"[hooks]
             pre-commit = 'cargo test'
 
             [logging]
             verbose = false
-        ";
+        "#;
         let run_command =
             |_cmd: &str, _dir: Option<&str>, _stream_io: bool| Ok(Some(String::from("")));
         let read_file = |_file_path: &str| Ok(String::from(contents));
@@ -207,12 +207,12 @@ mod run_tests {
     #[test]
     fn returns_err_when_script_fails() {
         let exp_err = "crashed";
-        let contents = "[hooks]
+        let contents = r#"[hooks]
             pre-commit = 'cargo test'
 
             [logging]
             verbose = false
-        ";
+        "#;
         let run_command = |cmd: &str, _dir: Option<&str>, _stream_io: bool| {
             if cmd == "cargo test" {
                 return Err(Some(String::from(exp_err)));
