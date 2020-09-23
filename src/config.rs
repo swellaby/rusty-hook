@@ -157,16 +157,15 @@ pub fn get_hook_script(config_contents: &str, hook_name: &str) -> Result<String,
         Err(err) => Err(err),
         Ok(value) => match value {
             Value::String(script) => Ok(script),
-            Value::Array(script) => {
-                let script = script.iter().map(|f| f.as_str());
-                match script.clone().any(|f| f.is_none()) {
-                    true => Err(String::from("An element in the array is not a string")),
-                    false => Ok(script
-                        .map(|f| f.unwrap())
-                        .collect::<Vec<&str>>()
-                        .join(" && ")),
-                }
-            }
+            Value::Array(val) => Ok(val
+                .iter()
+                .map(|v| v.as_str())
+                .collect::<Option<Vec<_>>>()
+                .ok_or(format!(
+                    "Invalid hook config for {}. An element in the array is not a string",
+                    hook_name
+                ))?
+                .join(" && ")),
             _ => Err(String::from("Invalid hook config")),
         },
     }

@@ -292,7 +292,9 @@ mod get_hook_script_tests {
         let result = get_hook_script(contents, "pre-commit");
         assert_eq!(
             result,
-            Err(String::from("An element in the array is not a string"))
+            Err(String::from(
+                "Invalid hook config for pre-commit. An element in the array is not a string"
+            ))
         );
     }
 }
