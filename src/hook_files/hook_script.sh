@@ -21,5 +21,6 @@ else
   ensureMinimumRustyHookCliVersion || true
 fi
 
-rusty-hook run --hook "${hookName}" "$([ -z "$gitParams" ] && echo "-- $gitParams" || echo "")"
+# shellcheck disable=SC2046
+rusty-hook run --hook "${hookName}" $([ -z "$gitParams" ] && echo "-- $gitParams" || echo "")
 handleRustyHookCliResult $? "${hookName}"
