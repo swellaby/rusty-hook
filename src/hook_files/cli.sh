@@ -26,7 +26,7 @@ installRustyHookCli() {
 }
 
 ensureMinimumRustyHookCliVersion() {
-  currentVersion=$(rusty-hook -V | awk '{ print $2 }')
+  currentVersion=$(rusty-hook -v)
   isGreaterThanEqualToMinimumVersion "${currentVersion}" ${minimumMajorCliVersion} ${minimumMinorCliVersion} ${minimumPatchCliVersion} ${allowPrereleaseCliVersion} >/dev/null 2>&1
   versionCompliance=$?
   if [ ${versionCompliance} -gt 0 ]; then

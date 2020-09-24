@@ -1,25 +1,22 @@
 use std::env;
 use std::process::exit;
 
-use clap::{crate_authors, Clap};
+use clap::Clap;
 
 mod rusty_hook;
 
 #[derive(Clap)]
-#[clap(version = env!("CARGO_PKG_VERSION"), author = crate_authors!())]
-struct RustyHookOpts {
-    #[clap(subcommand)]
-    subcmd: RustyHookSubCommand,
-}
-
-#[derive(Clap)]
-enum RustyHookSubCommand {
+#[clap(author, about, version)]
+enum RustyHookOpts {
     /// Initialize rusty-hook's git hooks in the current directory.
-    #[clap(version = env!("CARGO_PKG_VERSION"), author = crate_authors!())]
+    #[clap(author, version)]
     Init,
+    /// Print the current version of rusty-hook.
+    #[clap(author, version, alias = "-v")]
+    Version,
     /// Run a git hook using the current directory's configuration.
     /// Ran automatically by rusty-hook's git hooks.
-    #[clap(version = env!("CARGO_PKG_VERSION"), author = crate_authors!())]
+    #[clap(author, version)]
     Run(RustyHookRun),
 }
 
@@ -74,8 +71,9 @@ fn run(hook: String, args: String) {
 
 fn main() {
     let opts = RustyHookOpts::parse();
-    match opts.subcmd {
-        RustyHookSubCommand::Init => init(),
-        RustyHookSubCommand::Run(run_cmd) => run(run_cmd.hook, run_cmd.args.unwrap_or_default()),
+    match opts {
+        RustyHookOpts::Init => init(),
+        RustyHookOpts::Version => println!(env!("CARGO_PKG_VERSION")),
+        RustyHookOpts::Run(run_cmd) => run(run_cmd.hook, run_cmd.args.unwrap_or_default()),
     }
 }
