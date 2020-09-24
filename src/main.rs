@@ -17,15 +17,12 @@ enum RustyHookOpts {
     /// Run a git hook using the current directory's configuration.
     /// Ran automatically by rusty-hook's git hooks.
     #[clap(author, version)]
-    Run(RustyHookRun),
-}
-
-#[derive(Clap)]
-struct RustyHookRun {
-    #[clap(long)]
-    hook: String,
-    #[clap(name = "git args", raw(true))]
-    args: Option<String>,
+    Run {
+        #[clap(long)]
+        hook: String,
+        #[clap(name = "git args", raw(true))]
+        args: Option<String>,
+    },
 }
 
 fn init() {
@@ -74,6 +71,6 @@ fn main() {
     match opts {
         RustyHookOpts::Init => init(),
         RustyHookOpts::Version => println!(env!("CARGO_PKG_VERSION")),
-        RustyHookOpts::Run(run_cmd) => run(run_cmd.hook, run_cmd.args.unwrap_or_default()),
+        RustyHookOpts::Run { hook, args } => run(hook, args.unwrap_or_default()),
     }
 }
