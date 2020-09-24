@@ -140,7 +140,7 @@ mod run_tests {
     #[test]
     fn does_not_log_details_when_disabled() {
         let contents = r#"[hooks]
-            pre-commit = 'cargo test'
+            pre-commit = "cargo test"
 
             [logging]
             verbose = false
@@ -165,7 +165,7 @@ mod run_tests {
     #[test]
     fn logs_details_when_enabled() {
         let contents = r#"[hooks]
-            pre-commit = 'cargo test'
+            pre-commit = "cargo test"
 
             [logging]
             verbose = true
@@ -190,7 +190,7 @@ mod run_tests {
     #[test]
     fn returns_ok_when_script_succeeds() {
         let contents = r#"[hooks]
-            pre-commit = 'cargo test'
+            pre-commit = "cargo test"
 
             [logging]
             verbose = false
@@ -208,7 +208,7 @@ mod run_tests {
     fn returns_err_when_script_fails() {
         let exp_err = "crashed";
         let contents = r#"[hooks]
-            pre-commit = 'cargo test'
+            pre-commit = "cargo test"
 
             [logging]
             verbose = false
