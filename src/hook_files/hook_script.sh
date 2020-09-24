@@ -21,5 +21,5 @@ else
   ensureMinimumRustyHookCliVersion || true
 fi
 
-rusty-hook run --hook "${hookName}" -- "${gitParams}"
+rusty-hook run --hook "${hookName}" $([ -z "$gitParams" ] && echo "-- $gitParams" || echo "")
 handleRustyHookCliResult $? "${hookName}"
