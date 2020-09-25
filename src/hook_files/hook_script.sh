@@ -22,5 +22,5 @@ else
 fi
 
 # shellcheck disable=SC2046
-rusty-hook run --hook "${hookName}" $([ -z "$gitParams" ] && echo "-- $gitParams" || echo "")
+rusty-hook run --hook "${hookName}" $([ -z "$gitParams" ] && echo "" || echo "-- $gitParams")
 handleRustyHookCliResult $? "${hookName}"
