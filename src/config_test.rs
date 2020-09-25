@@ -187,18 +187,18 @@ mod get_table_key_value_from_config {
 
     #[test]
     fn handles_missing_table_key() {
-        let contents = "[hooks]
-            pre-commit = 'cargo test'
-        ";
+        let contents = r#"[hooks]
+            pre-commit = "cargo test"
+        "#;
         let result = get_table_key_value_from_config(contents, "hooks", "pre-push");
         assert_eq!(result, Err(String::from("Missing config key")));
     }
 
     #[test]
     fn parses_hook_value() {
-        let contents = "[hooks]
-            pre-commit = 'cargo test'
-        ";
+        let contents = r#"[hooks]
+            pre-commit = "cargo test"
+        "#;
         let table = "hooks";
         let key = "pre-commit";
         let exp_value = "cargo test";
@@ -223,9 +223,9 @@ mod get_log_setting_tests {
 
     #[test]
     fn returns_true_when_log_not_boolean() {
-        let contents = "[logging]
-            verbose = 'cargo test'
-        ";
+        let contents = r#"[logging]
+            verbose = "cargo test"
+        "#;
         let result = get_log_setting(contents);
         assert_eq!(result, true);
     }
@@ -262,9 +262,9 @@ mod get_hook_script_tests {
 
     #[test]
     fn returns_result_when_value_valid() {
-        let contents = "[hooks]
-            pre-commit = 'cargo test'
-        ";
+        let contents = r#"[hooks]
+            pre-commit = "cargo test"
+        "#;
         let result = get_hook_script(contents, "pre-commit");
         assert_eq!(result.unwrap(), "cargo test");
     }
