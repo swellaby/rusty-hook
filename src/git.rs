@@ -1,4 +1,5 @@
 pub use hooks::NO_CONFIG_FILE_FOUND_ERROR_CODE;
+use std::collections::HashMap;
 
 mod hooks;
 
@@ -7,9 +8,19 @@ pub fn get_root_directory_path<F>(
     target_directory: Option<&str>,
 ) -> Result<Option<String>, Option<String>>
 where
-    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
+    F: Fn(
+        &str,
+        Option<&str>,
+        bool,
+        Option<&HashMap<String, String>>,
+    ) -> Result<Option<String>, Option<String>>,
 {
-    run_command("git rev-parse --show-toplevel", target_directory, false)
+    run_command(
+        "git rev-parse --show-toplevel",
+        target_directory,
+        false,
+        None,
+    )
 }
 
 fn get_hooks_directory<F>(
@@ -17,12 +28,18 @@ fn get_hooks_directory<F>(
     root_directory: &str,
 ) -> Result<Option<String>, Option<String>>
 where
-    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
+    F: Fn(
+        &str,
+        Option<&str>,
+        bool,
+        Option<&HashMap<String, String>>,
+    ) -> Result<Option<String>, Option<String>>,
 {
     run_command(
         "git rev-parse --git-path hooks",
         Some(&root_directory),
         false,
+        None,
     )
 }
 
@@ -32,7 +49,12 @@ pub fn setup_hooks<F, G>(
     root_directory_path: &str,
 ) -> Result<(), String>
 where
-    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
+    F: Fn(
+        &str,
+        Option<&str>,
+        bool,
+        Option<&HashMap<String, String>>,
+    ) -> Result<Option<String>, Option<String>>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
 {
     let hooks_directory = match get_hooks_directory(&run_command, &root_directory_path) {

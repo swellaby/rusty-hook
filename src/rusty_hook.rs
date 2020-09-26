@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 pub use config::NO_CONFIG_FILE_FOUND;
 pub use git::NO_CONFIG_FILE_FOUND_ERROR_CODE;
 
@@ -14,7 +16,12 @@ pub fn init_directory<F, G, H>(
     target_directory: Option<&str>,
 ) -> Result<(), String>
 where
-    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
+    F: Fn(
+        &str,
+        Option<&str>,
+        bool,
+        Option<&HashMap<String, String>>,
+    ) -> Result<Option<String>, Option<String>>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
@@ -37,7 +44,12 @@ where
 
 pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
 where
-    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
+    F: Fn(
+        &str,
+        Option<&str>,
+        bool,
+        Option<&HashMap<String, String>>,
+    ) -> Result<Option<String>, Option<String>>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
@@ -53,7 +65,12 @@ pub fn run<F, G, H, I>(
     _args: &str,
 ) -> Result<(), Option<String>>
 where
-    F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,
+    F: Fn(
+        &str,
+        Option<&str>,
+        bool,
+        Option<&HashMap<String, String>>,
+    ) -> Result<Option<String>, Option<String>>,
     G: Fn(&str) -> Result<bool, ()>,
     H: Fn(&str) -> Result<String, ()>,
     I: Fn(&str, bool),
@@ -96,7 +113,7 @@ where
     );
     log(&message, log_details);
 
-    match run_command(&script, Some(&root_directory_path), log_details) {
+    match run_command(&script, Some(&root_directory_path), log_details, None) {
         Err(e) => Err(e),
         Ok(_) => Ok(()),
     }
