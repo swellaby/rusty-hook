@@ -1,11 +1,11 @@
+pub use config::NO_CONFIG_FILE_FOUND;
+pub use git::NO_CONFIG_FILE_FOUND_ERROR_CODE;
+
 #[path = "config.rs"]
 mod config;
 
 #[path = "git.rs"]
 mod git;
-
-pub use config::NO_CONFIG_FILE_FOUND;
-pub use git::NO_CONFIG_FILE_FOUND_ERROR_CODE;
 
 pub fn init_directory<F, G, H>(
     run_command: F,
@@ -50,6 +50,7 @@ pub fn run<F, G, H, I>(
     read_file: H,
     log: I,
     hook_name: &str,
+    _args: &str,
 ) -> Result<(), Option<String>>
 where
     F: Fn(&str, Option<&str>, bool) -> Result<Option<String>, Option<String>>,

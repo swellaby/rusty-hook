@@ -3,6 +3,7 @@
 **/*.gcda
 **/*.gcno
 **/*kcov*/
+**/.idea
 .coverage/
 .testresults/
 cobertura.xml
