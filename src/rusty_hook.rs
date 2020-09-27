@@ -1,7 +1,6 @@
-use std::collections::HashMap;
-
 pub use config::NO_CONFIG_FILE_FOUND;
 pub use git::NO_CONFIG_FILE_FOUND_ERROR_CODE;
+use std::collections::HashMap;
 
 #[path = "config.rs"]
 mod config;
@@ -62,7 +61,7 @@ pub fn run<F, G, H, I>(
     read_file: H,
     log: I,
     hook_name: &str,
-    _args: &str,
+    args: &str,
 ) -> Result<(), Option<String>>
 where
     F: Fn(
@@ -113,7 +112,12 @@ where
     );
     log(&message, log_details);
 
-    match run_command(&script, Some(&root_directory_path), log_details, None) {
+    match run_command(
+        &script.replace("%@", args),
+        Some(&root_directory_path),
+        log_details,
+        None,
+    ) {
         Err(e) => Err(e),
         Ok(_) => Ok(()),
     }
