@@ -61,7 +61,7 @@ pub fn run<F, G, H, I>(
     read_file: H,
     log: I,
     hook_name: &str,
-    args: &str,
+    args: Option<String>,
 ) -> Result<(), Option<String>>
 where
     F: Fn(
@@ -96,7 +96,7 @@ where
         };
 
     let log_details = config::get_log_setting(&config_file_contents);
-    let script = match config::get_hook_script(&config_file_contents, &hook_name) {
+    let mut script = match config::get_hook_script(&config_file_contents, &hook_name) {
         Ok(script) => script,
         Err(err) => {
             if err == config::MISSING_CONFIG_KEY {
@@ -112,12 +112,11 @@ where
     );
     log(&message, log_details);
 
-    match run_command(
-        &script.replace("%@", args),
-        Some(&root_directory_path),
-        log_details,
-        None,
-    ) {
+    if let Some(args) = args {
+        script = script.replace("%@", &args)
+    }
+
+    match run_command(&script, Some(&root_directory_path), log_details, None) {
         Err(e) => Err(e),
         Ok(_) => Ok(()),
     }

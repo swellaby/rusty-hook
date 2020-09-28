@@ -76,6 +76,11 @@ Under the `[hooks]` table, you can add an entry for any and every git hook you w
 In git hook commands, any instance of `%@` will be replaced by the arguments that git passes to this hook.  
 **Be warned, this CAN be dangerous if used incorrectly!**
 
+```toml
+[hooks]
+pre-push = "echo %@"
+```
+
 ### Logging
 Under the `[logging]` table, you can control whether to log the output of running your specified hook commands. By default `rusty-hook` will log the results of your hook script, but you can disable this behavior by setting the `verbose` key to `false`:
 
