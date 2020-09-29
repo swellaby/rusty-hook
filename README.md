@@ -74,7 +74,6 @@ Under the `[hooks]` table, you can add an entry for any and every git hook you w
 
 #### Using git arguments
 In git hook commands, any instance of `%@` will be replaced by the arguments that git passes to this hook.  
-**Be warned, this CAN be dangerous if used incorrectly!**
 
 ```toml
 [hooks]
