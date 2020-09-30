@@ -113,7 +113,7 @@ where
     log(&message, log_details);
 
     if let Some(args) = args {
-        script = script.replace("%@", &args)
+        script = script.replace("%rh!", &args)
     }
 
     match run_command(&script, Some(&root_directory_path), log_details, None) {
