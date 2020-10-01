@@ -106,7 +106,14 @@ mod run_tests {
         let read_file = |_file_path: &str| panic!("");
         let file_exists = |_path: &str| panic!("");
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(run_command, file_exists, read_file, log, "", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "",
+            Some("".into()),
+        );
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -117,7 +124,14 @@ mod run_tests {
         let read_file = |_file_path: &str| Err(());
         let file_exists = |_path: &str| Ok(false);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(run_command, file_exists, read_file, log, "", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "",
+            Some("".into()),
+        );
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -128,7 +142,14 @@ mod run_tests {
         let read_file = |_file_path: &str| Err(());
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(run_command, file_exists, read_file, log, "", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "",
+            Some("".into()),
+        );
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -141,7 +162,14 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(run_command, file_exists, read_file, log, "pre-push", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "pre-push",
+            Some("".into()),
+        );
         assert_eq!(result, Ok(()));
     }
 
@@ -153,7 +181,14 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(run_command, file_exists, read_file, log, "pre-push", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "pre-push",
+            Some("".into()),
+        );
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -181,7 +216,14 @@ mod run_tests {
                 panic!("")
             }
         };
-        let result = run(run_command, file_exists, read_file, log, "pre-commit", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "pre-commit",
+            Some("".into()),
+        );
         assert_eq!(result, Ok(()));
     }
 
@@ -209,7 +251,14 @@ mod run_tests {
                 panic!("")
             }
         };
-        let result = run(run_command, file_exists, read_file, log, "pre-commit", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "pre-commit",
+            Some("".into()),
+        );
         assert_eq!(result, Ok(()));
     }
 
@@ -225,7 +274,14 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| ();
-        let result = run(run_command, file_exists, read_file, log, "pre-commit", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "pre-commit",
+            Some("".into()),
+        );
         assert_eq!(result, Ok(()));
     }
 
@@ -250,7 +306,14 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| ();
-        let result = run(run_command, file_exists, read_file, log, "pre-commit", "");
+        let result = run(
+            run_command,
+            file_exists,
+            read_file,
+            log,
+            "pre-commit",
+            Some("".into()),
+        );
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 }

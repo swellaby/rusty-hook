@@ -44,14 +44,14 @@ fn init() {
     };
 }
 
-fn run(hook: String, args: String) {
+fn run(hook: String, args: Option<String>) {
     if let Err(err) = rusty_hook::run(
         nias::get_command_runner(),
         nias::get_file_existence_checker(),
         nias::get_file_reader(),
         nias::get_conditional_logger(),
         &hook,
-        &args,
+        args,
     ) {
         match err {
             Some(e) if e == rusty_hook::NO_CONFIG_FILE_FOUND => {
@@ -71,6 +71,6 @@ fn main() {
     match opts {
         RustyHookOpts::Init => init(),
         RustyHookOpts::Version => println!(env!("CARGO_PKG_VERSION")),
-        RustyHookOpts::Run { hook, args } => run(hook, args.unwrap_or_default()),
+        RustyHookOpts::Run { hook, args } => run(hook, args),
     }
 }
