@@ -84,21 +84,31 @@ where
     };
 
     let config_file_contents =
-        match config::get_config_file_contents(read_file, file_exists, &root_directory_path) {
-            Ok(contents) => contents,
-            Err(err) => {
-                if err == config::NO_CONFIG_FILE_FOUND {
-                    return Err(Some(String::from(config::NO_CONFIG_FILE_FOUND)));
+        config::get_config_file_contents(read_file, file_exists, &root_directory_path).map_err(
+            |e| {
+                if e == config::NO_CONFIG_FILE_FOUND {
+                    Some(e)
                 } else {
-                    return Err(Some(String::from("Failed to parse config file")));
+                    Some(String::from("Failed to parse config file"))
                 }
-            }
-        };
+            },
+        )?;
 
     let log_details = config::get_log_setting(&config_file_contents);
-    let mut script = match config::get_hook_script(&config_file_contents, &hook_name) {
-        Ok(script) => script,
-        Err(err) => {
+    let (script, env_vars) = match (
+        config::get_hook_script(&config_file_contents, &hook_name),
+        args,
+    ) {
+        (Ok(script), None) => (script, None),
+        (Ok(script), Some(a)) => (
+            script.replace("%rh!", &a),
+            Some(
+                vec![("RUSTY_HOOK_GIT_PARAMS".to_owned(), a)]
+                    .into_iter()
+                    .collect::<HashMap<String, String>>(),
+            ),
+        ),
+        (Err(err), _) => {
             if err == config::MISSING_CONFIG_KEY {
                 return Ok(());
             }
@@ -112,14 +122,13 @@ where
     );
     log(&message, log_details);
 
-    if let Some(args) = args {
-        script = script.replace("%rh!", &args)
-    }
-
-    match run_command(&script, Some(&root_directory_path), log_details, None) {
-        Err(e) => Err(e),
-        Ok(_) => Ok(()),
-    }
+    run_command(
+        &script,
+        Some(&root_directory_path),
+        log_details,
+        env_vars.as_ref(),
+    )
+    .map(|_| ())
 }
 
 #[cfg(test)]

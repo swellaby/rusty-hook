@@ -1,6 +1,6 @@
 use super::*;
 #[cfg(test)]
-use crate::rusty_hook::rusty_hook_tests::utils::build_simple_command_runner;
+use crate::rusty_hook::rusty_hook_tests::utils::{build_simple_command_runner, GIT_REV_PARSE_CMD};
 
 #[cfg(test)]
 mod get_root_directory_path_tests {
@@ -14,7 +14,7 @@ mod get_root_directory_path_tests {
                            dir: Option<&str>,
                            stream_io: bool,
                            _env: Option<&HashMap<String, String>>| {
-            if cmd == "git rev-parse --show-toplevel" && dir == Some(target_dir) && !stream_io {
+            if cmd == GIT_REV_PARSE_CMD && dir == Some(target_dir) && !stream_io {
                 Ok(Some(String::from(exp)))
             } else {
                 Ok(None)
