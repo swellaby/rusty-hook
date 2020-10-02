@@ -5,6 +5,8 @@ use std::collections::HashMap;
 pub(crate) mod utils {
     use std::collections::HashMap;
 
+    pub(crate) const GIT_REV_PARSE_CMD: &str = "git rev-parse --show-toplevel";
+
     #[allow(clippy::type_complexity)]
     pub(crate) fn build_simple_command_runner(
         outcome: Result<Option<String>, Option<String>>,
@@ -106,14 +108,7 @@ mod run_tests {
         let read_file = |_file_path: &str| panic!("");
         let file_exists = |_path: &str| panic!("");
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "", None);
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -124,14 +119,7 @@ mod run_tests {
         let read_file = |_file_path: &str| Err(());
         let file_exists = |_path: &str| Ok(false);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "", None);
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -142,14 +130,7 @@ mod run_tests {
         let read_file = |_file_path: &str| Err(());
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "", None);
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -162,14 +143,7 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "pre-push",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "pre-push", None);
         assert_eq!(result, Ok(()));
     }
 
@@ -181,14 +155,7 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| panic!("");
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "pre-push",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "pre-push", None);
         assert_eq!(result, Err(Some(String::from(exp_err))));
     }
 
@@ -216,14 +183,7 @@ mod run_tests {
                 panic!("")
             }
         };
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "pre-commit",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "pre-commit", None);
         assert_eq!(result, Ok(()));
     }
 
@@ -251,14 +211,7 @@ mod run_tests {
                 panic!("")
             }
         };
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "pre-commit",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "pre-commit", None);
         assert_eq!(result, Ok(()));
     }
 
@@ -274,14 +227,7 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| ();
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "pre-commit",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "pre-commit", None);
         assert_eq!(result, Ok(()));
     }
 
@@ -306,14 +252,75 @@ mod run_tests {
         let read_file = |_file_path: &str| Ok(String::from(contents));
         let file_exists = |_path: &str| Ok(true);
         let log = |_path: &str, _should_log: bool| ();
-        let result = run(
-            run_command,
-            file_exists,
-            read_file,
-            log,
-            "pre-commit",
-            Some("".into()),
-        );
+        let result = run(run_command, file_exists, read_file, log, "pre-commit", None);
         assert_eq!(result, Err(Some(String::from(exp_err))));
+    }
+
+    mod git_params {
+        use super::super::utils::GIT_REV_PARSE_CMD;
+        use super::*;
+
+        #[test]
+        fn handles_no_params_correctly() {
+            let contents = r#"[hooks]
+                pre-push = "echo %rh!"
+
+                [logging]
+                verbose = false
+            "#;
+            let run_command =
+                |c: &str, _: Option<&str>, _: bool, env: Option<&HashMap<String, String>>| {
+                    assert!(env.is_none());
+                    if c != GIT_REV_PARSE_CMD {
+                        assert_eq!(c, "echo %rh!");
+                    }
+
+                    Ok(Some(String::new()))
+                };
+            let read_file = |_file_path: &str| Ok(String::from(contents));
+            let file_exists = |_path: &str| Ok(true);
+            let log = |_path: &str, _should_log: bool| ();
+            let result = run(run_command, file_exists, read_file, log, "pre-push", None);
+            assert!(result.is_ok());
+        }
+
+        #[test]
+        fn handles_params_correctly() {
+            let params = ".git/COMMIT_EDITMSG";
+            let hook_script = "echo %rh!";
+            let contents = format!(
+                r#"[hooks]
+                commit-msg = "{}"
+
+                [logging]
+                verbose = false
+            "#,
+                &hook_script
+            );
+            let run_command =
+                |c: &str, _: Option<&str>, _: bool, env: Option<&HashMap<String, String>>| {
+                    if c != GIT_REV_PARSE_CMD {
+                        assert!(env.is_some());
+                        assert_eq!(c, &format!("echo {}", &params));
+                        let env = env.unwrap();
+                        assert_eq!(env.len(), 1);
+                        assert_eq!(env.get("RUSTY_HOOK_GIT_PARAMS").unwrap(), &params);
+                    }
+
+                    Ok(Some(hook_script.to_owned()))
+                };
+            let read_file = |_file_path: &str| Ok(contents.to_owned());
+            let file_exists = |_path: &str| Ok(true);
+            let log = |_path: &str, _should_log: bool| ();
+            let result = run(
+                run_command,
+                file_exists,
+                read_file,
+                log,
+                "commit-msg",
+                Some(params.to_owned()),
+            );
+            assert!(result.is_ok());
+        }
     }
 }
