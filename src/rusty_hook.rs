@@ -117,7 +117,7 @@ where
     };
 
     let message = format!(
-        "Found configured hook: {}\nRunning command: {}",
+        "[rusty-hook] Found configured hook: {}\n[rusty-hook] Running command: {}\n",
         hook_name, script
     );
     log(&message, log_details);
