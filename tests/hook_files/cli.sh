@@ -36,12 +36,12 @@ testHandlesNonPreCommitHookCorrectlyWhenRustyHookExitCodeIsNoConfigFile() {
 testHandlesPreCommitHookCorrectlyWhenRustyHookExitCodeIsNoConfigFile() {
   hook="pre-commit"
   {
-    echo "rusty-hook git hooks are configured, but no config file was found";
-    echo "In order to use rusty-hook, your project must have a config file";
-    echo "See https://github.com/swellaby/rusty-hook#configure for more information about configuring rusty-hook"
+    echo "[rusty-hook] rusty-hook git hooks are configured, but no config file was found";
+    echo "[rusty-hook] In order to use rusty-hook, your project must have a config file";
+    echo "[rusty-hook] See https://github.com/swellaby/rusty-hook#configure for more information about configuring rusty-hook"
     echo;
-    echo "If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning";
-    echo "See https://github.com/swellaby/rusty-hook#removing-rusty-hook for more information about removing rusty-hook from your project";
+    echo "[rusty-hook] If you were trying to remove rusty-hook, then you should also delete the git hook files to remove this warning";
+    echo "[rusty-hook] See https://github.com/swellaby/rusty-hook#removing-rusty-hook for more information about removing rusty-hook from your project";
     echo;
 
   } >> "${expectedStdoutF}"
@@ -58,8 +58,8 @@ testHandlesPreCommitHookCorrectlyWhenRustyHookExitCodeIsNoConfigFile() {
 
 testHandlesCorrectlyWhenRustyHookExitCodeIsOne() {
   hook="pre-push"
-  echo "Configured hook command failed" >> "${expectedStdoutF}"
-  echo "${hook} hook rejected" >> "${expectedStdoutF}"
+  echo "[rusty-hook] Configured hook command failed" >> "${expectedStdoutF}"
+  echo "[rusty-hook] ${hook} hook rejected" >> "${expectedStdoutF}"
   expOutput=$(cat "${expectedStdoutF}")
   expExitCode=1
   (

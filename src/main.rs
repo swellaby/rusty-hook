@@ -27,7 +27,7 @@ enum RustyHookOpts {
 
 fn init() {
     if ci_info::is_ci() {
-        println!("CI Environment detected. Skipping hook install");
+        println!("[rusty-hook] CI Environment detected. Skipping hook install");
         exit(0);
     }
 
@@ -37,7 +37,7 @@ fn init() {
         nias::get_file_existence_checker(),
     ) {
         eprintln!(
-            "Fatal error encountered during initialization. Details: {}",
+            "[rusty-hook] Fatal error encountered during initialization. Details: {}",
             err
         );
         exit(1);
@@ -58,7 +58,7 @@ fn run(hook: String, args: Option<String>) {
                 exit(rusty_hook::NO_CONFIG_FILE_FOUND_ERROR_CODE);
             }
             Some(e) => {
-                eprintln!("{}", e);
+                eprintln!("[rusty-hook] {}", e);
                 exit(1);
             }
             None => exit(1),
