@@ -2,7 +2,7 @@ pub const HOOK_CREATION_ERROR: &str =
     "Fatal error encountered while trying to create git hook files";
 pub const NO_CONFIG_FILE_FOUND_ERROR_CODE: i32 = 3;
 const MINIMUM_CLI_MAJOR_VERSION: i32 = 0;
-const MINIMUM_CLI_MINOR_VERSION: i32 = 11;
+const MINIMUM_CLI_MINOR_VERSION: i32 = 12;
 const MINIMUM_CLI_PATCH_VERSION: i32 = 0;
 const MINIMUM_CLI_VERSION_ALLOW_PRERELEASE: bool = false;
 
