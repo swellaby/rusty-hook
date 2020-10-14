@@ -29,7 +29,7 @@ Just add `rusty-hook` as a dev dependency in your Cargo.toml file:
 
 ```toml
 [dev-dependencies]
-rusty-hook = "^0.11.2"
+rusty-hook = "^0.12.0"
 ```
 
 ## Initialize
@@ -97,6 +97,9 @@ There's a few other git hook utilities available on [crates.io][cratesio], but n
 
 ## Contributions
 All contributions are welcome and appreciated! Check out our [Contributing Guidelines][contributing] for more information about opening issues, developing, and more.
+
+## Changelog
+[See CHANGELOG.md](https://github.com/swellaby/rusty-hook/blob/master/CHANGELOG.md)
 
 ## Removing rusty-hook
 We'll be sad to see you go, but here's what to do if you'd like to remove `rusty-hook` from your project. 
