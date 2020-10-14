@@ -182,7 +182,7 @@ dependencies = [
 
 [[package]]
 name = "rusty-hook"
-version = "0.11.2"
+version = "0.12.0"
 dependencies = [
  "ci_info",
  "clap",
