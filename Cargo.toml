@@ -31,13 +31,13 @@ exclude = [
 ]
 
 [dependencies]
-ci_info = "0.11.0"
+ci_info = "0.13.0"
 clap = "3.0.0-beta.2"
 toml = "0.5.7"
 nias = "0.7.0"
 
 [build-dependencies]
-ci_info = "0.11.0"
+ci_info = "0.13.0"
 toml = "0.5.7"
 nias = "0.7.0"
 
