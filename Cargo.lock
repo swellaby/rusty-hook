@@ -33,6 +33,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "ci_info"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec64bc9402fde83d980d8f8d493b367bd4e3ba3f44a0b904b6047bedfed293fb"
+dependencies = [
+ "envmnt",
+]
+
+[[package]]
 name = "clap"
 version = "3.0.0-beta.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -184,7 +193,8 @@ dependencies = [
 name = "rusty-hook"
 version = "0.12.0"
 dependencies = [
- "ci_info",
+ "ci_info 0.11.0",
+ "ci_info 0.13.0",
  "clap",
  "nias",
  "toml",
