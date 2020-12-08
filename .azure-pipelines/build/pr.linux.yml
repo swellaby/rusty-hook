@@ -17,7 +17,7 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: 'Download cargo-tarpaulin'
   inputs:
-    pipelineId: 1369
+    definition: 120
     artifactName: 'cargo-tarpaulin'
     targetPath: '$(cargoBinPath)'
    # buildType: specific
