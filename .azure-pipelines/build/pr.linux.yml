@@ -17,14 +17,11 @@ steps:
 - task: DownloadPipelineArtifact@2
   displayName: 'Download cargo-tarpaulin'
   inputs:
-    definition: 120
+    buildType: specific
+    project: 'a20e510e-3abe-41cd-bd26-c0ef57b8df43'
     artifactName: 'cargo-tarpaulin'
     targetPath: '$(cargoBinPath)'
-   # buildType: specific
-   # project: 'a20e510e-3abe-41cd-bd26-c0ef57b8df43'
-   # artifactName: 'cargo-tarpaulin'
-   # targetPath: '$(cargoBinPath)'
-   # definition: 120
+    definition: 120
 
 - task: DownloadPipelineArtifact@0
   displayName: 'Download cargo-junit executable'
