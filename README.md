@@ -1,20 +1,20 @@
 # rusty-hook
-Git hook utility for Rust codebases that lets you run any script for any git hook. 
+Git hook utility for Rust codebases that lets you run any script for any git hook.
 
-Functional, but still in Beta! 
+Functional, but still in Beta!
 
 [![Version Badge][version-badge]][crate url]
 [![Downloads Badge][downloads-badge]][crate url]
-[![License Badge][license-badge]][crate url]  
+[![License Badge][license-badge]][crate url]
 
 [![Linux CI Badge][linux-ci-badge]][linux-ci-url]
 [![Mac CI Badge][mac-ci-badge]][mac-ci-url]
-[![Windows CI Badge][windows-ci-badge]][windows-ci-url]  
+[![Windows CI Badge][windows-ci-badge]][windows-ci-url]
 [![Test Results Badge][tests-badge]][tests-url]
 [![Coverage Badge][coverage-badge]][coverage-url]
 
 ## Quick Start
-Pre-requisites: Make sure you have Rust installed and that Cargo's bin directory is on your PATH. 
+Pre-requisites: Make sure you have Rust installed and that Cargo's bin directory is on your PATH.
 https://www.rust-lang.org/tools/install
 
 1. Add `rusty-hook` as a dev dependency in your Cargo.toml file
@@ -70,10 +70,10 @@ post-commit = "echo yay"
 verbose = true
 ```
 ### Hooks
-Under the `[hooks]` table, you can add an entry for any and every git hook you want to run by adding a key using the name of the [git hook][git hooks], and then specify the command/script you want to run for that hook. Multiple commands in a form of a toml array or via command chaining using `&&` are also allowed. Whenever that git hook is triggered, `rusty-hook` will run your specified command!
+Under the `[hooks]` table, you can add an entry for any and every git hook you want to run by adding a key using the name of the [git hook][git hooks], and then specify the command/script you want to run for that hook. Multiple commands in a form of a toml array or via command chaining using `&&` are also allowed (Only for versions 0.12 and up). Whenever that git hook is triggered, `rusty-hook` will run your specified command!
 
 #### Using git arguments
-In git hook commands, any instance of `%rh!` will be replaced by the arguments that git passes to this hook.  
+In git hook commands, any instance of `%rh!` will be replaced by the arguments that git passes to this hook.
 
 ```toml
 [hooks]
@@ -102,7 +102,7 @@ All contributions are welcome and appreciated! Check out our [Contributing Guide
 [See CHANGELOG.md](https://github.com/swellaby/rusty-hook/blob/master/CHANGELOG.md)
 
 ## Removing rusty-hook
-We'll be sad to see you go, but here's what to do if you'd like to remove `rusty-hook` from your project. 
+We'll be sad to see you go, but here's what to do if you'd like to remove `rusty-hook` from your project.
 
 1. Remove the `rusty-hook` dev dependency from the `Cargo.toml` file in your project.
 2. Remove the `.rusty-hook.toml` configuration file from your project.
