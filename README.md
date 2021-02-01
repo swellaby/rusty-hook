@@ -70,7 +70,7 @@ post-commit = "echo yay"
 verbose = true
 ```
 ### Hooks
-Under the `[hooks]` table, you can add an entry for any and every git hook you want to run by adding a key using the name of the [git hook][git hooks], and then specify the command/script you want to run for that hook. Multiple commands in a form of a toml array are also allowed. Whenever that git hook is triggered, `rusty-hook` will run your specified command!
+Under the `[hooks]` table, you can add an entry for any and every git hook you want to run by adding a key using the name of the [git hook][git hooks], and then specify the command/script you want to run for that hook. Multiple commands in a form of a toml array or via command chaining using `&&` are also allowed. Whenever that git hook is triggered, `rusty-hook` will run your specified command!
 
 #### Using git arguments
 In git hook commands, any instance of `%rh!` will be replaced by the arguments that git passes to this hook.  
