@@ -47,6 +47,7 @@ pub fn setup_hooks<F, G>(
     run_command: F,
     write_file: G,
     root_directory_path: &str,
+    hook_file_skip_list: &Vec<String>,
 ) -> Result<(), String>
 where
     F: Fn(
@@ -61,7 +62,12 @@ where
         Ok(Some(path)) => path,
         _ => return Err(String::from("Failure determining git hooks directory")),
     };
-    hooks::create_hook_files(write_file, &root_directory_path, &hooks_directory)
+    hooks::create_hook_files(
+        write_file,
+        &root_directory_path,
+        &hooks_directory,
+        hook_file_skip_list,
+    )
 }
 
 #[cfg(test)]

@@ -10,7 +10,10 @@ mod rusty_hook;
 enum RustyHookOpts {
     /// Initialize rusty-hook's git hooks in the current directory.
     #[clap(author, version)]
-    Init,
+    Init {
+        #[clap(long)]
+        skip_hook_list: Option<String>,
+    },
     /// Print the current version of rusty-hook.
     #[clap(author, version, alias = "-v")]
     Version,
@@ -25,16 +28,27 @@ enum RustyHookOpts {
     },
 }
 
-fn init() {
+fn init(skip_hook_list: Option<String>) {
     if ci_info::is_ci() {
         println!("[rusty-hook] CI Environment detected. Skipping hook install");
         exit(0);
     }
 
+    let skip_hook_list: Vec<String> = if let Some(skip_hook_list) = skip_hook_list {
+        skip_hook_list
+            .split(",")
+            .map(String::from)
+            .into_iter()
+            .collect()
+    } else {
+        vec![]
+    };
+
     if let Err(err) = rusty_hook::init(
         nias::get_command_runner(),
         nias::get_file_writer(),
         nias::get_file_existence_checker(),
+        skip_hook_list,
     ) {
         eprintln!(
             "[rusty-hook] Fatal error encountered during initialization. Details: {}",
@@ -69,7 +83,7 @@ fn run(hook: String, args: Option<String>) {
 fn main() {
     let opts = RustyHookOpts::parse();
     match opts {
-        RustyHookOpts::Init => init(),
+        RustyHookOpts::Init { skip_hook_list } => init(skip_hook_list),
         RustyHookOpts::Version => println!(env!("CARGO_PKG_VERSION")),
         RustyHookOpts::Run { hook, args } => run(hook, args),
     }

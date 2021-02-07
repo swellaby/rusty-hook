@@ -123,7 +123,7 @@ mod create_hook_files_tests {
                 _ => Err(String::from("")),
             }
         };
-        let result = create_hook_files(write_file, "", "");
+        let result = create_hook_files(write_file, "", "", &vec![]);
         assert_eq!(result, Err(String::from(EXP_HOOK_CREATION_ERROR)));
     }
 
@@ -137,7 +137,7 @@ mod create_hook_files_tests {
                 _ => Ok(()),
             }
         };
-        let result = create_hook_files(write_file, "", "");
+        let result = create_hook_files(write_file, "", "", &vec![]);
         assert_eq!(result, Err(String::from(EXP_HOOK_CREATION_ERROR)));
     }
 
@@ -151,7 +151,7 @@ mod create_hook_files_tests {
                 _ => Ok(()),
             }
         };
-        let result = create_hook_files(write_file, "", "");
+        let result = create_hook_files(write_file, "", "", &vec![]);
         assert_eq!(result, Err(String::from(EXP_HOOK_CREATION_ERROR)));
     }
 
@@ -185,7 +185,7 @@ mod create_hook_files_tests {
             assert_eq!(true, make_executable);
             Ok(())
         };
-        let result = create_hook_files(write_file, root_dir, git_hooks);
+        let result = create_hook_files(write_file, root_dir, git_hooks, &vec![]);
         assert_eq!(result, Ok(()));
     }
 }

@@ -13,6 +13,7 @@ pub fn init_directory<F, G, H>(
     write_file: G,
     file_exists: H,
     target_directory: Option<&str>,
+    hook_file_skip_list: Vec<String>,
 ) -> Result<(), String>
 where
     F: Fn(
@@ -28,8 +29,14 @@ where
         Ok(Some(path)) => path,
         _ => return Err(String::from("Failure determining git repo root directory")),
     };
-
-    if git::setup_hooks(&run_command, &write_file, &root_directory_path).is_err() {
+    if git::setup_hooks(
+        &run_command,
+        &write_file,
+        &root_directory_path,
+        &hook_file_skip_list,
+    )
+    .is_err()
+    {
         return Err(String::from("Unable to create git hooks"));
     };
 
@@ -41,7 +48,12 @@ where
     Ok(())
 }
 
-pub fn init<F, G, H>(run_command: F, write_file: G, file_exists: H) -> Result<(), String>
+pub fn init<F, G, H>(
+    run_command: F,
+    write_file: G,
+    file_exists: H,
+    hook_file_skip_list: Vec<String>,
+) -> Result<(), String>
 where
     F: Fn(
         &str,
@@ -52,7 +64,13 @@ where
     G: Fn(&str, &str, bool) -> Result<(), String>,
     H: Fn(&str) -> Result<bool, ()>,
 {
-    init_directory(&run_command, &write_file, &file_exists, None)
+    init_directory(
+        &run_command,
+        &write_file,
+        &file_exists,
+        None,
+        hook_file_skip_list,
+    )
 }
 
 pub fn run<F, G, H, I>(
