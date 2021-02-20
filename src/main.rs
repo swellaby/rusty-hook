@@ -34,15 +34,9 @@ fn init(skip_hook_list: Option<String>) {
         exit(0);
     }
 
-    let skip_hook_list: Vec<String> = if let Some(skip_hook_list) = skip_hook_list {
-        skip_hook_list
-            .split(",")
-            .map(String::from)
-            .into_iter()
-            .collect()
-    } else {
-        vec![]
-    };
+    let skip_hook_list = skip_hook_list
+        .as_deref()
+        .map_or(vec![], |s| s.split(",").collect());
 
     if let Err(err) = rusty_hook::init(
         nias::get_command_runner(),

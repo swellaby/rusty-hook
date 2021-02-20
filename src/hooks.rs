@@ -67,7 +67,7 @@ pub fn create_hook_files<F>(
     write_file: F,
     root_directory_path: &str,
     hooks_directory: &str,
-    hook_file_skip_list: &Vec<String>,
+    hook_file_skip_list: &Vec<&str>,
 ) -> Result<(), String>
 where
     F: Fn(&str, &str, bool) -> Result<(), String>,
@@ -75,7 +75,7 @@ where
     let hook_file_contents = get_hook_file_contents();
     for hook in HOOK_NAMES
         .iter()
-        .filter(|h| !hook_file_skip_list.contains(&h.to_string()))
+        .filter(|h| !hook_file_skip_list.contains(h))
     {
         let path = get_file_path(root_directory_path, hooks_directory, hook);
         if write_file(&path, &hook_file_contents, true).is_err() {
