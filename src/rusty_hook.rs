@@ -13,7 +13,7 @@ pub fn init_directory<F, G, H>(
     write_file: G,
     file_exists: H,
     target_directory: Option<&str>,
-    hook_file_skip_list: Vec<String>,
+    hook_file_skip_list: Vec<&str>,
 ) -> Result<(), String>
 where
     F: Fn(
@@ -52,7 +52,7 @@ pub fn init<F, G, H>(
     run_command: F,
     write_file: G,
     file_exists: H,
-    hook_file_skip_list: Vec<String>,
+    hook_file_skip_list: Vec<&str>,
 ) -> Result<(), String>
 where
     F: Fn(
