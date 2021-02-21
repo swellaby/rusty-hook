@@ -28,6 +28,7 @@ const EXP_HOOK_NAMES: [&str; 19] = [
     "post-rewrite",
     "sendemail-validate",
 ];
+const EXP_SKIPPED_HOOK: &str = "commit-msg";
 
 const EXP_CLI_SCRIPT_NAME: &str = "cli.sh";
 const EXP_SEMVER_SCRIPT_NAME: &str = "semver.sh";
@@ -123,7 +124,7 @@ mod create_hook_files_tests {
                 _ => Err(String::from("")),
             }
         };
-        let result = create_hook_files(write_file, "", "");
+        let result = create_hook_files(write_file, "", "", &vec![]);
         assert_eq!(result, Err(String::from(EXP_HOOK_CREATION_ERROR)));
     }
 
@@ -137,7 +138,7 @@ mod create_hook_files_tests {
                 _ => Ok(()),
             }
         };
-        let result = create_hook_files(write_file, "", "");
+        let result = create_hook_files(write_file, "", "", &vec![]);
         assert_eq!(result, Err(String::from(EXP_HOOK_CREATION_ERROR)));
     }
 
@@ -151,7 +152,7 @@ mod create_hook_files_tests {
                 _ => Ok(()),
             }
         };
-        let result = create_hook_files(write_file, "", "");
+        let result = create_hook_files(write_file, "", "", &vec![]);
         assert_eq!(result, Err(String::from(EXP_HOOK_CREATION_ERROR)));
     }
 
@@ -185,7 +186,42 @@ mod create_hook_files_tests {
             assert_eq!(true, make_executable);
             Ok(())
         };
-        let result = create_hook_files(write_file, root_dir, git_hooks);
+        let result = create_hook_files(write_file, root_dir, git_hooks, &vec![]);
+        assert_eq!(result, Ok(()));
+    }
+
+    #[test]
+    fn does_not_create_skipped_hook() {
+        let root_dir = "/usr/repos/foo";
+        let git_hooks = ".git/hooks";
+        let exp_contents = get_expected_hook_file_contents();
+        let exp_cli_contents = get_expected_cli_script_file_contents();
+        let exp_cli_path = &format!("{}/{}/{}", root_dir, git_hooks, EXP_CLI_SCRIPT_NAME);
+        let exp_semver_path = &format!("{}/{}/{}", root_dir, git_hooks, EXP_SEMVER_SCRIPT_NAME);
+        let exp_semver_contents = get_expected_semver_script_file_contents();
+        let write_file = |path: &str, contents: &str, make_executable: bool| {
+            let file_name = &&path[(path.rfind('/').unwrap() + 1)..];
+            match *file_name {
+                EXP_CLI_SCRIPT_NAME => {
+                    assert_eq!(exp_cli_path, path);
+                    assert_eq!(exp_cli_contents, contents);
+                }
+                EXP_SEMVER_SCRIPT_NAME => {
+                    assert_eq!(exp_semver_path, path);
+                    assert_eq!(exp_semver_contents, contents);
+                }
+                EXP_SKIPPED_HOOK => panic!("Should not create skipped hook"),
+                _ => {
+                    let exp_hook = EXP_HOOK_NAMES.iter().find(|&n| n == file_name).unwrap();
+                    let exp_path = &format!("{}/{}/{}", root_dir, git_hooks, exp_hook);
+                    assert_eq!(exp_path, path);
+                    assert_eq!(exp_contents, contents);
+                }
+            }
+            assert_eq!(true, make_executable);
+            Ok(())
+        };
+        let result = create_hook_files(write_file, root_dir, git_hooks, &vec![EXP_SKIPPED_HOOK]);
         assert_eq!(result, Ok(()));
     }
 }

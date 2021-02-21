@@ -39,7 +39,7 @@ mod init_directory_tests {
             panic!("Should not get here");
         };
         let file_exists = |_path: &str| panic!("Should not get here");
-        let result = init(run_command, write_file, file_exists);
+        let result = init(run_command, write_file, file_exists, vec![]);
         assert_eq!(result, Err(String::from(exp_err)));
     }
 
@@ -48,7 +48,7 @@ mod init_directory_tests {
         let run_command = build_simple_command_runner(Ok(Some(String::from(""))));
         let write_file = |_file_path: &str, _contents: &str, _x: bool| Err(String::from(""));
         let file_exists = |_path: &str| panic!("Should not get here");
-        let result = init(run_command, write_file, file_exists);
+        let result = init(run_command, write_file, file_exists, vec![]);
         assert_eq!(result, Err(String::from("Unable to create git hooks")));
     }
 
@@ -57,7 +57,7 @@ mod init_directory_tests {
         let run_command = build_simple_command_runner(Ok(Some(String::from(""))));
         let write_file = |_file_path: &str, _contents: &str, _x: bool| Ok(());
         let file_exists = |_path: &str| Err(());
-        let result = init(run_command, write_file, file_exists);
+        let result = init(run_command, write_file, file_exists, vec![]);
         assert_eq!(result, Err(String::from("Unable to create config file")));
     }
 
@@ -66,7 +66,7 @@ mod init_directory_tests {
         let run_command = build_simple_command_runner(Ok(Some(String::from(""))));
         let write_file = |_file_path: &str, _contents: &str, _x: bool| Ok(());
         let file_exists = |_path: &str| Ok(false);
-        let result = init(run_command, write_file, file_exists);
+        let result = init(run_command, write_file, file_exists, vec![]);
         assert_eq!(result, Ok(()));
     }
 }
@@ -91,7 +91,7 @@ mod init_tests {
         };
         let write_file = |_file_path: &str, _contents: &str, _x: bool| Ok(());
         let file_exists = |_path: &str| Ok(false);
-        let result = init(run_command, write_file, file_exists);
+        let result = init(run_command, write_file, file_exists, vec![]);
         assert_eq!(result, Ok(()));
     }
 }

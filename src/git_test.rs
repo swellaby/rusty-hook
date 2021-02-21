@@ -73,7 +73,7 @@ mod setup_hooks_tests {
         let exp_err = "Failure determining git hooks directory";
         let run_command = build_simple_command_runner(Err(None));
         let write_file = |_path: &str, _contents: &str, _x: bool| Ok(());
-        let result = setup_hooks(run_command, write_file, "");
+        let result = setup_hooks(run_command, write_file, "", &vec![]);
         assert_eq!(result, Err(String::from(exp_err)));
     }
 
@@ -82,7 +82,7 @@ mod setup_hooks_tests {
         let run_command =
             build_simple_command_runner(Ok(Some(String::from("/usr/repos/foo/.git/hooks"))));
         let write_file = |_path: &str, _contents: &str, _x: bool| Err(String::from(""));
-        let result = setup_hooks(run_command, write_file, "");
+        let result = setup_hooks(run_command, write_file, "", &vec![]);
         assert_eq!(result, Err(String::from(hooks::HOOK_CREATION_ERROR)));
     }
 
@@ -92,7 +92,7 @@ mod setup_hooks_tests {
         let git_hooks = ".git/hooks";
         let run_command = build_simple_command_runner(Ok(Some(String::from(git_hooks))));
         let write_file = |_p: &str, _c: &str, _x: bool| Ok(());
-        let result = setup_hooks(run_command, write_file, root_dir);
+        let result = setup_hooks(run_command, write_file, root_dir, &vec![]);
         assert_eq!(result, Ok(()));
     }
 }
