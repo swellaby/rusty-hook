@@ -50,4 +50,6 @@ jobs:
 
     - name: publish code coverage results
       uses: codecov/codecov-action@v2
+      with:
+        files: .coverage/unit/cobertura.xml
 
