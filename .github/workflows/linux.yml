@@ -25,7 +25,7 @@ jobs:
 
     - name: prep test tools
       run: |
-        cargo install cargo-junit
+        cargo install cargo2junit
         mkdir -p .testresults/unit
         mkdir -p .coverage/unit
 
@@ -36,9 +36,7 @@ jobs:
 
     - name: generate junit unit test results
       run: |
-        cargo junit --name .testresults/unit/junit.xml
-        ls .testresults/unit
-        cat .testresults/unit/junit.xml
+        cargo test -- -Z unstable-options --format json --report-time | cargo2junit > .testresults/unit/junit.xml
 
     - name: setup testspace publisher
       uses: testspace-com/setup-testspace@v1
