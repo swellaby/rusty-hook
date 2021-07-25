@@ -1,0 +1,49 @@
+name: linux
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: linux
+
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+
+    - name: setup
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly-x86_64-unknown-linux-gnu
+        target: x86_64-unknown-linux-gnu
+        override: true
+        profile: minimal
+        default: true
+
+    - name: prep test tools
+      run: |
+        cargo install cargo-junit
+        mkdir -p .testresults/unit
+        mkdir -p .coverage/unit
+
+    - name: generate code coverage
+      uses: actions-rs/tarpaulin@v0.1
+      with:
+        args: '-o Xml --exclude-files *_test.rs,main.rs --output-dir .coverage/unit'
+
+    - name: generate junit unit test results
+      run: cargo junit --name .testresults/unit/junit.xml
+
+    - name: Setup testspace publisher
+      uses: testspace-com/setup-testspace@v1
+      with:
+        domain: ${{github.repository_owner}}
+      if: always()
+
+    - name: Publish test results
+      run: testspace .testresults/unit/junit.xml
+      if: always()
+
