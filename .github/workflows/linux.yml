@@ -35,7 +35,10 @@ jobs:
         args: '-o Xml --exclude-files *_test.rs,main.rs --output-dir .coverage/unit'
 
     - name: generate junit unit test results
-      run: cargo junit --name .testresults/unit/junit.xml
+      run: |
+        cargo junit --name .testresults/unit/junit.xml
+        ls .testresults/unit
+        cat .testresults/unit/junit.xml
 
     - name: setup testspace publisher
       uses: testspace-com/setup-testspace@v1
