@@ -145,10 +145,7 @@ fn get_table_key_value_from_config(
 pub fn get_log_setting(config_contents: &str) -> bool {
     match get_table_key_value_from_config(config_contents, "logging", "verbose") {
         Err(_) => true,
-        Ok(value) => match value.as_bool() {
-            Some(setting) => setting,
-            None => true,
-        },
+        Ok(value) => value.as_bool().unwrap_or(true),
     }
 }
 

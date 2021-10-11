@@ -37,7 +37,7 @@ where
 {
     run_command(
         "git rev-parse --git-path hooks",
-        Some(&root_directory),
+        Some(root_directory),
         false,
         None,
     )
@@ -47,7 +47,7 @@ pub fn setup_hooks<F, G>(
     run_command: F,
     write_file: G,
     root_directory_path: &str,
-    hook_file_skip_list: &Vec<&str>,
+    hook_file_skip_list: &[&str],
 ) -> Result<(), String>
 where
     F: Fn(
@@ -58,13 +58,13 @@ where
     ) -> Result<Option<String>, Option<String>>,
     G: Fn(&str, &str, bool) -> Result<(), String>,
 {
-    let hooks_directory = match get_hooks_directory(&run_command, &root_directory_path) {
+    let hooks_directory = match get_hooks_directory(&run_command, root_directory_path) {
         Ok(Some(path)) => path,
         _ => return Err(String::from("Failure determining git hooks directory")),
     };
     hooks::create_hook_files(
         write_file,
-        &root_directory_path,
+        root_directory_path,
         &hooks_directory,
         hook_file_skip_list,
     )

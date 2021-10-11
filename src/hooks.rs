@@ -67,7 +67,7 @@ pub fn create_hook_files<F>(
     write_file: F,
     root_directory_path: &str,
     hooks_directory: &str,
-    hook_file_skip_list: &Vec<&str>,
+    hook_file_skip_list: &[&str],
 ) -> Result<(), String>
 where
     F: Fn(&str, &str, bool) -> Result<(), String>,
