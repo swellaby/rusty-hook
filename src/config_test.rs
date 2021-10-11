@@ -47,7 +47,7 @@ mod create_default_config_file_tests {
         let write_file = |file_path: &str, contents: &str, make_executable: bool| {
             assert_eq!(&exp_path, file_path);
             assert_eq!(CONFIG_FILE_TEMPLATE, contents);
-            assert_eq!(false, make_executable);
+            assert!(!make_executable);
             Ok(())
         };
         let file_exists = |_path: &str| Ok(false);
@@ -92,7 +92,7 @@ mod create_config_file_tests {
         let write_file = |file_path: &str, contents: &str, make_executable: bool| {
             assert_eq!(&exp_path, file_path);
             assert_eq!(CONFIG_FILE_TEMPLATE, contents);
-            assert_eq!(false, make_executable);
+            assert!(!make_executable);
             Ok(())
         };
         let file_exists = |_path: &str| Ok(false);
@@ -108,7 +108,7 @@ mod create_config_file_tests {
         let write_file = |file_path: &str, contents: &str, make_executable: bool| {
             assert_eq!(&exp_path, file_path);
             assert_eq!(CONFIG_FILE_TEMPLATE, contents);
-            assert_eq!(false, make_executable);
+            assert!(!make_executable);
             Ok(())
         };
         let file_exists = |_path: &str| Ok(false);
@@ -218,7 +218,7 @@ mod get_log_setting_tests {
     fn returns_true_when_content_not_found() {
         let invalid_contents = "90827342089734";
         let result = get_log_setting(invalid_contents);
-        assert_eq!(result, true);
+        assert!(result);
     }
 
     #[test]
@@ -227,7 +227,7 @@ mod get_log_setting_tests {
             verbose = "cargo test"
         "#;
         let result = get_log_setting(contents);
-        assert_eq!(result, true);
+        assert!(result);
     }
 
     #[test]
@@ -236,7 +236,7 @@ mod get_log_setting_tests {
             verbose = false
         ";
         let result = get_log_setting(contents);
-        assert_eq!(result, false);
+        assert!(!result);
     }
 }
 

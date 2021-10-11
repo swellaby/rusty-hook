@@ -114,7 +114,7 @@ where
 
     let log_details = config::get_log_setting(&config_file_contents);
     let (script, env_vars) = match (
-        config::get_hook_script(&config_file_contents, &hook_name),
+        config::get_hook_script(&config_file_contents, hook_name),
         args,
     ) {
         (Ok(script), None) => (script, None),
