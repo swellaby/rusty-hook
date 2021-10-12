@@ -1,26 +1,26 @@
 trigger:
-- master
+  - master
 
 pr:
-- master
+  - master
 
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: "ubuntu-latest"
 
 steps:
-- script: ./tests/hook_files/run_tests.sh
-  displayName: 'Run unit tests'
+  - script: ./tests/hook_files/run_tests.sh
+    displayName: "Run unit tests"
 
-- task: swellaby.shellcheck.install-shellcheck.install-shellcheck@0
-  displayName: 'Install ShellCheck'
-  inputs:
-    version: latest
+  - task: swellaby.shellcheck.install-shellcheck.install-shellcheck@0
+    displayName: "Install ShellCheck"
+    inputs:
+      version: latest
 
-- task: swellaby.shellcheck.shellcheck.shellcheck@0
-  displayName: 'Run ShellCheck analysis'
-  inputs:
-    targetFiles: '**/!(shunit2).sh'
-    followSourcedFiles: true
-    checkSourcedFiles: false
-    ignoredErrorCodes: |
-      SC2039
+  - task: swellaby.shellcheck.shellcheck.shellcheck@0
+    displayName: "Run ShellCheck analysis"
+    inputs:
+      targetFiles: "**/!(shunit2).sh"
+      followSourcedFiles: true
+      checkSourcedFiles: false
+      ignoredErrorCodes: |
+        SC2039
