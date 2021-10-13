@@ -1,23 +1,23 @@
 trigger: none
 
 pr:
-- master
+  - master
 
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: "ubuntu-latest"
 
 steps:
-- script: |
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
-    echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
-    echo "##vso[task.setvariable variable=cargoBinPath;]$HOME/.cargo/bin"
-  displayName: 'Install Rust'
+  - script: |
+      curl https://sh.rustup.rs -sSf | sh -s -- -y
+      echo "##vso[task.setvariable variable=PATH;]$PATH:$HOME/.cargo/bin"
+      echo "##vso[task.setvariable variable=cargoBinPath;]$HOME/.cargo/bin"
+    displayName: "Install Rust"
 
-- script: |
-    rustup component add clippy
-  displayName: 'Install clippy'
+  - script: |
+      rustup component add clippy
+    displayName: "Install clippy"
 
-- script: |
-    set -eo pipefail
-    cargo clippy --all-targets -- -D warnings
-  displayName: 'Run clippy'
+  - script: |
+      set -eo pipefail
+      cargo clippy --all-targets -- -D warnings
+    displayName: "Run clippy"
