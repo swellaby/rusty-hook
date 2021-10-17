@@ -2,8 +2,8 @@
 #[path = "src/rusty_hook.rs"]
 mod rusty_hook;
 
+use std::env;
 use std::process::exit;
-use std::{env, vec};
 
 fn main() {
     if ci_info::is_ci() {
@@ -16,7 +16,7 @@ fn main() {
         nias::get_file_writer(),
         nias::get_file_existence_checker(),
         Some(&target_directory),
-        vec![],
+        &[],
     ) {
         println!(
             "Fatal error encountered during initialization. Details: {}",

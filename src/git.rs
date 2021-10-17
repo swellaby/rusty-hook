@@ -47,7 +47,7 @@ pub fn setup_hooks<F, G>(
     run_command: F,
     write_file: G,
     root_directory_path: &str,
-    hook_file_skip_list: &[&str],
+    hook_file_skip_list: &[String],
 ) -> Result<(), String>
 where
     F: Fn(

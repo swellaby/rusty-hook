@@ -221,7 +221,12 @@ mod create_hook_files_tests {
             assert!(make_executable);
             Ok(())
         };
-        let result = create_hook_files(write_file, root_dir, git_hooks, &[EXP_SKIPPED_HOOK]);
+        let result = create_hook_files(
+            write_file,
+            root_dir,
+            git_hooks,
+            &[String::from(EXP_SKIPPED_HOOK)],
+        );
         assert_eq!(result, Ok(()));
     }
 }
