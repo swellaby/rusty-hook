@@ -7,8 +7,8 @@ license = "MIT"
 repository = "https://github.com/swellaby/rusty-hook"
 readme = "README.md"
 edition = "2018"
-keywords = [ "hooks", "githook", "git", "hook", "commit" ]
-categories = [ "development-tools" ]
+keywords = ["hooks", "githook", "git", "hook", "commit"]
+categories = ["development-tools"]
 exclude = [
   ".coverage/**",
   ".testresults/**",
@@ -32,9 +32,9 @@ exclude = [
 
 [dependencies]
 ci_info = "0.14.2"
-clap = "3.0.0-beta.4"
-toml = "0.5.8"
+getopts = "0.2.21"
 nias = "0.7.0"
+toml = "0.5.8"
 
 [build-dependencies]
 ci_info = "0.14.2"
@@ -42,6 +42,6 @@ toml = "0.5.8"
 nias = "0.7.0"
 
 [badges]
-azure-devops = { project = "swellaby/opensource", pipeline = "rusty-hook.linux-pr", build="49" }
+azure-devops = { project = "swellaby/opensource", pipeline = "rusty-hook.linux-pr", build = "49" }
 codecov = { repository = "swellaby/rusty-hook", branch = "master", service = "github" }
 maintenance = { status = "actively-developed" }

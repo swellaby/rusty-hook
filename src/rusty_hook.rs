@@ -13,7 +13,7 @@ pub fn init_directory<F, G, H>(
     write_file: G,
     file_exists: H,
     target_directory: Option<&str>,
-    hook_file_skip_list: Vec<&str>,
+    hook_file_skip_list: &[String],
 ) -> Result<(), String>
 where
     F: Fn(
@@ -33,7 +33,7 @@ where
         &run_command,
         &write_file,
         &root_directory_path,
-        &hook_file_skip_list,
+        hook_file_skip_list,
     )
     .is_err()
     {
@@ -52,7 +52,7 @@ pub fn init<F, G, H>(
     run_command: F,
     write_file: G,
     file_exists: H,
-    hook_file_skip_list: Vec<&str>,
+    hook_file_skip_list: &[String],
 ) -> Result<(), String>
 where
     F: Fn(
