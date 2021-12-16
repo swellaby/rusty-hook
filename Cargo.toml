@@ -32,7 +32,7 @@ exclude = [
 
 [dependencies]
 ci_info = "0.14.2"
-clap = "3.0.0-beta.4"
+clap = "3.0.0-rc.5"
 toml = "0.5.8"
 nias = "0.7.0"
 
