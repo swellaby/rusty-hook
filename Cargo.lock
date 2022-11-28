@@ -27,9 +27,9 @@ checksum = "cf1de2fe8c75bc145a2f577add951f8134889b4795d47466a54a5c846d691693"
 
 [[package]]
 name = "ci_info"
-version = "0.14.5"
+version = "0.14.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b764ddeb477baefbe1653d644585e522d35471030e4634b2cfff3ac2baef1274"
+checksum = "62a62f39080c8c83e899dff6abd46c4fac05c1cf8dafece96ad8238e79addbf8"
 dependencies = [
  "envmnt",
 ]
